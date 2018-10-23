@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Clean</string>
+
+    <string name="facebook_app_id">188563598621944</string>
+    <string name="fb_login_protocol_scheme">fb188563598621944</string>
+
+    <string name="title_home">Home</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_profile">Profile</string>
+
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_fullname">Fullname</string>
+    <string name="hint_phone">Phone</string>
+
+    <string name="button_login">Login</string>
+    <string name="button_register">Register</string>
+    <string name="button_logout">Logout</string>
+
+    <string name="text_offer_connect_social_media">Or Connect With</string>
+    <string name="text_offer_sign_up">Doesn\'t have any account?</string>
+
+    <string name="message_register_successfully">Register success</string>
+    <string name="message_register_failure">Register failure</string>
+</resources>
