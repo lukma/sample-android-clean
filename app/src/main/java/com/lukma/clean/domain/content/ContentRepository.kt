@@ -1,4 +1,4 @@
-package com.lukma.clean.data.content
+package com.lukma.clean.domain.content
 
 import com.lukma.clean.data.common.ListParams
 import io.reactivex.Flowable

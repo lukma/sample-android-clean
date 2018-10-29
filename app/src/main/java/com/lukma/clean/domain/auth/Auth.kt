@@ -1,4 +1,4 @@
-package com.lukma.clean.data.auth
+package com.lukma.clean.domain.auth
 
 data class Auth(
         val username: String,

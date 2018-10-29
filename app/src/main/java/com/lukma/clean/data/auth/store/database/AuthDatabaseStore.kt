@@ -1,8 +1,8 @@
 package com.lukma.clean.data.auth.store.database
 
-import com.lukma.clean.data.auth.Auth
-import com.lukma.clean.data.auth.AuthRepository
 import com.lukma.clean.data.auth.store.AuthMapper
+import com.lukma.clean.domain.auth.Auth
+import com.lukma.clean.domain.auth.AuthRepository
 import io.reactivex.Flowable
 
 class AuthDatabaseStore(private val dao: AuthDao, private val mapper: AuthMapper) : AuthRepository {

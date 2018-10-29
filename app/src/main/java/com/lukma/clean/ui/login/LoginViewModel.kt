@@ -3,7 +3,7 @@ package com.lukma.clean.ui.login
 import androidx.lifecycle.ViewModel
 import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.lukma.clean.data.auth.interactor.*
+import com.lukma.clean.domain.auth.interactor.*
 import com.lukma.clean.data.common.SessionManager
 import com.lukma.clean.ui.common.SingleFetchData
 

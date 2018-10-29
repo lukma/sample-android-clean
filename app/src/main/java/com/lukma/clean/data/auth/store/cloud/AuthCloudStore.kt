@@ -1,8 +1,8 @@
 package com.lukma.clean.data.auth.store.cloud
 
-import com.lukma.clean.data.auth.Auth
-import com.lukma.clean.data.auth.AuthRepository
 import com.lukma.clean.data.auth.store.AuthMapper
+import com.lukma.clean.domain.auth.Auth
+import com.lukma.clean.domain.auth.AuthRepository
 
 class AuthCloudStore(private val api: AuthApi, private val mapper: AuthMapper) : AuthRepository {
     override fun signInWithEmail(email: String, password: String) = throw IllegalAccessException()

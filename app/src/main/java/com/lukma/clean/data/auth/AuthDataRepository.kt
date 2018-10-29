@@ -2,8 +2,10 @@ package com.lukma.clean.data.auth
 
 import com.lukma.clean.data.auth.store.AuthStoreFactory
 import com.lukma.clean.data.common.DataStoreType
+import com.lukma.clean.domain.auth.Auth
+import com.lukma.clean.domain.auth.AuthRepository
 
-class AuthRepositoryImpl(private val store: AuthStoreFactory) : AuthRepository {
+class AuthDataRepository(private val store: AuthStoreFactory) : AuthRepository {
     override fun signInWithEmail(email: String, password: String) = store
             .createData(DataStoreType.FIREBASE)
             .signInWithEmail(email, password)

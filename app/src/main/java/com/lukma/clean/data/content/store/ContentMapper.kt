@@ -1,9 +1,9 @@
 package com.lukma.clean.data.content.store
 
-import com.lukma.clean.data.content.Content
 import com.lukma.clean.data.content.store.cloud.response.DataResponse
 import com.lukma.clean.data.content.store.cloud.response.GetContentsResponse
 import com.lukma.clean.data.content.store.database.ContentTable
+import com.lukma.clean.domain.content.Content
 
 class ContentMapper {
     fun transform(value: Content) = ContentTable(

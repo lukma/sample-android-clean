@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.lukma.clean.R
-import com.lukma.clean.data.content.Content
+import com.lukma.clean.domain.content.Content
 import com.lukma.clean.ui.base.BasePagedAdapter
 import com.lukma.clean.ui.common.GlideApp
 

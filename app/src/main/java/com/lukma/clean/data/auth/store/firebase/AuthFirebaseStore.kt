@@ -4,8 +4,8 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.lukma.clean.data.auth.Auth
-import com.lukma.clean.data.auth.AuthRepository
+import com.lukma.clean.domain.auth.Auth
+import com.lukma.clean.domain.auth.AuthRepository
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 

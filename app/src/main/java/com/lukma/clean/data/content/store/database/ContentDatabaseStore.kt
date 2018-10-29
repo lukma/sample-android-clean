@@ -1,9 +1,9 @@
 package com.lukma.clean.data.content.store.database
 
 import com.lukma.clean.data.common.ListParams
-import com.lukma.clean.data.content.Content
-import com.lukma.clean.data.content.ContentRepository
 import com.lukma.clean.data.content.store.ContentMapper
+import com.lukma.clean.domain.content.Content
+import com.lukma.clean.domain.content.ContentRepository
 import io.reactivex.Flowable
 
 class ContentDatabaseStore(private val dao: ContentDao, private val mapper: ContentMapper)

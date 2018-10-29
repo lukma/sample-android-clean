@@ -1,8 +1,8 @@
-package com.lukma.clean.data.auth.interactor
+package com.lukma.clean.domain.auth.interactor
 
 import com.google.firebase.auth.AuthResult
-import com.lukma.clean.data.auth.AuthRepository
-import com.lukma.clean.data.common.UseCase
+import com.lukma.clean.domain.auth.AuthRepository
+import com.lukma.clean.domain.common.UseCase
 
 class SignInWithFacebook(private val repository: AuthRepository)
     : UseCase<AuthResult, SignInWithFacebook.Params?>() {

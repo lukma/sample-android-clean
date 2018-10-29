@@ -3,7 +3,7 @@ package com.lukma.clean.ui.register
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
-import com.lukma.clean.data.auth.interactor.Register
+import com.lukma.clean.domain.auth.interactor.Register
 import com.lukma.clean.data.common.SessionManager
 import com.lukma.clean.ui.common.SingleFetchData
 

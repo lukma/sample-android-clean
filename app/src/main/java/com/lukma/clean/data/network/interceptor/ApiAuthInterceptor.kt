@@ -1,8 +1,8 @@
 package com.lukma.clean.data.network.interceptor
 
 import com.lukma.clean.BuildConfig
-import com.lukma.clean.data.auth.Auth
-import com.lukma.clean.data.auth.AuthRepository
+import com.lukma.clean.domain.auth.Auth
+import com.lukma.clean.domain.auth.AuthRepository
 import com.lukma.clean.data.exception.ApiException
 import com.lukma.clean.data.network.AuthType
 import okhttp3.Interceptor

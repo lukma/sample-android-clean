@@ -1,4 +1,4 @@
-package com.lukma.clean.data.auth
+package com.lukma.clean.domain.auth
 
 import com.google.firebase.auth.AuthResult
 import io.reactivex.Flowable

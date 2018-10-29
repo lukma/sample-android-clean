@@ -2,7 +2,7 @@ package com.lukma.clean.ui.profile
 
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.lukma.clean.data.auth.interactor.Logout
+import com.lukma.clean.domain.auth.interactor.Logout
 import com.lukma.clean.ui.common.SingleFetchData
 
 class ProfileViewModel(

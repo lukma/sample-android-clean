@@ -12,5 +12,4 @@ data class ContentTable(
         val title: String,
         val thumbnail: String,
         val content: String
-//        val createdAt: String = ""
 )

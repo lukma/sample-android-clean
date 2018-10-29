@@ -1,4 +1,4 @@
-package com.lukma.clean.data.common
+package com.lukma.clean.domain.common
 
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers

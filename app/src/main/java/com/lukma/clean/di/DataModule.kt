@@ -1,11 +1,11 @@
 package com.lukma.clean.di
 
-import com.lukma.clean.data.auth.AuthRepository
-import com.lukma.clean.data.auth.AuthRepositoryImpl
+import com.lukma.clean.domain.auth.AuthRepository
+import com.lukma.clean.data.auth.AuthDataRepository
 import com.lukma.clean.data.auth.store.AuthMapper
 import com.lukma.clean.data.auth.store.AuthStoreFactory
-import com.lukma.clean.data.content.ContentRepository
-import com.lukma.clean.data.content.ContentRepositoryImpl
+import com.lukma.clean.domain.content.ContentRepository
+import com.lukma.clean.data.content.ContentDataRepository
 import com.lukma.clean.data.content.store.ContentMapper
 import com.lukma.clean.data.content.store.ContentStoreFactory
 import org.koin.dsl.module.module
@@ -17,11 +17,11 @@ val dataModule = module {
 
     factory<AuthStoreFactory>()
 
-    single<AuthRepository> { AuthRepositoryImpl(get()) }
+    single<AuthRepository> { AuthDataRepository(get()) }
 
     single<ContentMapper>()
 
     factory<ContentStoreFactory>()
 
-    single<ContentRepository> { ContentRepositoryImpl(get()) }
+    single<ContentRepository> { ContentDataRepository(get()) }
 }

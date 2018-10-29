@@ -1,9 +1,9 @@
 package com.lukma.clean.data.content.store.cloud
 
 import com.lukma.clean.data.common.ListParams
-import com.lukma.clean.data.content.Content
-import com.lukma.clean.data.content.ContentRepository
 import com.lukma.clean.data.content.store.ContentMapper
+import com.lukma.clean.domain.content.Content
+import com.lukma.clean.domain.content.ContentRepository
 
 class ContentCloudStore(private val api: ContentApi, private val mapper: ContentMapper)
     : ContentRepository {
