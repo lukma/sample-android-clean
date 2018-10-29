@@ -14,15 +14,14 @@ class RegisterViewModel(
 ) : ViewModel() {
     val fetchData = SingleFetchData(useCase::execute)
 
-    fun signUpWithEmail(email: String, password: String, fullname: String) {
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        updateProfile(fullname)
-                    } else {
-                        fetchData.error.value = Exception("Authentication failed.")
-                    }
-                }
+    fun createUserWithEmailAndPassword(email: String, password: String, fullname: String) {
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                updateProfile(fullname)
+            } else {
+                fetchData.error.value = Exception("Authentication failed.")
+            }
+        }
     }
 
     private fun updateProfile(fullname: String) {
@@ -30,14 +29,13 @@ class RegisterViewModel(
                 .setDisplayName(fullname)
                 .build()
 
-        firebaseAuth.currentUser?.updateProfile(profileUpdates)
-                ?.addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        register()
-                    } else {
-                        fetchData.error.value = Exception("Authentication failed.")
-                    }
-                }
+        firebaseAuth.currentUser?.updateProfile(profileUpdates)?.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                register()
+            } else {
+                fetchData.error.value = Exception("Authentication failed.")
+            }
+        }
     }
 
     private fun register() {

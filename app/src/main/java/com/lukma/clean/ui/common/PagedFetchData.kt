@@ -35,7 +35,7 @@ class PagedFetchData<Entity>(
     class PagedDataFactory<Entity>(
             private val onRunning: (ListParams, DisposableSubscriber<List<Entity>>) -> Unit,
             val start: Int,
-            val state: MutableLiveData<State>,
+            private val state: MutableLiveData<State>,
             val error: MutableLiveData<Throwable>
     ) : DataSource.Factory<Long, Entity>() {
         override fun create() = PagedDataSource(onRunning, start, state, error)

@@ -14,5 +14,6 @@ class ContentStoreFactory(
     fun createData(type: DataStoreType = DataStoreType.CLOUD) = when (type) {
         DataStoreType.CLOUD -> ContentCloudStore(api, mapper)
         DataStoreType.DATABASE -> ContentDatabaseStore(dao, mapper)
+        else -> throw IllegalAccessException()
     }
 }

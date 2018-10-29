@@ -10,7 +10,7 @@ import retrofit2.http.POST
 interface AuthApi {
     @FormUrlEncoded
     @POST("account/auth/login")
-    fun login(
+    fun authorize(
             @Field("fa_id") faId: String,
             @Field("fcm_id") fcmId: String
     ): Flowable<AuthResponse>

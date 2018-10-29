@@ -3,88 +3,49 @@ package com.lukma.clean.ui.login
 import androidx.lifecycle.ViewModel
 import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.firebase.auth.FacebookAuthProvider
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
-import com.lukma.clean.data.auth.interactor.Login
-import com.lukma.clean.data.auth.interactor.Register
+import com.lukma.clean.data.auth.interactor.*
 import com.lukma.clean.data.common.SessionManager
 import com.lukma.clean.ui.common.SingleFetchData
 
 class LoginViewModel(
-        private val firebaseAuth: FirebaseAuth,
         private val sessionManager: SessionManager,
-        private val loginUseCase: Login,
-        private val registerUseCase: Register
+        private val signInWithEmailUseCase: SignInWithEmail,
+        private val signInWithFacebookUseCase: SignInWithFacebook,
+        private val signInWithGoogleUseCase: SignInWithGoogle,
+        private val registerUseCase: Register,
+        private val authorizeUseCase: Authorize
 ) : ViewModel() {
-    val loginFetchData = SingleFetchData(loginUseCase::execute)
+    val signInWithEmailFetchData = SingleFetchData(signInWithEmailUseCase::execute)
+    val signInWithFacebookFetchData = SingleFetchData(signInWithFacebookUseCase::execute)
+    val signInWithGoogleFetchData = SingleFetchData(signInWithGoogleUseCase::execute)
     val registerFetchData = SingleFetchData(registerUseCase::execute)
+    val authorizeFetchData = SingleFetchData(authorizeUseCase::execute)
 
-    fun loginWithEmail(email: String, password: String) {
-        firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        authenticated()
-                    } else {
-                        loginFetchData.error.value = Exception("Authentication failed.")
-                    }
-                }
+    fun signIn(email: String, password: String) {
+        signInWithEmailFetchData.run(SignInWithEmail.Params(email, password))
     }
 
-    fun connectSocialMedia(token: AccessToken) {
-        val credential = FacebookAuthProvider.getCredential(token.token)
-        firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        if (task.result?.additionalUserInfo?.isNewUser == true) {
-                            register(facebookToken = token.token)
-                        } else {
-                            authenticated()
-                        }
-                    } else {
-                        loginFetchData.error.value = Exception("Authentication failed.")
-                    }
-                }
+    fun signIn(token: AccessToken) {
+        signInWithFacebookFetchData.run(SignInWithFacebook.Params(token.token))
     }
 
-    fun connectSocialMedia(acct: GoogleSignInAccount?) {
-        val credential = GoogleAuthProvider.getCredential(acct?.idToken, null)
-        firebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        if (task.result?.additionalUserInfo?.isNewUser == true) {
-                            register(googleToken = acct?.idToken.orEmpty())
-                        } else {
-                            authenticated()
-                        }
-                    } else {
-                        loginFetchData.error.value = Exception("Authentication failed.")
-                    }
-                }
+    fun signIn(acct: GoogleSignInAccount?) {
+        signInWithGoogleFetchData.run(SignInWithGoogle.Params(acct?.idToken.orEmpty()))
     }
 
-    fun authenticated() {
-        loginFetchData.run(Login.Params(
-                firebaseAuth.currentUser?.uid.orEmpty(),
-                sessionManager.getFcmId()
-        ))
+    fun register(faId: String) {
+        registerFetchData.run(Register.Params(faId, sessionManager.getFcmId()))
     }
 
-    private fun register(facebookToken: String = "", googleToken: String = "") {
-        registerFetchData.run(Register.Params(
-                firebaseAuth.currentUser?.uid.orEmpty(),
-                sessionManager.getFcmId(),
-                facebookToken,
-                googleToken
-        ))
-    }
-
-    fun signOut() {
-        firebaseAuth.signOut()
+    fun authorize(faId: String) {
+        authorizeFetchData.run(Authorize.Params(faId, sessionManager.getFcmId()))
     }
 
     override fun onCleared() {
-        loginUseCase.dispose()
+        signInWithEmailUseCase.dispose()
+        signInWithFacebookUseCase.dispose()
+        signInWithGoogleUseCase.dispose()
         registerUseCase.dispose()
+        authorizeUseCase.dispose()
     }
 }

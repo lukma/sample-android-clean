@@ -40,7 +40,7 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
 
         loginManager.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
-                fragmentViewModel.connectSocialMedia(loginResult.accessToken)
+                fragmentViewModel.signIn(loginResult.accessToken)
             }
 
             override fun onCancel() {}
@@ -56,10 +56,7 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
 
         loginButton.setOnClickListener {
             hideKeyboard()
-            fragmentViewModel.loginWithEmail(
-                    emailEditText.text.toString(),
-                    passwordEditText.text.toString()
-            )
+            fragmentViewModel.signIn(emailEditText.text.toString(), passwordEditText.text.toString())
         }
         connectFacebookButton.setOnClickListener {
             loginManager.logInWithReadPermissions(this, listOf("email", "public_profile"))
@@ -74,17 +71,44 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
             view.findNavController().navigate(R.id.action_registerFragment)
         }
 
-        fragmentViewModel.loginFetchData.state.observe(this, Observer {
+        fragmentViewModel.signInWithEmailFetchData.state.observe(this, Observer {
             loginButton.isVisible = it != SingleFetchData.State.ON_REQUEST
             progressBar.isVisible = it == SingleFetchData.State.ON_REQUEST
         })
-        fragmentViewModel.loginFetchData.data.observe(this, Observer {
-            if (it) {
-                activity?.finish()
-                view.findNavController().navigate(R.id.action_mainActivity)
+        fragmentViewModel.signInWithEmailFetchData.data.observe(this, Observer {
+            fragmentViewModel.authorize(it.user.uid)
+        })
+        fragmentViewModel.signInWithEmailFetchData.error.observe(this, Observer {
+            handleError(it)
+        })
+
+        fragmentViewModel.signInWithFacebookFetchData.state.observe(this, Observer {
+            loginButton.isVisible = it != SingleFetchData.State.ON_REQUEST
+            progressBar.isVisible = it == SingleFetchData.State.ON_REQUEST
+        })
+        fragmentViewModel.signInWithFacebookFetchData.data.observe(this, Observer {
+            if (it.additionalUserInfo.isNewUser) {
+                fragmentViewModel.register(it.user.uid)
+            } else {
+                fragmentViewModel.authorize(it.user.uid)
             }
         })
-        fragmentViewModel.loginFetchData.error.observe(this, Observer {
+        fragmentViewModel.signInWithFacebookFetchData.error.observe(this, Observer {
+            handleError(it)
+        })
+
+        fragmentViewModel.signInWithGoogleFetchData.state.observe(this, Observer {
+            loginButton.isVisible = it != SingleFetchData.State.ON_REQUEST
+            progressBar.isVisible = it == SingleFetchData.State.ON_REQUEST
+        })
+        fragmentViewModel.signInWithGoogleFetchData.data.observe(this, Observer {
+            if (it.additionalUserInfo.isNewUser) {
+                fragmentViewModel.register(it.user.uid)
+            } else {
+                fragmentViewModel.authorize(it.user.uid)
+            }
+        })
+        fragmentViewModel.signInWithGoogleFetchData.error.observe(this, Observer {
             handleError(it)
         })
 
@@ -93,14 +117,23 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
             progressBar.isVisible = it == SingleFetchData.State.ON_REQUEST
         })
         fragmentViewModel.registerFetchData.data.observe(this, Observer {
-            if (it.isNotEmpty()) {
-                fragmentViewModel.authenticated()
-            } else {
-                fragmentViewModel.signOut()
-            }
+            fragmentViewModel.authorize(it)
         })
         fragmentViewModel.registerFetchData.error.observe(this, Observer {
-            fragmentViewModel.signOut()
+            handleError(it)
+        })
+
+        fragmentViewModel.authorizeFetchData.state.observe(this, Observer {
+            loginButton.isVisible = it != SingleFetchData.State.ON_REQUEST
+            progressBar.isVisible = it == SingleFetchData.State.ON_REQUEST
+        })
+        fragmentViewModel.authorizeFetchData.data.observe(this, Observer {
+            if (it) {
+                activity?.finish()
+                view.findNavController().navigate(R.id.action_mainActivity)
+            }
+        })
+        fragmentViewModel.authorizeFetchData.error.observe(this, Observer {
             handleError(it)
         })
     }
@@ -112,7 +145,7 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 val account = task.getResult(ApiException::class.java)
-                fragmentViewModel.connectSocialMedia(account)
+                fragmentViewModel.signIn(account)
             } catch (e: ApiException) {
                 handleError(e)
             }

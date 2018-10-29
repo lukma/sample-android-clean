@@ -4,9 +4,21 @@ import com.lukma.clean.data.auth.store.AuthStoreFactory
 import com.lukma.clean.data.common.DataStoreType
 
 class AuthRepositoryImpl(private val store: AuthStoreFactory) : AuthRepository {
-    override fun login(faId: String, fcmId: String) = store
+    override fun signInWithEmail(email: String, password: String) = store
+            .createData(DataStoreType.FIREBASE)
+            .signInWithEmail(email, password)
+
+    override fun signInWithFacebook(token: String) = store
+            .createData(DataStoreType.FIREBASE)
+            .signInWithFacebook(token)
+
+    override fun signInWithGoogle(token: String) = store
+            .createData(DataStoreType.FIREBASE)
+            .signInWithGoogle(token)
+
+    override fun authorize(faId: String, fcmId: String) = store
             .createData()
-            .login(faId, fcmId)
+            .authorize(faId, fcmId)
 
     override fun register(
             faId: String,

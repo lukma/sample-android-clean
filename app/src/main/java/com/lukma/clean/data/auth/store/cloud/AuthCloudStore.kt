@@ -5,8 +5,14 @@ import com.lukma.clean.data.auth.AuthRepository
 import com.lukma.clean.data.auth.store.AuthMapper
 
 class AuthCloudStore(private val api: AuthApi, private val mapper: AuthMapper) : AuthRepository {
-    override fun login(faId: String, fcmId: String) = api
-            .login(faId, fcmId)
+    override fun signInWithEmail(email: String, password: String) = throw IllegalAccessException()
+
+    override fun signInWithFacebook(token: String) = throw IllegalAccessException()
+
+    override fun signInWithGoogle(token: String) = throw IllegalAccessException()
+
+    override fun authorize(faId: String, fcmId: String) = api
+            .authorize(faId, fcmId)
             .map(mapper::transform)
 
     override fun register(
@@ -14,9 +20,7 @@ class AuthCloudStore(private val api: AuthApi, private val mapper: AuthMapper) :
             fcmId: String,
             facebookToken: String,
             googleToken: String
-    ) = api.register(faId, fcmId, facebookToken, googleToken).map{
-        it.id
-    }
+    ) = api.register(faId, fcmId, facebookToken, googleToken).map { it.id }
 
     override fun refreshToken(token: String) = api
             .refreshToken(token)

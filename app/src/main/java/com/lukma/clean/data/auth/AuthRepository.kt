@@ -1,9 +1,16 @@
 package com.lukma.clean.data.auth
 
+import com.google.firebase.auth.AuthResult
 import io.reactivex.Flowable
 
 interface AuthRepository {
-    fun login(faId: String, fcmId: String): Flowable<Auth>
+    fun signInWithEmail(email: String, password: String): Flowable<AuthResult>
+
+    fun signInWithFacebook(token: String): Flowable<AuthResult>
+
+    fun signInWithGoogle(token: String): Flowable<AuthResult>
+
+    fun authorize(faId: String, fcmId: String): Flowable<Auth>
 
     fun register(
             faId: String,

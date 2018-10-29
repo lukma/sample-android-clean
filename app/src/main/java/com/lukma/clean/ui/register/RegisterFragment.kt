@@ -22,7 +22,7 @@ class RegisterFragment : BaseFragment<RegisterViewModel>() {
 
         registerButton.setOnClickListener {
             hideKeyboard()
-            fragmentViewModel.signUpWithEmail(
+            fragmentViewModel.createUserWithEmailAndPassword(
                     emailEditText.text.toString(),
                     passwordEditText.text.toString(),
                     fullnameEditText.text.toString()
