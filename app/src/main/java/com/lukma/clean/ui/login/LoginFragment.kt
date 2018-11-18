@@ -78,9 +78,7 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
         fragmentViewModel.signInWithEmailFetchData.data.observe(this, Observer {
             fragmentViewModel.authorize(it.user.uid)
         })
-        fragmentViewModel.signInWithEmailFetchData.error.observe(this, Observer {
-            handleError(it)
-        })
+        fragmentViewModel.signInWithEmailFetchData.error.observe(this, Observer(this::handleError))
 
         fragmentViewModel.signInWithFacebookFetchData.state.observe(this, Observer {
             loginButton.isVisible = it != SingleFetchData.State.ON_REQUEST
@@ -93,9 +91,7 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
                 fragmentViewModel.authorize(it.user.uid)
             }
         })
-        fragmentViewModel.signInWithFacebookFetchData.error.observe(this, Observer {
-            handleError(it)
-        })
+        fragmentViewModel.signInWithFacebookFetchData.error.observe(this, Observer(this::handleError))
 
         fragmentViewModel.signInWithGoogleFetchData.state.observe(this, Observer {
             loginButton.isVisible = it != SingleFetchData.State.ON_REQUEST
@@ -108,9 +104,7 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
                 fragmentViewModel.authorize(it.user.uid)
             }
         })
-        fragmentViewModel.signInWithGoogleFetchData.error.observe(this, Observer {
-            handleError(it)
-        })
+        fragmentViewModel.signInWithGoogleFetchData.error.observe(this, Observer(this::handleError))
 
         fragmentViewModel.registerFetchData.state.observe(this, Observer {
             loginButton.isVisible = it != SingleFetchData.State.ON_REQUEST
@@ -119,9 +113,7 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
         fragmentViewModel.registerFetchData.data.observe(this, Observer {
             fragmentViewModel.authorize(it)
         })
-        fragmentViewModel.registerFetchData.error.observe(this, Observer {
-            handleError(it)
-        })
+        fragmentViewModel.registerFetchData.error.observe(this, Observer(this::handleError))
 
         fragmentViewModel.authorizeFetchData.state.observe(this, Observer {
             loginButton.isVisible = it != SingleFetchData.State.ON_REQUEST
@@ -133,9 +125,7 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
                 view.findNavController().navigate(R.id.action_mainActivity)
             }
         })
-        fragmentViewModel.authorizeFetchData.error.observe(this, Observer {
-            handleError(it)
-        })
+        fragmentViewModel.authorizeFetchData.error.observe(this, Observer(this::handleError))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

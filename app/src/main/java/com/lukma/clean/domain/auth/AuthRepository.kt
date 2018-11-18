@@ -10,6 +10,10 @@ interface AuthRepository {
 
     fun signInWithGoogle(token: String): Flowable<AuthResult>
 
+    fun createUserWithEmailAndPassword(email: String, password: String): Flowable<AuthResult>
+
+    fun updateProfile(fullName: String): Flowable<Void>
+
     fun authorize(faId: String, fcmId: String): Flowable<Auth>
 
     fun register(

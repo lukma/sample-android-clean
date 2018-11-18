@@ -14,6 +14,10 @@ val useCaseModule = module {
 
     factory<SignInWithGoogle>()
 
+    factory<CreateUserWithEmailAndPassword>()
+
+    factory<UpdateProfile>()
+
     factory<Authorize>()
 
     factory<Register>()

@@ -36,8 +36,6 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         fragmentViewModel.fetchData.data.observe(this, Observer {
             recyclerAdapter.submitList(it)
         })
-        fragmentViewModel.fetchData.error.observe(this, Observer {
-            handleError(it)
-        })
+        fragmentViewModel.fetchData.error.observe(this, Observer(this::handleError))
     }
 }

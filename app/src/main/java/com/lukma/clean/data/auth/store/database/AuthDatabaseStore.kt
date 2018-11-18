@@ -12,6 +12,13 @@ class AuthDatabaseStore(private val dao: AuthDao, private val mapper: AuthMapper
 
     override fun signInWithGoogle(token: String) = throw IllegalAccessException()
 
+    override fun createUserWithEmailAndPassword(
+            email: String,
+            password: String
+    ) = throw IllegalAccessException()
+
+    override fun updateProfile(fullName: String) = throw IllegalAccessException()
+
     override fun authorize(faId: String, fcmId: String) = throw IllegalAccessException()
 
     override fun register(

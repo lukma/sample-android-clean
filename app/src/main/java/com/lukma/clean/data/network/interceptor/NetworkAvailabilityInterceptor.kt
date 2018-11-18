@@ -6,12 +6,9 @@ import android.net.ConnectivityManager
 import com.lukma.clean.data.exception.NoNetworkException
 import okhttp3.Interceptor
 import okhttp3.Response
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
 import java.io.IOException
 
-class NetworkAvailabilityInterceptor : Interceptor, KoinComponent {
-    private val context by inject<Context>()
+class NetworkAvailabilityInterceptor(private val context: Context) : Interceptor {
 
     @SuppressLint("MissingPermission")
     private fun isNetworkAvailable(): Boolean {

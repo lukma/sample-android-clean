@@ -28,7 +28,7 @@ val networkModule = module {
 
         OkHttpClient.Builder()
                 .addInterceptor(logInterceptor)
-                .addInterceptor(NetworkAvailabilityInterceptor())
+                .addInterceptor(NetworkAvailabilityInterceptor(get()))
     }
 
     single(

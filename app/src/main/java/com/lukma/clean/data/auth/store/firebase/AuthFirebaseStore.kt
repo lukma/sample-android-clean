@@ -1,9 +1,6 @@
 package com.lukma.clean.data.auth.store.firebase
 
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FacebookAuthProvider
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.*
 import com.lukma.clean.domain.auth.Auth
 import com.lukma.clean.domain.auth.AuthRepository
 import io.reactivex.BackpressureStrategy
@@ -30,6 +27,27 @@ class AuthFirebaseStore(private val firebaseAuth: FirebaseAuth) : AuthRepository
                         .addOnSuccessListener { emitter.onNext(it) }
                         .addOnFailureListener { emitter.onError(it) }
             }, BackpressureStrategy.LATEST)
+
+    override fun createUserWithEmailAndPassword(
+            email: String,
+            password: String
+    ) = Flowable.create<AuthResult>({ emitter ->
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnSuccessListener { emitter.onNext(it) }
+                .addOnFailureListener { emitter.onError(it) }
+    }, BackpressureStrategy.LATEST)
+
+    override fun updateProfile(fullName: String): Flowable<Void> {
+        val profileUpdates = UserProfileChangeRequest.Builder()
+                .setDisplayName(fullName)
+                .build()
+
+        return Flowable.create<Void>({ emitter ->
+            firebaseAuth.currentUser?.updateProfile(profileUpdates)
+                    ?.addOnSuccessListener { emitter.onNext(it) }
+                    ?.addOnFailureListener { emitter.onError(it) }
+        }, BackpressureStrategy.LATEST)
+    }
 
     override fun authorize(faId: String, fcmId: String) = throw IllegalAccessException()
 

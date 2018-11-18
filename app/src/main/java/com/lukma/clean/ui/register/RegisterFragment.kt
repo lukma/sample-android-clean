@@ -24,24 +24,39 @@ class RegisterFragment : BaseFragment<RegisterViewModel>() {
             hideKeyboard()
             fragmentViewModel.createUserWithEmailAndPassword(
                     emailEditText.text.toString(),
-                    passwordEditText.text.toString(),
-                    fullnameEditText.text.toString()
+                    passwordEditText.text.toString()
             )
         }
 
-        fragmentViewModel.fetchData.state.observe(this, Observer {
+        fragmentViewModel.createUserWithEmailAndPasswordFetchData.state.observe(this, Observer {
             registerButton.isVisible = it != SingleFetchData.State.ON_REQUEST
             progressBar.isVisible = it == SingleFetchData.State.ON_REQUEST
         })
-        fragmentViewModel.fetchData.data.observe(this, Observer {
+        fragmentViewModel.createUserWithEmailAndPasswordFetchData.data.observe(this, Observer {
+            fragmentViewModel.updateProfile(fullnameEditText.text.toString())
+        })
+        fragmentViewModel.createUserWithEmailAndPasswordFetchData.error.observe(this, Observer(this::handleError))
+
+        fragmentViewModel.updateProfileFetchData.state.observe(this, Observer {
+            registerButton.isVisible = it != SingleFetchData.State.ON_REQUEST
+            progressBar.isVisible = it == SingleFetchData.State.ON_REQUEST
+        })
+        fragmentViewModel.updateProfileFetchData.data.observe(this, Observer {
+            fragmentViewModel.register()
+        })
+        fragmentViewModel.updateProfileFetchData.error.observe(this, Observer(this::handleError))
+
+        fragmentViewModel.registerFetchData.state.observe(this, Observer {
+            registerButton.isVisible = it != SingleFetchData.State.ON_REQUEST
+            progressBar.isVisible = it == SingleFetchData.State.ON_REQUEST
+        })
+        fragmentViewModel.registerFetchData.data.observe(this, Observer {
             if (it.isNotEmpty()) {
                 showSnackBar(getString(R.string.message_register_successfully))
             } else {
                 showSnackBar(getString(R.string.message_register_failure))
             }
         })
-        fragmentViewModel.fetchData.error.observe(this, Observer {
-            handleError(it)
-        })
+        fragmentViewModel.registerFetchData.error.observe(this, Observer(this::handleError))
     }
 }

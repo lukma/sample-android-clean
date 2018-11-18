@@ -18,6 +18,14 @@ class AuthDataRepository(private val store: AuthStoreFactory) : AuthRepository {
             .createData(DataStoreType.FIREBASE)
             .signInWithGoogle(token)
 
+    override fun createUserWithEmailAndPassword(email: String, password: String) = store
+            .createData(DataStoreType.FIREBASE)
+            .createUserWithEmailAndPassword(email, password)
+
+    override fun updateProfile(fullName: String) = store
+            .createData(DataStoreType.FIREBASE)
+            .updateProfile(fullName)
+
     override fun authorize(faId: String, fcmId: String) = store
             .createData()
             .authorize(faId, fcmId)

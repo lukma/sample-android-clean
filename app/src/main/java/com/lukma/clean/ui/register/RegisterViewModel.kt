@@ -2,50 +2,44 @@ package com.lukma.clean.ui.register
 
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
-import com.lukma.clean.domain.auth.interactor.Register
 import com.lukma.clean.data.common.SessionManager
+import com.lukma.clean.domain.auth.interactor.CreateUserWithEmailAndPassword
+import com.lukma.clean.domain.auth.interactor.Register
+import com.lukma.clean.domain.auth.interactor.UpdateProfile
 import com.lukma.clean.ui.common.SingleFetchData
 
 class RegisterViewModel(
         private val firebaseAuth: FirebaseAuth,
         private val sessionManager: SessionManager,
-        private val useCase: Register
+        private val createUserWithEmailAndPasswordUseCase: CreateUserWithEmailAndPassword,
+        private val updateProfileUseCase: UpdateProfile,
+        private val registerUseCase: Register
 ) : ViewModel() {
-    val fetchData = SingleFetchData(useCase::execute)
+    val createUserWithEmailAndPasswordFetchData = SingleFetchData(createUserWithEmailAndPasswordUseCase::execute)
+    val updateProfileFetchData = SingleFetchData(updateProfileUseCase::execute)
+    val registerFetchData = SingleFetchData(registerUseCase::execute)
 
-    fun createUserWithEmailAndPassword(email: String, password: String, fullname: String) {
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                updateProfile(fullname)
-            } else {
-                fetchData.error.value = Exception("Authentication failed.")
-            }
-        }
+    fun createUserWithEmailAndPassword(email: String, password: String) {
+        createUserWithEmailAndPasswordFetchData.run(CreateUserWithEmailAndPassword.Params(
+                email,
+                password
+        ))
     }
 
-    private fun updateProfile(fullname: String) {
-        val profileUpdates = UserProfileChangeRequest.Builder()
-                .setDisplayName(fullname)
-                .build()
-
-        firebaseAuth.currentUser?.updateProfile(profileUpdates)?.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                register()
-            } else {
-                fetchData.error.value = Exception("Authentication failed.")
-            }
-        }
+    fun updateProfile(fullName: String) {
+        updateProfileFetchData.run(UpdateProfile.Params(fullName))
     }
 
-    private fun register() {
-        fetchData.run(Register.Params(
+    fun register() {
+        registerFetchData.run(Register.Params(
                 firebaseAuth.currentUser?.uid.orEmpty(),
                 sessionManager.getFcmId()
         ))
     }
 
     override fun onCleared() {
-        useCase.dispose()
+        createUserWithEmailAndPasswordUseCase.dispose()
+        updateProfileUseCase.dispose()
+        registerUseCase.dispose()
     }
 }
