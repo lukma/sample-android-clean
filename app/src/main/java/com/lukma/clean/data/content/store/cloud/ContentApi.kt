@@ -8,7 +8,7 @@ import retrofit2.http.Query
 interface ContentApi {
     @GET("post/content")
     fun gets(
-            @Query("limit") limit: Int,
-            @Query("offset") offset: Int
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int
     ): Flowable<GetContentsResponse>
 }

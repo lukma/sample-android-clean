@@ -9,10 +9,10 @@ import androidx.paging.PagedList
 import com.lukma.clean.data.common.ListParams
 import io.reactivex.subscribers.DisposableSubscriber
 
-class PagedFetchData<Entity>(
-        onRunning: (ListParams, DisposableSubscriber<List<Entity>>) -> Unit,
-        limit: Int = 10,
-        start: Int = 0
+class PagedLiveData<Entity>(
+    onRunning: (ListParams, DisposableSubscriber<List<Entity>>) -> Unit,
+    limit: Int = 10,
+    start: Int = 0
 ) {
     val state = MutableLiveData<State>()
     val data: LiveData<PagedList<Entity>>
@@ -21,10 +21,10 @@ class PagedFetchData<Entity>(
     init {
         val pagedDataFactory = PagedDataFactory(onRunning, start, state, error)
         val pagedListConfig = PagedList.Config.Builder()
-                .setEnablePlaceholders(false)
-                .setInitialLoadSizeHint(limit)
-                .setPageSize(limit)
-                .build()
+            .setEnablePlaceholders(false)
+            .setInitialLoadSizeHint(limit)
+            .setPageSize(limit)
+            .build()
         data = (LivePagedListBuilder(pagedDataFactory, pagedListConfig)).build()
     }
 
@@ -33,22 +33,22 @@ class PagedFetchData<Entity>(
     }
 
     class PagedDataFactory<Entity>(
-            private val onRunning: (ListParams, DisposableSubscriber<List<Entity>>) -> Unit,
-            val start: Int,
-            private val state: MutableLiveData<State>,
-            val error: MutableLiveData<Throwable>
+        private val onRunning: (ListParams, DisposableSubscriber<List<Entity>>) -> Unit,
+        val start: Int,
+        private val state: MutableLiveData<State>,
+        val error: MutableLiveData<Throwable>
     ) : DataSource.Factory<Long, Entity>() {
         override fun create() = PagedDataSource(onRunning, start, state, error)
     }
 
     class PagedDataSource<Entity>(
-            val onRunning: (ListParams, DisposableSubscriber<List<Entity>>) -> Unit,
-            val start: Int,
-            val state: MutableLiveData<State>,
-            val error: MutableLiveData<Throwable>
+        val onRunning: (ListParams, DisposableSubscriber<List<Entity>>) -> Unit,
+        val start: Int,
+        val state: MutableLiveData<State>,
+        val error: MutableLiveData<Throwable>
     ) : PageKeyedDataSource<Long, Entity>() {
         override fun loadInitial(
-                params: LoadInitialParams<Long>, callback: LoadInitialCallback<Long, Entity>
+            params: LoadInitialParams<Long>, callback: LoadInitialCallback<Long, Entity>
         ) {
             state.postValue(State.ON_FIRST_REQUEST)
             run(ListParams(params.requestedLoadSize, start)) {
@@ -83,6 +83,12 @@ class PagedFetchData<Entity>(
             })
         }
     }
+
+    data class Resource<Entity>(
+        val state: State = State.NONE,
+        val data: Entity? = null,
+        val error: Throwable? = null
+    )
 
     enum class State {
         NONE,

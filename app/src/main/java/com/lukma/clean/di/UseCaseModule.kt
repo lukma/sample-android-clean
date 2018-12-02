@@ -6,21 +6,13 @@ import org.koin.dsl.module.module
 import org.koin.experimental.builder.factory
 
 val useCaseModule = module {
-    factory<IsAuthenticated>()
+    factory<AuthorizeByUsernameOrEmail>()
 
-    factory<SignInWithEmail>()
-
-    factory<SignInWithFacebook>()
-
-    factory<SignInWithGoogle>()
-
-    factory<CreateUserWithEmailAndPassword>()
-
-    factory<UpdateProfile>()
-
-    factory<Authorize>()
+    factory<AuthorizeByThirdParty>()
 
     factory<Register>()
+
+    factory<IsAuthenticated>()
 
     factory<Logout>()
 

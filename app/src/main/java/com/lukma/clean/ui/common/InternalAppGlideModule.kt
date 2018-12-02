@@ -24,6 +24,7 @@ class InternalAppGlideModule : AppGlideModule() {
 }
 
 object UnsafeOkHttpClient {
+
     fun getUnsafeOkHttpClient(): OkHttpClient {
         try {
             val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {

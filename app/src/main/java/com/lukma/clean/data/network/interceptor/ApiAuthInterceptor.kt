@@ -1,5 +1,6 @@
 package com.lukma.clean.data.network.interceptor
 
+import android.util.Log
 import com.lukma.clean.BuildConfig
 import com.lukma.clean.domain.auth.Auth
 import com.lukma.clean.domain.auth.AuthRepository
@@ -31,6 +32,7 @@ class ApiAuthInterceptor(private val type: AuthType) : Interceptor, KoinComponen
 
         val original = chain.request()
         val response = requestApi(chain, original, authorization)
+        Log.i("asu", "${response.code()}")
         if (response.code() == 401 && type == AuthType.BEARER) {
             return authRepository
                     .refreshToken(auth?.refreshToken.orEmpty())

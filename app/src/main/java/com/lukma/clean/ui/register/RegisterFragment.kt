@@ -9,54 +9,40 @@ import com.lukma.clean.extensions.handleError
 import com.lukma.clean.extensions.showSnackBar
 import com.lukma.clean.extensions.hideKeyboard
 import com.lukma.clean.ui.base.BaseFragment
-import com.lukma.clean.ui.common.SingleFetchData
+import com.lukma.clean.ui.common.SingleLiveData
 import kotlinx.android.synthetic.main.fragment_register.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterFragment : BaseFragment<RegisterViewModel>() {
     override val resourceLayout = R.layout.fragment_register
-    override val fragmentViewModel by viewModel<RegisterViewModel>()
+    override val viewModel by viewModel<RegisterViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         registerButton.setOnClickListener {
             hideKeyboard()
-            fragmentViewModel.createUserWithEmailAndPassword(
-                    emailEditText.text.toString(),
-                    passwordEditText.text.toString()
+            viewModel.register(
+                usernameInputLayout.editText?.text.toString(),
+                passwordInputLayout.editText?.text.toString(),
+                fullNameInputLayout.editText?.text.toString(),
+                emailInputLayout.editText?.text.toString()
             )
         }
 
-        fragmentViewModel.createUserWithEmailAndPasswordFetchData.state.observe(this, Observer {
-            registerButton.isVisible = it != SingleFetchData.State.ON_REQUEST
-            progressBar.isVisible = it == SingleFetchData.State.ON_REQUEST
-        })
-        fragmentViewModel.createUserWithEmailAndPasswordFetchData.data.observe(this, Observer {
-            fragmentViewModel.updateProfile(fullnameEditText.text.toString())
-        })
-        fragmentViewModel.createUserWithEmailAndPasswordFetchData.error.observe(this, Observer(this::handleError))
+        viewModel.registerLiveData.observe(this, Observer {
+            registerButton.isVisible = it != SingleLiveData.State.ON_REQUEST
+            progressBar.isVisible = it == SingleLiveData.State.ON_REQUEST
 
-        fragmentViewModel.updateProfileFetchData.state.observe(this, Observer {
-            registerButton.isVisible = it != SingleFetchData.State.ON_REQUEST
-            progressBar.isVisible = it == SingleFetchData.State.ON_REQUEST
-        })
-        fragmentViewModel.updateProfileFetchData.data.observe(this, Observer {
-            fragmentViewModel.register()
-        })
-        fragmentViewModel.updateProfileFetchData.error.observe(this, Observer(this::handleError))
-
-        fragmentViewModel.registerFetchData.state.observe(this, Observer {
-            registerButton.isVisible = it != SingleFetchData.State.ON_REQUEST
-            progressBar.isVisible = it == SingleFetchData.State.ON_REQUEST
-        })
-        fragmentViewModel.registerFetchData.data.observe(this, Observer {
-            if (it.isNotEmpty()) {
-                showSnackBar(getString(R.string.message_register_successfully))
-            } else {
-                showSnackBar(getString(R.string.message_register_failure))
+            when (it.state) {
+                SingleLiveData.State.ON_REQUEST -> Unit
+                SingleLiveData.State.ON_SUCCESS -> if (it.data == true) {
+                    showSnackBar(getString(R.string.message_register_successfully))
+                } else {
+                    showSnackBar(getString(R.string.message_register_failure))
+                }
+                SingleLiveData.State.ON_FAILURE -> handleError(it.error)
             }
         })
-        fragmentViewModel.registerFetchData.error.observe(this, Observer(this::handleError))
     }
 }

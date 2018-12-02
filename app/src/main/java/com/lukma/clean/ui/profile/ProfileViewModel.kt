@@ -1,19 +1,14 @@
 package com.lukma.clean.ui.profile
 
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
 import com.lukma.clean.domain.auth.interactor.Logout
-import com.lukma.clean.ui.common.SingleFetchData
+import com.lukma.clean.ui.common.SingleLiveData
 
-class ProfileViewModel(
-        private val firebaseAuth: FirebaseAuth,
-        private val useCase: Logout
-) : ViewModel() {
-    private val fetchData = SingleFetchData(useCase::execute)
+class ProfileViewModel(private val useCase: Logout) : ViewModel() {
+    private val liveData = SingleLiveData(useCase::execute)
 
     fun logout() {
-        firebaseAuth.signOut()
-        fetchData.run()
+        liveData.run()
     }
 
     override fun onCleared() {

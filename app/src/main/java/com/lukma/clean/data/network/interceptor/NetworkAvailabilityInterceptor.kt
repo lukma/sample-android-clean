@@ -9,7 +9,6 @@ import okhttp3.Response
 import java.io.IOException
 
 class NetworkAvailabilityInterceptor(private val context: Context) : Interceptor {
-
     @SuppressLint("MissingPermission")
     private fun isNetworkAvailable(): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

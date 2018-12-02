@@ -5,6 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class RegisterResponse(
-        @JsonProperty("data")
-        val id: String
+    @JsonProperty("data")
+    val id: String
 )

@@ -7,24 +7,24 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.lukma.clean.R
-import com.lukma.clean.ui.common.PagedFetchData
+import com.lukma.clean.ui.common.PagedLiveData
 
 abstract class BasePagedAdapter<Entity, ItemHolder : RecyclerView.ViewHolder>(
-        diffCallback: DiffUtil.ItemCallback<Entity>
+    diffCallback: DiffUtil.ItemCallback<Entity>
 ) : PagedListAdapter<Entity, RecyclerView.ViewHolder>(diffCallback) {
     companion object {
         private const val TYPE_PROGRESS = 0
         private const val TYPE_ITEM = 1
     }
 
-    var currentState = PagedFetchData.State.NONE
+    var currentState = PagedLiveData.State.NONE
 
     abstract fun onCreateItemHolder(parent: ViewGroup, viewType: Int): ItemHolder
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
         TYPE_PROGRESS -> ProgressHolder(LayoutInflater
-                .from(parent.context)
-                .inflate(R.layout.item_loading, parent, false))
+            .from(parent.context)
+            .inflate(R.layout.item_loading, parent, false))
         else -> onCreateItemHolder(parent, viewType)
     }
 
@@ -41,7 +41,7 @@ abstract class BasePagedAdapter<Entity, ItemHolder : RecyclerView.ViewHolder>(
     override fun getItemViewType(position: Int) = if (hasFooter() && position == itemCount - 1)
         TYPE_PROGRESS else TYPE_ITEM
 
-    private fun hasFooter() = currentState == PagedFetchData.State.ON_NEXT_REQUEST
+    private fun hasFooter() = currentState == PagedLiveData.State.ON_NEXT_REQUEST
 
     class ProgressHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

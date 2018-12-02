@@ -1,27 +1,14 @@
 package com.lukma.clean.domain.auth
 
-import com.google.firebase.auth.AuthResult
+import com.lukma.clean.domain.common.ThirdParty
 import io.reactivex.Flowable
 
 interface AuthRepository {
-    fun signInWithEmail(email: String, password: String): Flowable<AuthResult>
+    fun authorize(usernameOrEmail: String, password: String): Flowable<Auth>
 
-    fun signInWithFacebook(token: String): Flowable<AuthResult>
+    fun authorize(thirdParty: ThirdParty, token: String): Flowable<Auth>
 
-    fun signInWithGoogle(token: String): Flowable<AuthResult>
-
-    fun createUserWithEmailAndPassword(email: String, password: String): Flowable<AuthResult>
-
-    fun updateProfile(fullName: String): Flowable<Void>
-
-    fun authorize(faId: String, fcmId: String): Flowable<Auth>
-
-    fun register(
-            faId: String,
-            fcmId: String,
-            facebookToken: String,
-            googleToken: String
-    ): Flowable<String>
+    fun register(username: String, password: String, fullName: String, email: String): Flowable<Boolean>
 
     fun refreshToken(token: String): Flowable<Auth>
 

@@ -13,9 +13,9 @@ abstract class UseCase<Entity, in Params> {
 
     fun execute(params: Params, subscriber: DisposableSubscriber<Entity>) {
         val disposable = build(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(subscriber)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(subscriber)
         compositeDisposable.add(disposable)
     }
 

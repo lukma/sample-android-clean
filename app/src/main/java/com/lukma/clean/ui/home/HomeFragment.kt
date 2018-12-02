@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lukma.clean.R
 import com.lukma.clean.extensions.handleError
 import com.lukma.clean.ui.base.BaseFragment
-import com.lukma.clean.ui.common.PagedFetchData
+import com.lukma.clean.ui.common.PagedLiveData
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment<HomeViewModel>() {
     override val resourceLayout = R.layout.fragment_home
-    override val fragmentViewModel by viewModel<HomeViewModel>()
+    override val viewModel by viewModel<HomeViewModel>()
 
     private val recyclerAdapter by lazy { ContentAdapter() }
 
@@ -26,16 +26,16 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
             adapter = recyclerAdapter
         }
         swipeRefresh.setOnRefreshListener {
-            fragmentViewModel.fetchData.reload()
+            viewModel.liveData.reload()
         }
 
-        fragmentViewModel.fetchData.state.observe(this, Observer {
-            swipeRefresh.isRefreshing = it == PagedFetchData.State.ON_FIRST_REQUEST
+        viewModel.liveData.state.observe(this, Observer {
+            swipeRefresh.isRefreshing = it == PagedLiveData.State.ON_FIRST_REQUEST
             recyclerAdapter.currentState = it
         })
-        fragmentViewModel.fetchData.data.observe(this, Observer {
+        viewModel.liveData.data.observe(this, Observer {
             recyclerAdapter.submitList(it)
         })
-        fragmentViewModel.fetchData.error.observe(this, Observer(this::handleError))
+        viewModel.liveData.error.observe(this, Observer(this::handleError))
     }
 }

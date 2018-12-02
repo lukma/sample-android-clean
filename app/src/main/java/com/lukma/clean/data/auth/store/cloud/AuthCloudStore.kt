@@ -3,35 +3,25 @@ package com.lukma.clean.data.auth.store.cloud
 import com.lukma.clean.data.auth.store.AuthMapper
 import com.lukma.clean.domain.auth.Auth
 import com.lukma.clean.domain.auth.AuthRepository
+import com.lukma.clean.domain.common.ThirdParty
 
 class AuthCloudStore(private val api: AuthApi, private val mapper: AuthMapper) : AuthRepository {
-    override fun signInWithEmail(email: String, password: String) = throw IllegalAccessException()
+    override fun authorize(usernameOrEmail: String, password: String) = api
+        .authorize(usernameOrEmail, password)
+        .map(mapper::transform)
 
-    override fun signInWithFacebook(token: String) = throw IllegalAccessException()
-
-    override fun signInWithGoogle(token: String) = throw IllegalAccessException()
-
-    override fun createUserWithEmailAndPassword(
-            email: String,
-            password: String
-    ) = throw IllegalAccessException()
-
-    override fun updateProfile(fullName: String) = throw IllegalAccessException()
-
-    override fun authorize(faId: String, fcmId: String) = api
-            .authorize(faId, fcmId)
-            .map(mapper::transform)
+    override fun authorize(thirdParty: ThirdParty, token: String) = api
+        .authorize(thirdParty.name, token)
+        .map(mapper::transform)
 
     override fun register(
-            faId: String,
-            fcmId: String,
-            facebookToken: String,
-            googleToken: String
-    ) = api.register(faId, fcmId, facebookToken, googleToken).map { it.id }
+        username: String,
+        password: String,
+        fullName: String,
+        email: String
+    ) = api.register(username, password, fullName, email).map { it.id.isNotEmpty() }
 
-    override fun refreshToken(token: String) = api
-            .refreshToken(token)
-            .map(mapper::transform)
+    override fun refreshToken(token: String) = api.refreshToken(token).map(mapper::transform)
 
     override fun isAuthenticated() = throw IllegalAccessException()
 

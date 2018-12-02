@@ -8,10 +8,10 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_profile">Profile</string>
 
-    <string name="hint_email">Email</string>
+    <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
     <string name="hint_fullname">Fullname</string>
-    <string name="hint_phone">Phone</string>
+    <string name="hint_email">Email</string>
 
     <string name="button_login">Login</string>
     <string name="button_register">Register</string>

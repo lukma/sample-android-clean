@@ -11,22 +11,22 @@ interface AuthApi {
     @FormUrlEncoded
     @POST("account/auth/login")
     fun authorize(
-            @Field("fa_id") faId: String,
-            @Field("fcm_id") fcmId: String
+        @Field("username") usernameOrEmail: String,
+        @Field("password") password: String
     ): Flowable<AuthResponse>
 
     @FormUrlEncoded
     @POST("account/auth/register")
     fun register(
-            @Field("fa_id") faId: String,
-            @Field("fcm_id") fcmId: String,
-            @Field("facebook_token") facebookToken: String,
-            @Field("google_token") googleToken: String
+        @Field("username") username: String,
+        @Field("password") password: String,
+        @Field("fullname") fullName: String,
+        @Field("email") email: String
     ): Flowable<RegisterResponse>
 
     @FormUrlEncoded
     @POST("account/auth/refreshToken")
     fun refreshToken(
-            @Field("refresh_token") token: String
+        @Field("refresh_token") token: String
     ): Flowable<AuthResponse>
 }

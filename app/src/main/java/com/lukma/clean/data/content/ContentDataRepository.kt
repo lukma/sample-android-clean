@@ -8,12 +8,12 @@ import com.lukma.clean.domain.content.ContentRepository
 
 class ContentDataRepository(private val store: ContentStoreFactory) : ContentRepository {
     override fun gets(params: ListParams) = store
-            .createData()
-            .gets(params)
-            .doOnNext { insert(it) }
-            .onErrorResumeNext(store.createData(DataStoreType.DATABASE).gets(params))
+        .createData()
+        .gets(params)
+        .doOnNext { insert(it) }
+        .onErrorResumeNext(store.createData(DataStoreType.DATABASE).gets(params))
 
     override fun insert(data: List<Content>) = store
-            .createData(DataStoreType.DATABASE)
-            .insert(data)
+        .createData(DataStoreType.DATABASE)
+        .insert(data)
 }

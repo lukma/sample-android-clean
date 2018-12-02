@@ -2,13 +2,13 @@ package com.lukma.clean.ui.main
 
 import androidx.lifecycle.ViewModel
 import com.lukma.clean.domain.auth.interactor.IsAuthenticated
-import com.lukma.clean.ui.common.SingleFetchData
+import com.lukma.clean.ui.common.SingleLiveData
 
 class MainViewModel(private val useCase: IsAuthenticated) : ViewModel() {
-    val fetchData = SingleFetchData(useCase::execute)
+    internal val liveData = SingleLiveData(useCase::execute)
 
     init {
-        fetchData.run()
+        liveData.run()
     }
 
     override fun onCleared() {

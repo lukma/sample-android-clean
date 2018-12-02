@@ -6,10 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "contents")
 data class ContentTable(
-        @PrimaryKey
-        @NonNull
-        val id: String,
-        val title: String,
-        val thumbnail: String,
-        val content: String
+    @PrimaryKey @NonNull val id: String,
+    val title: String,
+    val thumbnail: String,
+    val content: String
 )
