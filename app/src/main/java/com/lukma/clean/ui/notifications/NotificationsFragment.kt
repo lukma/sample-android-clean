@@ -1,7 +1,7 @@
 package com.lukma.clean.ui.notifications
 
 import com.lukma.clean.R
-import com.lukma.clean.ui.base.BaseFragment
+import com.lukma.clean.ui.common.base.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NotificationsFragment : BaseFragment<NotificationsViewModel>() {

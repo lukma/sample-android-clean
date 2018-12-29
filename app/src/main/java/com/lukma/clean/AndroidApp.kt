@@ -2,7 +2,13 @@ package com.lukma.clean
 
 import androidx.multidex.MultiDexApplication
 import com.facebook.stetho.Stetho
-import com.lukma.clean.di.*
+import com.lukma.clean.data.common.module.apiModule
+import com.lukma.clean.data.common.module.dataModule
+import com.lukma.clean.data.common.module.networkModule
+import com.lukma.clean.data.common.module.roomModule
+import com.lukma.clean.domain.common.module.useCaseModule
+import com.lukma.clean.ui.common.module.appModule
+import com.lukma.clean.ui.common.module.viewModelModule
 import org.koin.android.ext.android.startKoin
 
 class AndroidApp : MultiDexApplication() {
@@ -12,13 +18,13 @@ class AndroidApp : MultiDexApplication() {
         Stetho.initializeWithDefaults(this)
 
         startKoin(this, listOf(
-                appModule,
-                roomModule,
-                networkModule,
-                apiModule,
-                dataModule,
-                useCaseModule,
-                viewModelModule
+            appModule,
+            roomModule,
+            networkModule,
+            apiModule,
+            dataModule,
+            useCaseModule,
+            viewModelModule
         ))
     }
 }

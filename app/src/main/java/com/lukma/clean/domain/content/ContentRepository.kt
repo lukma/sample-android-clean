@@ -1,10 +1,7 @@
 package com.lukma.clean.domain.content
 
-import com.lukma.clean.data.common.ListParams
-import io.reactivex.Flowable
+import kotlinx.coroutines.Deferred
 
 interface ContentRepository {
-    fun gets(params: ListParams): Flowable<List<Content>>
-
-    fun insert(data: List<Content>): Flowable<Boolean>
+    fun gets(limit: Int, offset: Int): Deferred<List<Content>>
 }

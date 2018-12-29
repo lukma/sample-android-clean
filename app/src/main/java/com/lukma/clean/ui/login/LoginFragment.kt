@@ -6,7 +6,6 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -15,14 +14,13 @@ import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.lukma.clean.NavGraphAuthDirections
 import com.lukma.clean.R
-import com.lukma.clean.domain.common.ThirdParty
-import com.lukma.clean.extensions.handleError
-import com.lukma.clean.extensions.hideKeyboard
-import com.lukma.clean.extensions.navigateClearTask
-import com.lukma.clean.ui.base.BaseFragment
+import com.lukma.clean.domain.common.entity.ThirdParty
 import com.lukma.clean.ui.common.SingleLiveData
+import com.lukma.clean.ui.common.base.BaseFragment
+import com.lukma.clean.ui.common.extensions.handleError
+import com.lukma.clean.ui.common.extensions.hideKeyboard
+import com.lukma.clean.ui.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -82,9 +80,11 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
 
             when (it.state) {
                 SingleLiveData.State.ON_REQUEST -> Unit
-                SingleLiveData.State.ON_SUCCESS -> if (it.data == true) {
-                    view.findNavController().navigateClearTask(activity, NavGraphAuthDirections.actionMainActivity())
-                }
+                SingleLiveData.State.ON_SUCCESS -> startActivity(
+                    Intent(context, MainActivity::class.java).addFlags(
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    )
+                )
                 SingleLiveData.State.ON_FAILURE -> handleError(it.error)
             }
         })
@@ -95,9 +95,11 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
 
             when (it.state) {
                 SingleLiveData.State.ON_REQUEST -> Unit
-                SingleLiveData.State.ON_SUCCESS -> if (it.data == true) {
-                    view.findNavController().navigateClearTask(activity, NavGraphAuthDirections.actionMainActivity())
-                }
+                SingleLiveData.State.ON_SUCCESS -> startActivity(
+                    Intent(context, MainActivity::class.java).addFlags(
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    )
+                )
                 SingleLiveData.State.ON_FAILURE -> handleError(it.error)
             }
         })

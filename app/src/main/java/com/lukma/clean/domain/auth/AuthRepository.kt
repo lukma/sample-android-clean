@@ -1,26 +1,20 @@
 package com.lukma.clean.domain.auth
 
-import com.lukma.clean.domain.common.ThirdParty
-import io.reactivex.Flowable
+import com.lukma.clean.domain.common.entity.ThirdParty
+import kotlinx.coroutines.Deferred
 
 interface AuthRepository {
-    fun authorize(usernameOrEmail: String, password: String): Flowable<Auth>
+    fun authorize(usernameOrEmail: String, password: String): Deferred<Unit>
 
-    fun authorize(thirdParty: ThirdParty, token: String): Flowable<Auth>
+    fun authorize(thirdParty: ThirdParty, token: String): Deferred<Unit>
 
-    fun register(username: String, password: String, fullName: String, email: String): Flowable<Boolean>
+    fun refreshToken(): Deferred<Auth>
 
-    fun refreshToken(token: String): Flowable<Auth>
+    fun register(username: String, password: String, fullName: String, email: String): Deferred<Unit>
 
-    fun isAuthenticated(): Flowable<Boolean>
+    fun getAuthIsActive(): Deferred<Auth>
 
-    fun gets(): Flowable<List<Auth>>
+    fun isAuthenticated(): Deferred<Boolean>
 
-    fun getIsActive(): Flowable<Auth>
-
-    fun insert(data: Auth): Flowable<Boolean>
-
-    fun update(data: Auth): Flowable<Boolean>
-
-    fun delete(username: String): Flowable<Boolean>
+    fun logout(): Deferred<Unit>
 }

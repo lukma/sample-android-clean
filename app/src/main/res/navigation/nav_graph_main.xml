@@ -22,12 +22,4 @@
         android:name="com.lukma.clean.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
-
-    <action
-        android:id="@+id/action_authActivity"
-        app:destination="@+id/authActivity" />
-
-    <activity
-        android:id="@+id/authActivity"
-        android:name="com.lukma.clean.ui.auth.AuthActivity" />
 </navigation>

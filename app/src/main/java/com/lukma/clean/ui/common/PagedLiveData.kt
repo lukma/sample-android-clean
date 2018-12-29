@@ -6,11 +6,15 @@ import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PageKeyedDataSource
 import androidx.paging.PagedList
-import com.lukma.clean.data.common.ListParams
-import io.reactivex.subscribers.DisposableSubscriber
+import com.lukma.clean.domain.common.UseCaseConstant
+import kotlinx.coroutines.Job
 
 class PagedLiveData<Entity>(
-    onRunning: (ListParams, DisposableSubscriber<List<Entity>>) -> Unit,
+    onRunning: (
+        params: Map<String, Any?>,
+        onSuccess: (List<Entity>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) -> Job,
     limit: Int = 10,
     start: Int = 0
 ) {
@@ -33,7 +37,11 @@ class PagedLiveData<Entity>(
     }
 
     class PagedDataFactory<Entity>(
-        private val onRunning: (ListParams, DisposableSubscriber<List<Entity>>) -> Unit,
+        private val onRunning: (
+            params: Map<String, Any?>,
+            onSuccess: (List<Entity>) -> Unit,
+            onError: (Throwable) -> Unit
+        ) -> Job,
         val start: Int,
         private val state: MutableLiveData<State>,
         val error: MutableLiveData<Throwable>
@@ -42,7 +50,11 @@ class PagedLiveData<Entity>(
     }
 
     class PagedDataSource<Entity>(
-        val onRunning: (ListParams, DisposableSubscriber<List<Entity>>) -> Unit,
+        val onRunning: (
+            params: Map<String, Any?>,
+            onSuccess: (List<Entity>) -> Unit,
+            onError: (Throwable) -> Unit
+        ) -> Job,
         val start: Int,
         val state: MutableLiveData<State>,
         val error: MutableLiveData<Throwable>
@@ -51,7 +63,10 @@ class PagedLiveData<Entity>(
             params: LoadInitialParams<Long>, callback: LoadInitialCallback<Long, Entity>
         ) {
             state.postValue(State.ON_FIRST_REQUEST)
-            run(ListParams(params.requestedLoadSize, start)) {
+            run(mapOf(
+                UseCaseConstant.LIMIT to params.requestedLoadSize,
+                UseCaseConstant.OFFSET to start
+            )) {
                 callback.onResult(it, null, if (it.size == params.requestedLoadSize)
                     params.requestedLoadSize.toLong() else null)
             }
@@ -59,7 +74,10 @@ class PagedLiveData<Entity>(
 
         override fun loadAfter(params: LoadParams<Long>, callback: LoadCallback<Long, Entity>) {
             state.postValue(State.ON_NEXT_REQUEST)
-            run(ListParams(params.requestedLoadSize, params.key.toInt())) {
+            run(mapOf(
+                UseCaseConstant.LIMIT to params.requestedLoadSize,
+                UseCaseConstant.OFFSET to params.key.toInt()
+            )) {
                 callback.onResult(it, if (it.size == params.requestedLoadSize)
                     params.key.plus(params.requestedLoadSize) else null)
             }
@@ -67,20 +85,18 @@ class PagedLiveData<Entity>(
 
         override fun loadBefore(params: LoadParams<Long>, callback: LoadCallback<Long, Entity>) {}
 
-        private fun run(params: ListParams, onReceive: (data: List<Entity>) -> Unit) {
-            onRunning(params, object : DisposableSubscriber<List<Entity>>() {
-                override fun onComplete() {}
-
-                override fun onNext(t: List<Entity>) {
+        private fun run(params: Map<String, Any?>, onReceive: (data: List<Entity>) -> Unit) {
+            onRunning(
+                params,
+                {
                     state.postValue(State.ON_SUCCESS)
-                    onReceive(t)
-                }
-
-                override fun onError(t: Throwable?) {
+                    onReceive(it)
+                },
+                {
                     state.postValue(State.ON_FAILURE)
-                    error.postValue(t)
+                    error.postValue(it)
                 }
-            })
+            )
         }
     }
 

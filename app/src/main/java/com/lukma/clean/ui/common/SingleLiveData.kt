@@ -1,24 +1,30 @@
 package com.lukma.clean.ui.common
 
 import androidx.lifecycle.MutableLiveData
-import io.reactivex.subscribers.DisposableSubscriber
+import kotlinx.coroutines.Job
 
-class SingleLiveData<Entity, Params>(
-    private val onRunning: (Params?, DisposableSubscriber<Entity>) -> Unit
+class SingleLiveData<Entity>(
+    private val onRunning: (
+        params: Map<String, Any?>,
+        onSuccess: (Entity) -> Unit,
+        onError: (Throwable) -> Unit
+    ) -> Job
 ) : MutableLiveData<SingleLiveData.Resource<Entity>>() {
-    fun run(params: Params? = null) {
-        value = Resource(State.ON_REQUEST)
-        onRunning(params, object : DisposableSubscriber<Entity>() {
-            override fun onComplete() {}
 
-            override fun onNext(t: Entity) {
-                value = Resource(State.ON_SUCCESS, data = t)
-            }
+    private var job: Job? = null
 
-            override fun onError(t: Throwable?) {
-                value = Resource(State.ON_FAILURE, error = t)
-            }
-        })
+    fun run(params: Map<String, Any?> = emptyMap()) {
+        postValue(Resource(State.ON_REQUEST))
+        job = onRunning(
+            params,
+            { postValue(Resource(State.ON_SUCCESS, data = it)) },
+            { postValue(Resource(State.ON_FAILURE, error = it)) }
+        )
+    }
+
+    override fun onInactive() {
+        super.onInactive()
+        job?.cancel()
     }
 
     data class Resource<Entity>(

@@ -19,12 +19,4 @@
         android:id="@+id/registerFragment"
         android:name="com.lukma.clean.ui.register.RegisterFragment"
         tools:layout="@layout/fragment_register" />
-
-    <action
-        android:id="@+id/action_mainActivity"
-        app:destination="@+id/mainActivity" />
-
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="com.lukma.clean.ui.main.MainActivity" />
 </navigation>

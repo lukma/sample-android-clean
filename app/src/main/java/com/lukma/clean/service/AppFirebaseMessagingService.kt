@@ -9,12 +9,9 @@ import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.lukma.clean.R
-import com.lukma.clean.data.common.SessionManager
 import com.lukma.clean.ui.main.MainActivity
 
-class AppFirebaseMessagingService(
-    private val sessionManager: SessionManager
-) : FirebaseMessagingService() {
+class AppFirebaseMessagingService : FirebaseMessagingService() {
     companion object {
         private const val FCM_DEFAULT_CHANNEL = "FCM_DEFAULT_CHANNEL"
     }
@@ -43,6 +40,5 @@ class AppFirebaseMessagingService(
 
     override fun onNewToken(token: String?) {
         super.onNewToken(token)
-        sessionManager.saveFcmId(token)
     }
 }

@@ -5,8 +5,8 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lukma.clean.R
-import com.lukma.clean.extensions.handleError
-import com.lukma.clean.ui.base.BaseFragment
+import com.lukma.clean.ui.common.extensions.handleError
+import com.lukma.clean.ui.common.base.BaseFragment
 import com.lukma.clean.ui.common.PagedLiveData
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
