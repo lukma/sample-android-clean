@@ -8,15 +8,9 @@ import org.koin.dsl.module.module
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
 
-enum class OKHttpType {
-    OKHTTP_BASIC_AUTH,
-    OKHTTP_BEARER
-}
-
-enum class RetrofitType {
-    RETROFIT_DEFAULT,
-    RETROFIT_BASIC_AUTH,
-    RETROFIT_BEARER
+enum class RetrofitType(val value: String) {
+    BASIC_AUTH("RETROFIT_BASIC_AUTH"),
+    BEARER("RETROFIT_BEARER")
 }
 
 val networkModule = module {
@@ -29,40 +23,26 @@ val networkModule = module {
     }
 
     single(
-        name = OKHttpType.OKHTTP_BASIC_AUTH.name,
-        definition = {
-            get<OkHttpClient.Builder>()
-                .addInterceptor(ApiAuthInterceptor(ApiAuthInterceptor.Type.BASIC_AUTH))
-                .build()
-        }
-    )
-
-    single(
-        name = OKHttpType.OKHTTP_BEARER.name,
-        definition = {
-            get<OkHttpClient.Builder>()
-                .addInterceptor(ApiAuthInterceptor(ApiAuthInterceptor.Type.BEARER))
-                .build()
-        }
-    )
-
-    single(
-        name = RetrofitType.RETROFIT_BASIC_AUTH.name,
+        name = RetrofitType.BASIC_AUTH.value,
         definition = {
             Retrofit.Builder()
                 .addConverterFactory(JacksonConverterFactory.create())
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
-                .client(get(OKHttpType.OKHTTP_BASIC_AUTH.name))
+                .client(get<OkHttpClient.Builder>()
+                    .addInterceptor(ApiAuthInterceptor(ApiAuthInterceptor.Type.BASIC_AUTH))
+                    .build())
         }
     )
 
     single(
-        name = RetrofitType.RETROFIT_BEARER.name,
+        name = RetrofitType.BEARER.value,
         definition = {
             Retrofit.Builder()
                 .addConverterFactory(JacksonConverterFactory.create())
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
-                .client(get(OKHttpType.OKHTTP_BEARER.name))
+                .client(get<OkHttpClient.Builder>()
+                    .addInterceptor(ApiAuthInterceptor(ApiAuthInterceptor.Type.BEARER))
+                    .build())
         }
     )
 }

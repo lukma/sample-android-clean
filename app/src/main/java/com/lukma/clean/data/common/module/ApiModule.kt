@@ -8,14 +8,14 @@ import retrofit2.Retrofit
 
 val apiModule = module {
     single {
-        get<Retrofit.Builder>(RetrofitType.RETROFIT_BASIC_AUTH.name)
+        get<Retrofit.Builder>(RetrofitType.BASIC_AUTH.value)
             .baseUrl(BuildConfig.BASE_URL)
             .build()
             .create(AuthApi::class.java)
     }
 
     single {
-        get<Retrofit.Builder>(RetrofitType.RETROFIT_BEARER.name)
+        get<Retrofit.Builder>(RetrofitType.BEARER.value)
             .baseUrl(BuildConfig.BASE_URL)
             .build()
             .create(ContentApi::class.java)

@@ -15,8 +15,6 @@ import org.koin.standalone.inject
 import java.io.IOException
 
 class ApiAuthInterceptor(private val type: Type) : Interceptor, KoinComponent {
-    enum class Type { BASIC_AUTH, BEARER }
-
     private val authRepository by inject<AuthRepository>()
 
     @Throws(IOException::class)
@@ -60,4 +58,6 @@ class ApiAuthInterceptor(private val type: Type) : Interceptor, KoinComponent {
             .build()
         return chain.proceed(request)
     }
+
+    enum class Type { BASIC_AUTH, BEARER }
 }
