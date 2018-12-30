@@ -3,7 +3,6 @@ package com.lukma.clean.data.common.network.interceptor
 import com.lukma.clean.BuildConfig
 import com.lukma.clean.data.common.network.exception.ApiException
 import com.lukma.clean.data.common.network.exception.TokenUnauthorizedException
-import com.lukma.clean.domain.auth.Auth
 import com.lukma.clean.domain.auth.AuthRepository
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
@@ -19,13 +18,11 @@ class ApiAuthInterceptor(private val type: Type) : Interceptor, KoinComponent {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
-        var auth: Auth? = null
-        runBlocking {
-            if (type == Type.BEARER) auth = authRepository.getAuthIsActive().await()
-        }
-
         val authorization = if (type == Type.BASIC_AUTH) BuildConfig.BASIC_AUTH_VALUE
-        else "${auth?.tokenType} ${auth?.accessToken}"
+        else runBlocking {
+            val authIsActive = authRepository.getAuthIsActive().await()
+            "${authIsActive.tokenType} ${authIsActive.accessToken}"
+        }
 
         val original = chain.request()
         val response = requestApi(chain, original, authorization)
