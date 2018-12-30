@@ -100,12 +100,6 @@ class PagedLiveData<Entity>(
         }
     }
 
-    data class Resource<Entity>(
-        val state: State = State.NONE,
-        val data: Entity? = null,
-        val error: Throwable? = null
-    )
-
     enum class State {
         NONE,
         ON_FIRST_REQUEST,

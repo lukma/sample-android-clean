@@ -4,14 +4,10 @@ import com.facebook.CallbackManager
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.lukma.clean.R
-import com.lukma.clean.data.common.SessionManager
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module.module
-import org.koin.experimental.builder.single
 
 val appModule = module {
-    single<SessionManager>()
-
     single { CallbackManager.Factory.create() }
 
     single { LoginManager.getInstance() }
