@@ -1,8 +1,8 @@
-package com.lukma.clean.data.common.network.interceptor
+package com.lukma.clean.data.common.interceptor
 
 import com.lukma.clean.BuildConfig
-import com.lukma.clean.data.common.network.exception.ApiException
-import com.lukma.clean.data.common.network.exception.TokenUnauthorizedException
+import com.lukma.clean.data.common.exception.network.ApiException
+import com.lukma.clean.data.common.exception.network.TokenUnauthorizedException
 import com.lukma.clean.domain.auth.AuthRepository
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor

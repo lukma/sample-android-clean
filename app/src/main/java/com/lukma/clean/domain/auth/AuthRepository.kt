@@ -1,6 +1,7 @@
 package com.lukma.clean.domain.auth
 
-import com.lukma.clean.domain.common.entity.ThirdParty
+import com.lukma.clean.data.auth.entity.table.AuthTable
+import com.lukma.clean.domain.auth.entity.ThirdParty
 import kotlinx.coroutines.Deferred
 
 interface AuthRepository {
@@ -8,11 +9,11 @@ interface AuthRepository {
 
     fun authorize(thirdParty: ThirdParty, token: String): Deferred<Unit>
 
-    fun refreshToken(): Deferred<Auth>
+    fun refreshToken(): Deferred<AuthTable>
 
     fun register(username: String, password: String, fullName: String, email: String): Deferred<Unit>
 
-    fun getAuthIsActive(): Deferred<Auth>
+    fun getAuthIsActive(): Deferred<AuthTable>
 
     fun isAuthenticated(): Deferred<Boolean>
 

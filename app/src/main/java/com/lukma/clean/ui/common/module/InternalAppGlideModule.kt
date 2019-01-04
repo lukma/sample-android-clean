@@ -1,5 +1,6 @@
-package com.lukma.clean.ui.common
+package com.lukma.clean.ui.common.module
 
+import android.annotation.SuppressLint
 import android.content.Context
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Registry
@@ -24,7 +25,7 @@ class InternalAppGlideModule : AppGlideModule() {
 }
 
 object UnsafeOkHttpClient {
-
+    @SuppressLint("TrustAllX509TrustManager")
     fun getUnsafeOkHttpClient(): OkHttpClient {
         try {
             val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {

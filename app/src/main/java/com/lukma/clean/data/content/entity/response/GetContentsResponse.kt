@@ -1,4 +1,4 @@
-package com.lukma.clean.data.content.entity
+package com.lukma.clean.data.content.entity.response
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty

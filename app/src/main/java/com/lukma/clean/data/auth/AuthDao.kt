@@ -1,28 +1,28 @@
 package com.lukma.clean.data.auth
 
 import androidx.room.*
-import com.lukma.clean.domain.auth.Auth
+import com.lukma.clean.data.auth.entity.table.AuthTable
 
 @Dao
 interface AuthDao {
     @Query("SELECT * FROM auths WHERE username = :username LIMIT 1")
-    fun get(username: String): Auth
+    fun get(username: String): AuthTable
 
     @Query("SELECT * FROM auths WHERE isActive = 1 LIMIT 1")
-    fun getIsActive(): Auth
+    fun getIsActive(): AuthTable
 
     @Query("SELECT * FROM auths")
-    fun gets(): List<Auth>
+    fun gets(): List<AuthTable>
 
     @Query("SELECT COUNT(*) FROM auths")
     fun count(): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(data: Auth): Long
+    fun insert(data: AuthTable): Long
 
     @Update
-    fun update(data: Auth): Int
+    fun update(data: AuthTable): Int
 
     @Delete
-    fun delete(data: Auth): Int
+    fun delete(data: AuthTable): Int
 }

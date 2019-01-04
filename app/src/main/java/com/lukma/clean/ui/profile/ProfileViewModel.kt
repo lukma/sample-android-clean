@@ -1,13 +1,15 @@
 package com.lukma.clean.ui.profile
 
-import androidx.lifecycle.ViewModel
-import com.lukma.clean.domain.auth.interactor.Logout
-import com.lukma.clean.ui.common.SingleLiveData
+import androidx.lifecycle.MutableLiveData
+import com.lukma.clean.domain.auth.interactor.LogoutUseCase
+import com.lukma.clean.ui.common.base.BaseViewModel
 
-class ProfileViewModel(useCase: Logout) : ViewModel() {
-    internal val liveData = SingleLiveData(useCase::execute)
+class ProfileViewModel(private val logoutUseCase: LogoutUseCase) : BaseViewModel() {
+    internal val logoutLiveData = MutableLiveData<Unit>()
 
     fun logout() {
-        liveData.run()
+        logoutUseCase.execute(onSuccess = {
+            logoutLiveData.postValue(Unit)
+        }).addToJob()
     }
 }

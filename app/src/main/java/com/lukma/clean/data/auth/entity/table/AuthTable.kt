@@ -1,11 +1,11 @@
-package com.lukma.clean.domain.auth
+package com.lukma.clean.data.auth.entity.table
 
 import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "auths")
-data class Auth(
+data class AuthTable(
     @PrimaryKey @NonNull val username: String,
     val accessToken: String,
     val refreshToken: String,

@@ -16,4 +16,18 @@ abstract class BaseFragment<VM : ViewModel> : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View = inflater.inflate(resourceLayout, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        onInitViews()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        onInitObservers()
+    }
+
+    protected open fun onInitViews() = Unit
+
+    protected open fun onInitObservers() = Unit
 }

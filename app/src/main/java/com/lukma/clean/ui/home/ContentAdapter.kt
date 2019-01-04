@@ -2,12 +2,11 @@ package com.lukma.clean.ui.home
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
-import com.lukma.clean.domain.content.Content
+import com.lukma.clean.domain.content.entity.Content
 import com.lukma.clean.ui.common.base.BasePagedAdapter
 
 class ContentAdapter(
-    private val onClickItemListener: (Content?) -> Unit = {}
+    private val onClickItemListener: (Content) -> Unit = {}
 ) : BasePagedAdapter<Content, ContentHolder>(DIFF_CALLBACK) {
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Content>() {
@@ -17,9 +16,9 @@ class ContentAdapter(
         }
     }
 
-    override fun onCreateItemHolder(parent: ViewGroup, viewType: Int) =
-        ContentHolder.newInstance(parent, onClickItemListener)
+    override fun onCreateItemHolder(parent: ViewGroup, viewType: Int) = ContentHolder
+        .newInstance(parent, onClickItemListener)
 
-    override fun onBindItemHolder(holder: RecyclerView.ViewHolder, position: Int) =
-        (holder as ContentHolder).onBind(getItem(position))
+    override fun onBindItemHolder(holder: ContentHolder, position: Int) = getItem(position)
+        ?.let(holder::onBind)
 }

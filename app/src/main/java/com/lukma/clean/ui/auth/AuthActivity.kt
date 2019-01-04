@@ -10,5 +10,5 @@ class AuthActivity : BaseActivity<AuthViewModel>() {
     override val resourceLayout = R.layout.activity_auth
     override val viewModel by viewModel<AuthViewModel>()
 
-    override fun buildNavController() = NavHostFragment.findNavController(hostFragment)
+    override fun onCreateNavController() = NavHostFragment.findNavController(hostFragment)
 }

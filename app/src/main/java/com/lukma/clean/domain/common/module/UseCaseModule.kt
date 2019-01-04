@@ -1,7 +1,7 @@
 package com.lukma.clean.domain.common.module
 
 import com.lukma.clean.domain.auth.interactor.*
-import com.lukma.clean.domain.content.interactor.GetContents
+import com.lukma.clean.domain.content.interactor.GetListOfContentUseCase
 import com.lukma.clean.domain.preference.interactor.GetFcmUseCase
 import com.lukma.clean.domain.preference.interactor.SaveFcmUseCase
 import org.koin.dsl.module.module
@@ -12,15 +12,15 @@ val useCaseModule = module {
 
     factory<GetFcmUseCase>()
 
-    factory<AuthorizeByUsernameOrEmail>()
+    factory<AuthorizeByUsernameOrEmailUseCase>()
 
-    factory<AuthorizeByThirdParty>()
+    factory<AuthorizeByThirdPartyUseCase>()
 
-    factory<Register>()
+    factory<RegisterUseCase>()
 
-    factory<IsAuthenticated>()
+    factory<IsAuthenticatedUseCase>()
 
-    factory<Logout>()
+    factory<LogoutUseCase>()
 
-    factory<GetContents>()
+    factory<GetListOfContentUseCase>()
 }

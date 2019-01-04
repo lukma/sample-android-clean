@@ -1,4 +1,4 @@
-package com.lukma.clean.domain.common.entity
+package com.lukma.clean.domain.auth.entity
 
 enum class ThirdParty {
     FACEBOOK,

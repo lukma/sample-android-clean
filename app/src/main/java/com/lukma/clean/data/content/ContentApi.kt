@@ -1,6 +1,6 @@
 package com.lukma.clean.data.content
 
-import com.lukma.clean.data.content.entity.GetContentsResponse
+import com.lukma.clean.data.content.entity.response.GetContentsResponse
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Query

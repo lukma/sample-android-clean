@@ -19,22 +19,23 @@ abstract class BasePagedAdapter<Entity, ItemHolder : RecyclerView.ViewHolder>(
 
     var currentState = PagedLiveData.State.NONE
 
-    abstract fun onCreateItemHolder(parent: ViewGroup, viewType: Int): ItemHolder
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = when (viewType) {
         TYPE_PROGRESS -> ProgressHolder(LayoutInflater
             .from(parent.context)
             .inflate(R.layout.item_loading, parent, false))
         else -> onCreateItemHolder(parent, viewType)
     }
 
-    abstract fun onBindItemHolder(holder: RecyclerView.ViewHolder, position: Int)
+    abstract fun onCreateItemHolder(parent: ViewGroup, viewType: Int): ItemHolder
 
+    @Suppress("UNCHECKED_CAST")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (position == TYPE_ITEM) {
-            onBindItemHolder(holder, position)
+            onBindItemHolder(holder as ItemHolder, position)
         }
     }
+
+    abstract fun onBindItemHolder(holder: ItemHolder, position: Int): Unit?
 
     override fun getItemCount() = super.getItemCount() + if (hasFooter()) 1 else 0
 

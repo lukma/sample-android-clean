@@ -1,7 +1,7 @@
 package com.lukma.clean.data.common.module
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.lukma.clean.data.common.network.interceptor.ApiAuthInterceptor
+import com.lukma.clean.data.common.interceptor.ApiAuthInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module.module

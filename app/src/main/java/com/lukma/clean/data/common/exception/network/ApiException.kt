@@ -1,4 +1,4 @@
-package com.lukma.clean.data.common.network.exception
+package com.lukma.clean.data.common.exception.network
 
 import org.json.JSONObject
 import java.io.IOException

@@ -1,15 +1,26 @@
 package com.lukma.clean.data.content
 
-import com.lukma.clean.data.content.entity.GetContentsResponse
-import com.lukma.clean.domain.content.Content
+import com.lukma.clean.data.content.entity.response.GetContentsResponse
+import com.lukma.clean.data.content.entity.table.ContentTable
+import com.lukma.clean.domain.content.entity.Content
 
 object ContentMapper {
-    fun transform(value: GetContentsResponse.DataResponse) = Content(
-        value.id,
-        value.title,
-        value.thumbnail,
-        value.content
-    )
 
-    fun transform(values: GetContentsResponse) = values.data.map { transform(it) }
+    fun transform(values: GetContentsResponse) = values.data.map {
+        Content(
+            it.id,
+            it.title,
+            it.thumbnail,
+            it.content
+        )
+    }
+
+    fun transform(values: List<Content>) = values.map {
+        ContentTable(
+            it.id,
+            it.title,
+            it.thumbnail,
+            it.content
+        )
+    }
 }

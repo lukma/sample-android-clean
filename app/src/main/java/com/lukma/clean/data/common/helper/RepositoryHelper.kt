@@ -5,7 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 
 object RepositoryHelper {
-    fun <T> runAsync(block: suspend () -> T) = CoroutineScope(Dispatchers.IO).async {
+    fun <T> runAsyncIO(block: suspend () -> T) = CoroutineScope(Dispatchers.IO).async {
         block.invoke()
     }
 }

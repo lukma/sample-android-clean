@@ -1,4 +1,4 @@
-package com.lukma.clean.ui.common.extensions
+package com.lukma.clean.extensions
 
 import android.app.Activity
 import android.view.inputmethod.InputMethodManager
@@ -18,4 +18,8 @@ fun Fragment.showSnackBar(message: String) {
     activity?.let {
         Snackbar.make(it.findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT).show()
     }
+}
+
+fun Fragment.showSnackBar(resource: Int) {
+    showSnackBar(getString(resource))
 }

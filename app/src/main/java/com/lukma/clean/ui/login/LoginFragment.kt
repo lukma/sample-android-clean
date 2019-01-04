@@ -1,8 +1,6 @@
 package com.lukma.clean.ui.login
 
 import android.content.Intent
-import android.os.Bundle
-import android.view.View
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
@@ -15,11 +13,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.lukma.clean.R
-import com.lukma.clean.domain.common.entity.ThirdParty
-import com.lukma.clean.ui.common.SingleLiveData
+import com.lukma.clean.domain.auth.entity.ThirdParty
+import com.lukma.clean.extensions.handleError
+import com.lukma.clean.extensions.hideKeyboard
+import com.lukma.clean.extensions.startActivityClearTask
+import com.lukma.clean.ui.common.ResourceState
 import com.lukma.clean.ui.common.base.BaseFragment
-import com.lukma.clean.ui.common.extensions.handleError
-import com.lukma.clean.ui.common.extensions.hideKeyboard
 import com.lukma.clean.ui.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.koin.android.ext.android.inject
@@ -37,9 +36,8 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
     private val loginManager by inject<LoginManager>()
     private val gso by inject<GoogleSignInOptions>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    override fun onInitViews() {
+        super.onInitViews()
         loginManager.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
                 viewModel.authorize(ThirdParty.FACEBOOK, loginResult.accessToken.token)
@@ -51,11 +49,6 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
                 handleError(error)
             }
         })
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         loginButton.setOnClickListener {
             hideKeyboard()
             viewModel.authorize(
@@ -66,48 +59,40 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
         connectFacebookButton.setOnClickListener {
             loginManager.logInWithReadPermissions(this, listOf("email", "public_profile"))
         }
-        connectGoogleButton.setOnClickListener { _ ->
-            context?.let {
-                val signInIntent = (GoogleSignIn.getClient(it, gso)).signInIntent
-                startActivityForResult(signInIntent, RC_SIGN_IN)
-            }
+        connectGoogleButton.setOnClickListener {
+            val signInIntent = (GoogleSignIn.getClient(requireContext(), gso)).signInIntent
+            startActivityForResult(signInIntent, RC_SIGN_IN)
         }
         registerButton.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_registerFragment))
+    }
 
+    override fun onInitObservers() {
+        super.onInitObservers()
         viewModel.authorizeByUsernameOrEmailLiveData.observe(this, Observer {
-            loginButton.isVisible = it != SingleLiveData.State.ON_REQUEST
-            progressBar.isVisible = it == SingleLiveData.State.ON_REQUEST
+            loginButton.isVisible = it != ResourceState.ON_REQUEST
+            progressBar.isVisible = it == ResourceState.ON_REQUEST
 
             when (it.state) {
-                SingleLiveData.State.ON_REQUEST -> Unit
-                SingleLiveData.State.ON_SUCCESS -> startActivity(
-                    Intent(context, MainActivity::class.java).addFlags(
-                        Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                    )
-                )
-                SingleLiveData.State.ON_FAILURE -> handleError(it.error)
+                ResourceState.ON_REQUEST -> Unit
+                ResourceState.ON_SUCCESS -> context?.startActivityClearTask(MainActivity::class.java)
+                ResourceState.ON_FAILURE -> handleError(it.error)
             }
         })
 
         viewModel.authorizeByThirdPartyLiveData.observe(this, Observer {
-            loginButton.isVisible = it != SingleLiveData.State.ON_REQUEST
-            progressBar.isVisible = it == SingleLiveData.State.ON_REQUEST
+            loginButton.isVisible = it != ResourceState.ON_REQUEST
+            progressBar.isVisible = it == ResourceState.ON_REQUEST
 
             when (it.state) {
-                SingleLiveData.State.ON_REQUEST -> Unit
-                SingleLiveData.State.ON_SUCCESS -> startActivity(
-                    Intent(context, MainActivity::class.java).addFlags(
-                        Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                    )
-                )
-                SingleLiveData.State.ON_FAILURE -> handleError(it.error)
+                ResourceState.ON_REQUEST -> Unit
+                ResourceState.ON_SUCCESS -> context?.startActivityClearTask(MainActivity::class.java)
+                ResourceState.ON_FAILURE -> handleError(it.error)
             }
         })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
