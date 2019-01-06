@@ -5,14 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.lukma.clean.domain.common.UseCase
 
-class SingleLiveData<Entity>(private val useCase: UseCase<*>) : MutableLiveData<Entity>() {
-    @Suppress("UNCHECKED_CAST")
-    fun execute(
-        params: Map<String, Any?> = emptyMap(),
-        transformer: (Any?) -> Entity = { it as Entity }
-    ) = useCase.execute(
+class SingleLiveData<Entity>(private val useCase: UseCase<Entity>) : MutableLiveData<Entity>() {
+    fun execute(params: Map<String, Any?> = emptyMap()) = useCase.execute(
         params = params,
-        onSuccess = { postValue(transformer(it)) }
+        onSuccess = { postValue(it) }
     )
 
     override fun observe(owner: LifecycleOwner, observer: Observer<in Entity>) {

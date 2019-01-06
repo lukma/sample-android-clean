@@ -8,7 +8,7 @@ import androidx.paging.PagedList
 import com.lukma.clean.domain.common.UseCase
 import com.lukma.clean.domain.common.UseCaseConstant
 
-class PagedLiveData<Entity>(private val useCase: UseCase<List<Entity>>, limit: Int = 10) {
+class PagedBuilder<Entity>(private val useCase: UseCase<List<Entity>>, limit: Int = 10) {
     private val pagedDataFactory = Factory()
     private val pagedListConfig = PagedList.Config.Builder()
         .setEnablePlaceholders(false)

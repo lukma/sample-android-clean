@@ -22,19 +22,19 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
             adapter = recyclerAdapter
         }
         swipeRefresh.setOnRefreshListener {
-            viewModel.getListOfContentLiveData.reload()
+            viewModel.getListOfContentBuilder.reload()
         }
     }
 
     override fun onInitObservers() {
         super.onInitObservers()
-        viewModel.getListOfContentLiveData.state.observe(this, Observer {
+        viewModel.getListOfContentBuilder.state.observe(this, Observer {
             recyclerAdapter.currentState = it
         })
-        viewModel.getListOfContentLiveData.data.observe(this, Observer {
+        viewModel.getListOfContentBuilder.data.observe(this, Observer {
             swipeRefresh.isRefreshing = false
             recyclerAdapter.submitList(it)
         })
-        viewModel.getListOfContentLiveData.error.observe(this, Observer(this::handleError))
+        viewModel.getListOfContentBuilder.error.observe(this, Observer(this::handleError))
     }
 }

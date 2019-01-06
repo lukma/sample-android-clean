@@ -1,6 +1,6 @@
 package com.lukma.clean.ui.splash
 
-import android.app.Activity
+import androidx.lifecycle.Transformations
 import com.lukma.clean.domain.auth.interactor.IsAuthenticatedUseCase
 import com.lukma.clean.ui.auth.AuthActivity
 import com.lukma.clean.ui.common.SingleLiveData
@@ -13,7 +13,10 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 class SplashViewModel(isAuthenticatedUseCase: IsAuthenticatedUseCase) : BaseViewModel() {
-    internal val launchToNextScreenLiveData = SingleLiveData<Class<out Activity>>(isAuthenticatedUseCase)
+    private val isAuthenticatedLiveData = SingleLiveData(isAuthenticatedUseCase)
+    internal val launchToNextScreenLiveData = Transformations.map(isAuthenticatedLiveData) {
+        if (it) MainActivity::class.java else AuthActivity::class.java
+    }
 
     init {
         delayToNextScreen()
@@ -27,8 +30,6 @@ class SplashViewModel(isAuthenticatedUseCase: IsAuthenticatedUseCase) : BaseView
     }
 
     private fun isAuthenticated() {
-        launchToNextScreenLiveData.execute {
-            if (it as Boolean) MainActivity::class.java else AuthActivity::class.java
-        }.addToJob()
+        isAuthenticatedLiveData.execute().addToJob()
     }
 }

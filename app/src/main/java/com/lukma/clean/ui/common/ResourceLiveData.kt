@@ -7,17 +7,13 @@ import com.lukma.clean.domain.common.UseCase
 import kotlinx.coroutines.Job
 
 class ResourceLiveData<Entity>(
-    private val useCase: UseCase<*>
+    private val useCase: UseCase<Entity>
 ) : MutableLiveData<ResourceLiveData.Resource<Entity>>() {
-    @Suppress("UNCHECKED_CAST")
-    fun execute(
-        params: Map<String, Any?> = emptyMap(),
-        transformer: (Any?) -> Entity = { it as Entity }
-    ): Job? {
+    fun execute(params: Map<String, Any?> = emptyMap()): Job {
         postValue(Resource(State.ON_REQUEST))
         return useCase.execute(
             params = params,
-            onSuccess = { postValue(Resource(State.ON_SUCCESS, data = transformer(it))) },
+            onSuccess = { postValue(Resource(State.ON_SUCCESS, data = it)) },
             onError = { postValue(Resource(State.ON_FAILURE, error = it)) }
         )
     }

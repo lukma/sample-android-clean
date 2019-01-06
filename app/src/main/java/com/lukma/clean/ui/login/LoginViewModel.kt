@@ -11,20 +11,20 @@ class LoginViewModel(
     authorizeByUsernameOrEmailUseCase: AuthorizeByUsernameOrEmailUseCase,
     authorizeByThirdPartyUseCase: AuthorizeByThirdPartyUseCase
 ) : BaseViewModel() {
-    internal val authorizeByUsernameOrEmailLiveData = ResourceLiveData<Unit>(authorizeByUsernameOrEmailUseCase)
-    internal val authorizeByThirdPartyLiveData = ResourceLiveData<Unit>(authorizeByThirdPartyUseCase)
+    internal val authorizeByUsernameOrEmailLiveData = ResourceLiveData(authorizeByUsernameOrEmailUseCase)
+    internal val authorizeByThirdPartyLiveData = ResourceLiveData(authorizeByThirdPartyUseCase)
 
     fun authorize(usernameOrEmail: String, password: String) {
         authorizeByUsernameOrEmailLiveData.execute(mapOf(
             UseCaseConstant.USERNAME to usernameOrEmail,
             UseCaseConstant.PASSWORD to password
-        ))?.addToJob()
+        )).addToJob()
     }
 
     fun authorize(thirdParty: ThirdParty, token: String?) {
         authorizeByThirdPartyLiveData.execute(mapOf(
             UseCaseConstant.THIRD_PARTY to thirdParty,
             UseCaseConstant.TOKEN to token
-        ))?.addToJob()
+        )).addToJob()
     }
 }
