@@ -17,7 +17,7 @@ abstract class BasePagedAdapter<Entity, ItemHolder : RecyclerView.ViewHolder>(
         private const val TYPE_ITEM = 1
     }
 
-    var currentState = PagedLiveData.State.NONE
+    internal var currentState = PagedLiveData.State.NONE
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = when (viewType) {
         TYPE_PROGRESS -> ProgressHolder(LayoutInflater
@@ -37,12 +37,12 @@ abstract class BasePagedAdapter<Entity, ItemHolder : RecyclerView.ViewHolder>(
 
     abstract fun onBindItemHolder(holder: ItemHolder, position: Int): Unit?
 
-    override fun getItemCount() = super.getItemCount() + if (hasFooter()) 1 else 0
+    override fun getItemCount() = super.getItemCount() + if (isOnLoad()) 1 else 0
 
-    override fun getItemViewType(position: Int) = if (hasFooter() && position == itemCount - 1)
+    override fun getItemViewType(position: Int) = if (isOnLoad() && position == itemCount - 1)
         TYPE_PROGRESS else TYPE_ITEM
 
-    private fun hasFooter() = currentState == PagedLiveData.State.ON_NEXT_REQUEST
+    private fun isOnLoad() = currentState == PagedLiveData.State.ON_NEXT_REQUEST
 
     class ProgressHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

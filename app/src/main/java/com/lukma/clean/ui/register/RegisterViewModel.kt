@@ -6,7 +6,7 @@ import com.lukma.clean.ui.common.ResourceLiveData
 import com.lukma.clean.ui.common.base.BaseViewModel
 
 class RegisterViewModel(registerUseCase: RegisterUseCase) : BaseViewModel() {
-    internal val registerLiveData = ResourceLiveData(registerUseCase)
+    internal val registerLiveData = ResourceLiveData<Unit>(registerUseCase)
 
     fun register(username: String, password: String, fullName: String, email: String) {
         registerLiveData.execute(mapOf(

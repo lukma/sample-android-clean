@@ -6,14 +6,19 @@ import androidx.lifecycle.Observer
 import com.lukma.clean.domain.common.UseCase
 import kotlinx.coroutines.Job
 
-class ResourceLiveData<Entity>(private val useCase: UseCase<Entity>) : MutableLiveData<Resource<Entity>>() {
-
-    fun execute(params: Map<String, Any?> = emptyMap()): Job? {
-        postValue(Resource(ResourceState.ON_REQUEST))
+class ResourceLiveData<Entity>(
+    private val useCase: UseCase<*>
+) : MutableLiveData<ResourceLiveData.Resource<Entity>>() {
+    @Suppress("UNCHECKED_CAST")
+    fun execute(
+        params: Map<String, Any?> = emptyMap(),
+        transformer: (Any?) -> Entity = { it as Entity }
+    ): Job? {
+        postValue(Resource(State.ON_REQUEST))
         return useCase.execute(
-            params,
-            { postValue(Resource(ResourceState.ON_SUCCESS, data = it)) },
-            { postValue(Resource(ResourceState.ON_FAILURE, error = it)) }
+            params = params,
+            onSuccess = { postValue(Resource(State.ON_SUCCESS, data = transformer(it))) },
+            onError = { postValue(Resource(State.ON_FAILURE, error = it)) }
         )
     }
 
@@ -25,5 +30,17 @@ class ResourceLiveData<Entity>(private val useCase: UseCase<Entity>) : MutableLi
                 value = null
             })
         }
+    }
+
+    data class Resource<Entity>(
+        val state: State,
+        val data: Entity? = null,
+        val error: Throwable? = null
+    )
+
+    enum class State {
+        ON_REQUEST,
+        ON_SUCCESS,
+        ON_FAILURE
     }
 }

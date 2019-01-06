@@ -4,17 +4,16 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.lukma.clean.domain.common.UseCase
-import kotlinx.coroutines.Job
 
-class SingleLiveData<Entity>(private val useCase: UseCase<Entity>) : MutableLiveData<Entity>() {
-
-    fun execute(params: Map<String, Any?> = emptyMap()): Job? {
-        return useCase.execute(
-            params,
-            { postValue(it) },
-            { it.printStackTrace() }
-        )
-    }
+class SingleLiveData<Entity>(private val useCase: UseCase<*>) : MutableLiveData<Entity>() {
+    @Suppress("UNCHECKED_CAST")
+    fun execute(
+        params: Map<String, Any?> = emptyMap(),
+        transformer: (Any?) -> Entity = { it as Entity }
+    ) = useCase.execute(
+        params = params,
+        onSuccess = { postValue(transformer(it)) }
+    )
 
     override fun observe(owner: LifecycleOwner, observer: Observer<in Entity>) {
         if (!hasObservers()) {

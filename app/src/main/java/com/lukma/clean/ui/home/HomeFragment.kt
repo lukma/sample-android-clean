@@ -4,7 +4,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lukma.clean.R
 import com.lukma.clean.extensions.handleError
-import com.lukma.clean.ui.common.PagedLiveData
 import com.lukma.clean.ui.common.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -23,19 +22,19 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
             adapter = recyclerAdapter
         }
         swipeRefresh.setOnRefreshListener {
-            viewModel.liveData.reload()
+            viewModel.getListOfContentLiveData.reload()
         }
     }
 
     override fun onInitObservers() {
         super.onInitObservers()
-        viewModel.liveData.state.observe(this, Observer {
-            swipeRefresh.isRefreshing = it == PagedLiveData.State.ON_FIRST_REQUEST
+        viewModel.getListOfContentLiveData.state.observe(this, Observer {
             recyclerAdapter.currentState = it
         })
-        viewModel.liveData.data.observe(this, Observer {
+        viewModel.getListOfContentLiveData.data.observe(this, Observer {
+            swipeRefresh.isRefreshing = false
             recyclerAdapter.submitList(it)
         })
-        viewModel.liveData.error.observe(this, Observer(this::handleError))
+        viewModel.getListOfContentLiveData.error.observe(this, Observer(this::handleError))
     }
 }

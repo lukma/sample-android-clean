@@ -17,7 +17,7 @@ import com.lukma.clean.domain.auth.entity.ThirdParty
 import com.lukma.clean.extensions.handleError
 import com.lukma.clean.extensions.hideKeyboard
 import com.lukma.clean.extensions.startActivityClearTask
-import com.lukma.clean.ui.common.ResourceState
+import com.lukma.clean.ui.common.ResourceLiveData
 import com.lukma.clean.ui.common.base.BaseFragment
 import com.lukma.clean.ui.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -69,24 +69,24 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
     override fun onInitObservers() {
         super.onInitObservers()
         viewModel.authorizeByUsernameOrEmailLiveData.observe(this, Observer {
-            loginButton.isVisible = it != ResourceState.ON_REQUEST
-            progressBar.isVisible = it == ResourceState.ON_REQUEST
+            loginButton.isVisible = it != ResourceLiveData.State.ON_REQUEST
+            progressBar.isVisible = it == ResourceLiveData.State.ON_REQUEST
 
             when (it.state) {
-                ResourceState.ON_REQUEST -> Unit
-                ResourceState.ON_SUCCESS -> context?.startActivityClearTask(MainActivity::class.java)
-                ResourceState.ON_FAILURE -> handleError(it.error)
+                ResourceLiveData.State.ON_REQUEST -> Unit
+                ResourceLiveData.State.ON_SUCCESS -> context?.startActivityClearTask(MainActivity::class.java)
+                ResourceLiveData.State.ON_FAILURE -> handleError(it.error)
             }
         })
 
         viewModel.authorizeByThirdPartyLiveData.observe(this, Observer {
-            loginButton.isVisible = it != ResourceState.ON_REQUEST
-            progressBar.isVisible = it == ResourceState.ON_REQUEST
+            loginButton.isVisible = it != ResourceLiveData.State.ON_REQUEST
+            progressBar.isVisible = it == ResourceLiveData.State.ON_REQUEST
 
             when (it.state) {
-                ResourceState.ON_REQUEST -> Unit
-                ResourceState.ON_SUCCESS -> context?.startActivityClearTask(MainActivity::class.java)
-                ResourceState.ON_FAILURE -> handleError(it.error)
+                ResourceLiveData.State.ON_REQUEST -> Unit
+                ResourceLiveData.State.ON_SUCCESS -> context?.startActivityClearTask(MainActivity::class.java)
+                ResourceLiveData.State.ON_FAILURE -> handleError(it.error)
             }
         })
     }

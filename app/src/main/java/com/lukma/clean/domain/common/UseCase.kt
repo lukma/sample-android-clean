@@ -8,7 +8,7 @@ abstract class UseCase<Entity> {
     fun execute(
         params: Map<String, Any?> = emptyMap(),
         onSuccess: (Entity) -> Unit = {},
-        onError: (Throwable) -> Unit = {}
+        onError: (Throwable) -> Unit = { it.printStackTrace() }
     ) = CoroutineScope(Dispatchers.IO).launch(
         CoroutineExceptionHandler { _, exception -> onError(exception) }
     ) {
