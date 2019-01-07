@@ -1,17 +1,25 @@
 package com.lukma.clean.ui.common.base
 
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
-abstract class BaseViewModel : ViewModel() {
-    private var useCaseJob: Job? = null
+abstract class BaseViewModel : ViewModel(), CoroutineScope {
+    private val useCaseJob = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = useCaseJob + Dispatchers.IO
 
     protected fun Job.addToJob() {
-        useCaseJob = this
+        runBlocking<Unit> {
+            supervisorScope {
+                this@addToJob
+            }
+        }
     }
 
     override fun onCleared() {
         super.onCleared()
-        useCaseJob?.cancel()
+        useCaseJob.cancel()
     }
 }

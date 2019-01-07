@@ -6,8 +6,6 @@ import com.lukma.clean.ui.auth.AuthActivity
 import com.lukma.clean.ui.common.SingleLiveData
 import com.lukma.clean.ui.common.base.BaseViewModel
 import com.lukma.clean.ui.main.MainActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
@@ -23,7 +21,7 @@ class SplashViewModel(isAuthenticatedUseCase: IsAuthenticatedUseCase) : BaseView
     }
 
     private fun delayToNextScreen() {
-        CoroutineScope(Dispatchers.Main).launch {
+        launch {
             delay(TimeUnit.SECONDS.toSeconds(3))
             isAuthenticated()
         }.addToJob()

@@ -25,25 +25,23 @@ This project structure:
 ```
 data/
     feature/
+        entity/
+            request
+                FeatureRequest.kt
+            response/
+                FeatureResponse.kt
+            table/
+                FeatureTable.kt
+        FeatureApi.kt
+        FeatureDao.kt
+        FeatureDataRepository.kt
+domain/
+    feature/
+        entity/
+            FeatureEntity.kt
         interactor
             FeatureUseCase.kt
-        store/
-            cloud/
-                response/
-                    FeatureResponse.kt
-                FeatureApi.kt
-                FeatureCloudStore.kt
-            database/
-                FeatureDao.kt
-                FeatureDatabaseStore.kt
-                FeatureTable.kt
-            FeatureStoreFactory.kt
-        FeatureEntity.kt
         FeatureRepository.kt
-        FeatureRepositoryImpl.kt
-di/
-    AppComponent.kt
-    AppModule.kt
 ui/
     feature/
         FeatureActivity.kt
