@@ -5,8 +5,7 @@ import com.lukma.clean.data.content.entity.table.ContentTable
 import com.lukma.clean.domain.content.entity.Content
 
 object ContentMapper {
-
-    fun transform(values: GetContentsResponse) = values.data.map {
+    fun transformToEntity(values: GetContentsResponse) = values.data.map {
         Content(
             it.id,
             it.title,
@@ -15,7 +14,16 @@ object ContentMapper {
         )
     }
 
-    fun transform(values: List<Content>) = values.map {
+    fun transformToEntity(values: List<ContentTable>) = values.map {
+        Content(
+            it.id,
+            it.title,
+            it.thumbnail,
+            it.content
+        )
+    }
+
+    fun transformToTable(values: List<Content>) = values.map {
         ContentTable(
             it.id,
             it.title,
