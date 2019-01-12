@@ -9,6 +9,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/usernameInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -25,6 +26,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="@+id/usernameInputLayout"
@@ -41,13 +43,9 @@
 
     <Button
         android:id="@+id/loginButton"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:drawableEnd="@drawable/ic_arrow_forward_black_24dp"
-        android:drawablePadding="8dp"
-        android:drawableTint="?colorAccent"
         android:text="@string/button_login"
         app:layout_constraintRight_toRightOf="@+id/passwordInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/passwordInputLayout" />
@@ -60,8 +58,8 @@
         android:indeterminate="true"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/loginButton"
+        app:layout_constraintLeft_toLeftOf="@+id/loginButton"
         app:layout_constraintRight_toRightOf="@id/loginButton"
-        app:layout_constraintTop_toBottomOf="@+id/loginButton"
         app:layout_constraintTop_toTopOf="@id/loginButton" />
 
     <TextView
@@ -74,23 +72,27 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginButton" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <Button
         android:id="@+id/connectFacebookButton"
+        style="@style/Widget.MaterialComponents.Button.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:src="@drawable/com_facebook_button_icon"
+        android:text="@string/button_facebook"
+        app:icon="@drawable/com_facebook_button_icon"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/connectGoogleButton"
         app:layout_constraintTop_toBottomOf="@+id/offerConnectTextView" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <Button
         android:id="@+id/connectGoogleButton"
+        style="@style/Widget.MaterialComponents.Button.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/googleg_standard_color_18"
+        android:text="@string/button_google"
+        app:icon="@drawable/googleg_standard_color_18"
         app:layout_constraintLeft_toRightOf="@+id/connectFacebookButton"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/connectFacebookButton" />
@@ -108,7 +110,7 @@
 
     <Button
         android:id="@+id/registerButton"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableTint="?colorAccent"

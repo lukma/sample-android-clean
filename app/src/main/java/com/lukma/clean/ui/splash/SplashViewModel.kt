@@ -24,10 +24,10 @@ class SplashViewModel(isAuthenticatedUseCase: IsAuthenticatedUseCase) : BaseView
         launch {
             delay(TimeUnit.SECONDS.toSeconds(3))
             isAuthenticated()
-        }.addToJob()
+        }.runBySupervisor()
     }
 
     private fun isAuthenticated() {
-        isAuthenticatedLiveData.execute().addToJob()
+        isAuthenticatedLiveData.execute().runBySupervisor()
     }
 }

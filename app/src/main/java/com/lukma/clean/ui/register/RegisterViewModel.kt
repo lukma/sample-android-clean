@@ -14,6 +14,6 @@ class RegisterViewModel(registerUseCase: RegisterUseCase) : BaseViewModel() {
             UseCaseConstant.PASSWORD to password,
             UseCaseConstant.FULLNAME to fullName,
             UseCaseConstant.EMAIL to email
-        )).addToJob()
+        )).runBySupervisor()
     }
 }

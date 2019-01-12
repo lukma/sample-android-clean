@@ -18,13 +18,13 @@ class LoginViewModel(
         authorizeByUsernameOrEmailLiveData.execute(mapOf(
             UseCaseConstant.USERNAME to usernameOrEmail,
             UseCaseConstant.PASSWORD to password
-        )).addToJob()
+        )).runBySupervisor()
     }
 
     fun authorize(thirdParty: ThirdParty, token: String?) {
         authorizeByThirdPartyLiveData.execute(mapOf(
             UseCaseConstant.THIRD_PARTY to thirdParty,
             UseCaseConstant.TOKEN to token
-        )).addToJob()
+        )).runBySupervisor()
     }
 }

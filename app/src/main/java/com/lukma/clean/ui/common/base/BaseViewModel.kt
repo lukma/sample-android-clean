@@ -10,10 +10,10 @@ abstract class BaseViewModel : ViewModel(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = useCaseJob + Dispatchers.IO
 
-    protected fun Job.addToJob() {
+    protected fun Job.runBySupervisor() {
         runBlocking<Unit> {
             supervisorScope {
-                this@addToJob
+                this@runBySupervisor
             }
         }
     }

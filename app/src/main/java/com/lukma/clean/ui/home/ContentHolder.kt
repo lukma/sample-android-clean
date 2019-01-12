@@ -1,9 +1,15 @@
 package com.lukma.clean.ui.home
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.lukma.clean.R
 import com.lukma.clean.domain.content.entity.Content
 import com.lukma.clean.ui.common.module.GlideApp
@@ -26,6 +32,7 @@ class ContentHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private val thumbnailImageView = itemView.thumbnailImageView
     private val contentTextView = itemView.contentTextView
+    private val progressBar = itemView.progressBar
 
     fun onCreate(onClickItemListener: (Content) -> Unit) {
         itemView.setOnClickListener { item?.let(onClickItemListener) }
@@ -33,7 +40,33 @@ class ContentHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun onBind(item: Content) {
         this.item = item
-        GlideApp.with(itemView).load(item.thumbnail).into(thumbnailImageView)
+        GlideApp.with(itemView)
+            .load(item.thumbnail)
+            .error(R.drawable.ic_broken_image_black_24dp)
+            .listener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    progressBar.isVisible = false
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    progressBar.isVisible = false
+                    return false
+                }
+
+            })
+            .into(thumbnailImageView)
         contentTextView.text = item.content
     }
 }

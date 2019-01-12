@@ -12,7 +12,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
     override val resourceLayout = R.layout.activity_main
     override val viewModel by viewModel<MainViewModel>()
 
-    override fun onCreateNavController() = NavHostFragment.findNavController(hostFragment)
+    override fun onCreateNavController() = hostFragment as NavHostFragment
 
     override fun onInitViews() {
         super.onInitViews()

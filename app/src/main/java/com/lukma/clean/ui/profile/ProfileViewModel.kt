@@ -8,6 +8,6 @@ class ProfileViewModel(logoutUseCase: LogoutUseCase) : BaseViewModel() {
     internal val logoutLiveData = SingleLiveData(logoutUseCase)
 
     fun logout() {
-        logoutLiveData.execute().addToJob()
+        logoutLiveData.execute().runBySupervisor()
     }
 }
