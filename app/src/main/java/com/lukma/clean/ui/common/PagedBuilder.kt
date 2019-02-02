@@ -52,7 +52,7 @@ class PagedBuilder<Entity>(private val useCase: UseCase<List<Entity>>, limit: In
                 useCase.execute(
                     params = mapOf(
                         UseCaseConstant.LIMIT to params.requestedLoadSize,
-                        UseCaseConstant.OFFSET to 0
+                        UseCaseConstant.OFFSET to params.key.toInt()
                     ),
                     onSuccess = {
                         val next = if (params.requestedLoadSize == it.size) params.requestedLoadSize else null
