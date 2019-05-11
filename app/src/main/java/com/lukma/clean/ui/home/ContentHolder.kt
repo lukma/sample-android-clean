@@ -12,22 +12,11 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.lukma.clean.R
 import com.lukma.clean.domain.content.entity.Content
+import com.lukma.clean.extensions.inflate
 import com.lukma.clean.ui.common.module.GlideApp
 import kotlinx.android.synthetic.main.item_content.view.*
 
 class ContentHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    companion object {
-        fun newInstance(
-            parent: ViewGroup,
-            onClickItemListener: (Content) -> Unit
-        ) = ContentHolder(LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.item_content, parent, false)
-        ).apply {
-            onCreate(onClickItemListener)
-        }
-    }
-
     private var item: Content? = null
 
     private val thumbnailImageView = itemView.thumbnailImageView
@@ -68,5 +57,12 @@ class ContentHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             })
             .into(thumbnailImageView)
         contentTextView.text = item.content
+    }
+
+    companion object {
+        fun newInstance(parent: ViewGroup, onClickItemListener: (Content) -> Unit) =
+            ContentHolder(parent.inflate(R.layout.item_content)).apply {
+                onCreate(onClickItemListener)
+            }
     }
 }

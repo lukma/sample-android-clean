@@ -9,7 +9,9 @@ import com.lukma.clean.data.common.module.roomModule
 import com.lukma.clean.domain.common.module.useCaseModule
 import com.lukma.clean.ui.common.module.appModule
 import com.lukma.clean.ui.common.module.viewModelModule
-import org.koin.android.ext.android.startKoin
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
 class AndroidApp : MultiDexApplication() {
     override fun onCreate() {
@@ -17,14 +19,18 @@ class AndroidApp : MultiDexApplication() {
 
         Stetho.initializeWithDefaults(this)
 
-        startKoin(this, listOf(
-            appModule,
-            roomModule,
-            networkModule,
-            apiModule,
-            dataModule,
-            useCaseModule,
-            viewModelModule
-        ))
+        startKoin {
+            androidLogger()
+            androidContext(this@AndroidApp)
+            listOf(
+                appModule,
+                roomModule,
+                networkModule,
+                apiModule,
+                dataModule,
+                useCaseModule,
+                viewModelModule
+            )
+        }
     }
 }

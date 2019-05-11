@@ -4,7 +4,7 @@ import androidx.room.Room
 import com.lukma.clean.BuildConfig
 import com.lukma.clean.data.AppDatabase
 import org.koin.android.ext.koin.androidContext
-import org.koin.dsl.module.module
+import org.koin.dsl.module
 
 val roomModule = module {
     single {

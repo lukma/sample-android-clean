@@ -5,10 +5,10 @@ import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PageKeyedDataSource
 import androidx.paging.PagedList
-import com.lukma.clean.domain.common.UseCase
+import com.lukma.clean.domain.common.base.BaseDeferredUseCase
 import com.lukma.clean.domain.common.UseCaseConstant
 
-class PagedBuilder<Entity>(private val useCase: UseCase<List<Entity>>, limit: Int = 10) {
+class PagedBuilder<Entity>(private val useCase: BaseDeferredUseCase<List<Entity>>, limit: Int = 10) {
     private val pagedDataFactory = Factory()
     private val pagedListConfig = PagedList.Config.Builder()
         .setEnablePlaceholders(false)
@@ -37,7 +37,8 @@ class PagedBuilder<Entity>(private val useCase: UseCase<List<Entity>>, limit: In
                         UseCaseConstant.OFFSET to 0
                     ),
                     onSuccess = {
-                        val next = if (params.requestedLoadSize == it.size) params.requestedLoadSize else null
+                        val next =
+                            if (params.requestedLoadSize == it.size) params.requestedLoadSize else null
                         callback.onResult(it, null, next?.toLong())
                     },
                     onError = {
@@ -55,7 +56,8 @@ class PagedBuilder<Entity>(private val useCase: UseCase<List<Entity>>, limit: In
                         UseCaseConstant.OFFSET to params.key.toInt()
                     ),
                     onSuccess = {
-                        val next = if (params.requestedLoadSize == it.size) params.requestedLoadSize else null
+                        val next =
+                            if (params.requestedLoadSize == it.size) params.requestedLoadSize else null
                         callback.onResult(it, next?.toLong())
                     },
                     onError = {
@@ -65,7 +67,11 @@ class PagedBuilder<Entity>(private val useCase: UseCase<List<Entity>>, limit: In
                 )
             }
 
-            override fun loadBefore(params: LoadParams<Long>, callback: LoadCallback<Long, Entity>) {}
+            override fun loadBefore(
+                params: LoadParams<Long>,
+                callback: LoadCallback<Long, Entity>
+            ) {
+            }
         }
     }
 

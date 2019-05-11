@@ -5,10 +5,10 @@ import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 abstract class BaseViewModel : ViewModel(), CoroutineScope {
-    private val useCaseJob = Job()
+    private val supervisorJob = Job()
 
     override val coroutineContext: CoroutineContext
-        get() = useCaseJob + Dispatchers.IO
+        get() = supervisorJob + Dispatchers.IO
 
     protected fun Job.runBySupervisor() {
         runBlocking<Unit> {
@@ -19,7 +19,6 @@ abstract class BaseViewModel : ViewModel(), CoroutineScope {
     }
 
     override fun onCleared() {
-        super.onCleared()
-        useCaseJob.cancel()
+        supervisorJob.cancel()
     }
 }

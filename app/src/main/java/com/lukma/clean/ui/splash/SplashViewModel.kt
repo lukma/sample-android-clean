@@ -1,7 +1,7 @@
 package com.lukma.clean.ui.splash
 
 import androidx.lifecycle.Transformations
-import com.lukma.clean.domain.auth.interactor.IsAuthenticatedUseCase
+import com.lukma.clean.domain.auth.usecase.IsAuthenticatedUseCase
 import com.lukma.clean.ui.auth.AuthActivity
 import com.lukma.clean.ui.common.SingleLiveData
 import com.lukma.clean.ui.common.base.BaseViewModel

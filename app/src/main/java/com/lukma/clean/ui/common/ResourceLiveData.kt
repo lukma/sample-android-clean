@@ -3,12 +3,12 @@ package com.lukma.clean.ui.common
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.lukma.clean.domain.common.UseCase
+import com.lukma.clean.domain.common.base.BaseDeferredUseCase
 import kotlinx.coroutines.Job
 
-class ResourceLiveData<Entity>(
-    private val useCase: UseCase<Entity>
-) : MutableLiveData<ResourceLiveData.Resource<Entity>>() {
+class ResourceLiveData<Entity>(private val useCase: BaseDeferredUseCase<Entity>) :
+    MutableLiveData<Resource<Entity>>() {
+
     fun execute(params: Map<String, Any?> = emptyMap()): Job {
         postValue(Resource(State.ON_REQUEST))
         return useCase.execute(
@@ -26,17 +26,5 @@ class ResourceLiveData<Entity>(
                 value = null
             })
         }
-    }
-
-    data class Resource<Entity>(
-        val state: State,
-        val data: Entity? = null,
-        val error: Throwable? = null
-    )
-
-    enum class State {
-        ON_REQUEST,
-        ON_SUCCESS,
-        ON_FAILURE
     }
 }

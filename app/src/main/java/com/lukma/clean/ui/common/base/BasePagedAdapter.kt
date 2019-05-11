@@ -1,28 +1,19 @@
 package com.lukma.clean.ui.common.base
 
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.lukma.clean.R
 import com.lukma.clean.ui.common.PagedBuilder
+import com.lukma.clean.ui.common.ProgressHolder
 
 abstract class BasePagedAdapter<Entity, ItemHolder : RecyclerView.ViewHolder>(
     diffCallback: DiffUtil.ItemCallback<Entity>
 ) : PagedListAdapter<Entity, RecyclerView.ViewHolder>(diffCallback) {
-    companion object {
-        private const val TYPE_PROGRESS = 0
-        private const val TYPE_ITEM = 1
-    }
-
     internal var currentState = PagedBuilder.State.NONE
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = when (viewType) {
-        TYPE_PROGRESS -> ProgressHolder(LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.item_loading, parent, false))
+        TYPE_PROGRESS -> ProgressHolder.newInstance(parent)
         else -> onCreateItemHolder(parent, viewType)
     }
 
@@ -44,5 +35,8 @@ abstract class BasePagedAdapter<Entity, ItemHolder : RecyclerView.ViewHolder>(
 
     private fun isOnLoad() = currentState == PagedBuilder.State.ON_NEXT_REQUEST
 
-    class ProgressHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    companion object {
+        private const val TYPE_PROGRESS = 0
+        private const val TYPE_ITEM = 1
+    }
 }

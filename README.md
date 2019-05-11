@@ -12,7 +12,7 @@ This project explain how to implement clean architecture at android application 
 
 This project dependencies:
 
-* [dagger 2](https://github.com/google/dagger) is a dependency to handle dependency injection.
+* [InsertKoin](https://insert-koin.io) is a dependency to handle dependency injection.
 * [Jackson Json](https://github.com/FasterXML/jackson) is a dependency to handle map object from json.
 * [retrofit 2](https://github.com/square/retrofit) is a dependency to handle network transaction.
 * [android arch lifecycle](https://developer.android.com/topic/libraries/architecture/livedata) is a dependency to handle lifecycle android application using MVVM.
@@ -25,22 +25,21 @@ This project structure:
 ```
 data/
     feature/
-        entity/
-            request
+        cloud/
+            FeatureApi.kt
+            request/
                 FeatureRequest.kt
             response/
                 FeatureResponse.kt
-            table/
-                FeatureTable.kt
-        FeatureApi.kt
-        FeatureDao.kt
+        local/
+            FeatureTable.kt
+            FeatureDao.kt
         FeatureDataRepository.kt
 domain/
     feature/
-        entity/
-            FeatureEntity.kt
-        interactor
+        usecase/
             FeatureUseCase.kt
+        FeatureEntity.kt
         FeatureRepository.kt
 ui/
     feature/

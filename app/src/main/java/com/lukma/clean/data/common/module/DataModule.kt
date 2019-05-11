@@ -6,7 +6,7 @@ import com.lukma.clean.data.preference.PreferenceDataRepository
 import com.lukma.clean.domain.auth.AuthRepository
 import com.lukma.clean.domain.content.ContentRepository
 import com.lukma.clean.domain.preference.PreferenceRepository
-import org.koin.dsl.module.module
+import org.koin.dsl.module
 
 val dataModule = module {
     single<PreferenceRepository> { PreferenceDataRepository(get()) }

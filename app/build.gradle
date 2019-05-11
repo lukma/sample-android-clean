@@ -30,19 +30,19 @@ android {
         }
     }
 
-    flavorDimensions "devFlavor", "prodFlavor"
+    flavorDimensions "environment"
 
     productFlavors {
-        devFlavor {
-            dimension "devFlavor"
+        dev {
+            dimension "environment"
             buildConfigField 'String', 'BASE_URL', '"http://10.0.2.2:8080/api/"'
             buildConfigField 'String', 'BASIC_AUTH_VALUE', '"Basic bHVrbWE6Z2VsYWRhazc="'
         }
 
-        prodFlavor {
-            dimension "prodFlavor"
-            buildConfigField 'String', 'BASE_URL', '"http://10.0.2.2:8080/api/"'
-            buildConfigField 'String', 'BASIC_AUTH_VALUE', '"Basic bHVrbWE6Z2VsYWRhazc="'
+        production {
+            dimension "environment"
+            buildConfigField 'String', 'BASE_URL', '""'
+            buildConfigField 'String', 'BASIC_AUTH_VALUE', '""'
         }
     }
 }
@@ -59,12 +59,12 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
-    implementation 'com.google.firebase:firebase-core:16.0.6'
-    implementation 'com.google.firebase:firebase-messaging:17.3.4'
-    implementation 'com.google.firebase:firebase-auth:16.1.0'
+    implementation 'com.google.firebase:firebase-core:16.0.9'
+    implementation 'com.google.firebase:firebase-messaging:18.0.0'
+    implementation 'com.google.firebase:firebase-auth:17.0.0'
 
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.0'
 
     implementation "org.koin:koin-android:$koin_version"
     implementation "org.koin:koin-androidx-scope:$koin_version"
@@ -79,8 +79,8 @@ dependencies {
     implementation "android.arch.navigation:navigation-fragment-ktx:$navigation_version"
     implementation "android.arch.navigation:navigation-ui-ktx:$navigation_version"
 
-    implementation 'androidx.paging:paging-runtime-ktx:2.1.0-rc01'
-    implementation 'android.arch.work:work-runtime-ktx:1.0.0-beta02'
+    implementation 'androidx.paging:paging-runtime-ktx:2.1.0'
+    implementation 'android.arch.work:work-runtime-ktx:1.0.1'
 
     implementation 'com.facebook.stetho:stetho:1.5.0'
     implementation 'com.facebook.android:facebook-login:4.27.0'

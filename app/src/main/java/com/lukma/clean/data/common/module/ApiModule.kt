@@ -1,21 +1,22 @@
 package com.lukma.clean.data.common.module
 
 import com.lukma.clean.BuildConfig
-import com.lukma.clean.data.auth.AuthApi
-import com.lukma.clean.data.content.ContentApi
-import org.koin.dsl.module.module
+import com.lukma.clean.data.auth.cloud.AuthApi
+import com.lukma.clean.data.content.cloud.ContentApi
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 import retrofit2.Retrofit
 
 val apiModule = module {
     single {
-        get<Retrofit.Builder>(RetrofitType.BASIC_AUTH.value)
+        get<Retrofit.Builder>(named(RetrofitType.BASIC_AUTH.value))
             .baseUrl(BuildConfig.BASE_URL)
             .build()
             .create(AuthApi::class.java)
     }
 
     single {
-        get<Retrofit.Builder>(RetrofitType.BEARER.value)
+        get<Retrofit.Builder>(named(RetrofitType.BEARER.value))
             .baseUrl(BuildConfig.BASE_URL)
             .build()
             .create(ContentApi::class.java)

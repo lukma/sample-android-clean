@@ -1,30 +1,21 @@
 package com.lukma.clean.ui.common.module
 
-import com.lukma.clean.ui.auth.AuthViewModel
 import com.lukma.clean.ui.home.HomeViewModel
 import com.lukma.clean.ui.login.LoginViewModel
-import com.lukma.clean.ui.main.MainViewModel
-import com.lukma.clean.ui.notifications.NotificationsViewModel
 import com.lukma.clean.ui.profile.ProfileViewModel
 import com.lukma.clean.ui.register.RegisterViewModel
 import com.lukma.clean.ui.splash.SplashViewModel
-import org.koin.androidx.viewmodel.experimental.builder.viewModel
-import org.koin.dsl.module.module
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel<SplashViewModel>()
+    viewModel { SplashViewModel(get()) }
 
-    viewModel<AuthViewModel>()
+    viewModel { LoginViewModel(get(), get()) }
 
-    viewModel<LoginViewModel>()
+    viewModel { RegisterViewModel(get()) }
 
-    viewModel<RegisterViewModel>()
+    viewModel { HomeViewModel(get()) }
 
-    viewModel<MainViewModel>()
-
-    viewModel<HomeViewModel>()
-
-    viewModel<NotificationsViewModel>()
-
-    viewModel<ProfileViewModel>()
+    viewModel { ProfileViewModel(get()) }
 }

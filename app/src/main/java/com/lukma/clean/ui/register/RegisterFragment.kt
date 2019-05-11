@@ -6,17 +6,16 @@ import com.lukma.clean.R
 import com.lukma.clean.extensions.handleError
 import com.lukma.clean.extensions.hideKeyboard
 import com.lukma.clean.extensions.showSnackBar
-import com.lukma.clean.ui.common.ResourceLiveData
-import com.lukma.clean.ui.common.base.BaseFragment
+import com.lukma.clean.ui.common.State
+import com.lukma.clean.ui.common.base.BaseFragmentVM
 import kotlinx.android.synthetic.main.fragment_register.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RegisterFragment : BaseFragment<RegisterViewModel>() {
+class RegisterFragment : BaseFragmentVM<RegisterViewModel>() {
     override val resourceLayout = R.layout.fragment_register
     override val viewModel by viewModel<RegisterViewModel>()
 
     override fun onInitViews() {
-        super.onInitViews()
         registerButton.setOnClickListener {
             hideKeyboard()
             viewModel.register(
@@ -29,15 +28,14 @@ class RegisterFragment : BaseFragment<RegisterViewModel>() {
     }
 
     override fun onInitObservers() {
-        super.onInitObservers()
         viewModel.registerLiveData.observe(this, Observer {
-            registerButton.isVisible = it != ResourceLiveData.State.ON_REQUEST
-            progressBar.isVisible = it == ResourceLiveData.State.ON_REQUEST
+            registerButton.isVisible = it.state != State.ON_REQUEST
+            progressBar.isVisible = it.state == State.ON_REQUEST
 
             when (it.state) {
-                ResourceLiveData.State.ON_REQUEST -> Unit
-                ResourceLiveData.State.ON_SUCCESS -> showSnackBar(R.string.message_register_successfully)
-                ResourceLiveData.State.ON_FAILURE -> handleError(it.error)
+                State.ON_REQUEST -> Unit
+                State.ON_SUCCESS -> showSnackBar(R.string.message_register_successfully)
+                State.ON_FAILURE -> handleError(it.error)
             }
         })
     }
