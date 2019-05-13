@@ -5,8 +5,8 @@ import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PageKeyedDataSource
 import androidx.paging.PagedList
-import com.lukma.clean.domain.common.base.BaseDeferredUseCase
 import com.lukma.clean.domain.common.UseCaseConstant
+import com.lukma.clean.domain.common.base.BaseDeferredUseCase
 
 class PagedBuilder<Entity>(private val useCase: BaseDeferredUseCase<List<Entity>>, limit: Int = 10) {
     private val pagedDataFactory = Factory()

@@ -5,22 +5,22 @@ import com.lukma.clean.domain.auth.entity.ThirdParty
 import kotlinx.coroutines.Deferred
 
 interface AuthRepository {
-    fun authorize(usernameOrEmail: String, password: String): Deferred<Unit>
+    suspend fun authorize(usernameOrEmail: String, password: String): Deferred<Unit>
 
-    fun authorize(thirdParty: ThirdParty, token: String): Deferred<Unit>
+    suspend fun authorize(thirdParty: ThirdParty, token: String): Deferred<Unit>
 
-    fun refreshToken(): Deferred<AuthTable>
+    suspend fun refreshToken(): Deferred<AuthTable>
 
-    fun register(
+    suspend fun register(
         username: String,
         password: String,
         fullName: String,
         email: String
     ): Deferred<Unit>
 
-    fun getAuthIsActive(): Deferred<AuthTable>
+    suspend fun getAuthIsActive(): Deferred<AuthTable>
 
-    fun isAuthenticated(): Deferred<Boolean>
+    suspend fun isAuthenticated(): Deferred<Boolean>
 
-    fun logout(): Deferred<Unit>
+    suspend fun logout(): Deferred<Unit>
 }

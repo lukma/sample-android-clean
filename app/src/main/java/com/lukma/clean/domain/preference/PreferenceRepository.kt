@@ -3,7 +3,7 @@ package com.lukma.clean.domain.preference
 import kotlinx.coroutines.Deferred
 
 interface PreferenceRepository {
-    fun saveFcmId(value: String): Deferred<Unit>
+    suspend fun saveFcmId(value: String): Deferred<Unit>
 
-    fun getFcmId(): Deferred<String>
+    suspend fun getFcmId(): Deferred<String>
 }

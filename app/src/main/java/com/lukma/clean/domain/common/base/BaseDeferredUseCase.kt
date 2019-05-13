@@ -8,7 +8,7 @@ abstract class BaseDeferredUseCase<Entity> : CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.IO
 
-    abstract fun build(params: Map<String, Any?> = emptyMap()): Deferred<Entity>
+    abstract suspend fun build(params: Map<String, Any?> = emptyMap()): Deferred<Entity>
 
     fun execute(
         params: Map<String, Any?> = emptyMap(),

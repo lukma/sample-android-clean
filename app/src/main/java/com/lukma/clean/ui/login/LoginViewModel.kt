@@ -1,9 +1,9 @@
 package com.lukma.clean.ui.login
 
+import com.lukma.clean.domain.auth.entity.ThirdParty
 import com.lukma.clean.domain.auth.usecase.AuthorizeByThirdPartyUseCase
 import com.lukma.clean.domain.auth.usecase.AuthorizeByUsernameOrEmailUseCase
 import com.lukma.clean.domain.common.UseCaseConstant
-import com.lukma.clean.domain.auth.entity.ThirdParty
 import com.lukma.clean.ui.common.ResourceLiveData
 import com.lukma.clean.ui.common.base.BaseViewModel
 
