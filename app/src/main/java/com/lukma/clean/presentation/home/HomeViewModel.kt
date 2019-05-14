@@ -22,8 +22,8 @@ class HomeViewModel(private val getListOfContentUseCase: GetListOfContentUseCase
         .setPageSize(LIMIT)
         .build()
 
-    private val networkStateMutable = MutableLiveData<PagedResource<Unit>>()
-    internal val networkState: LiveData<PagedResource<Unit>>
+    private val networkStateMutable = MutableLiveData<PagedResource>()
+    internal val networkState: LiveData<PagedResource>
         get() = networkStateMutable
 
     internal val listOfContent = (LivePagedListBuilder(pagedDataFactory, pagedListConfig)).build()
@@ -60,7 +60,7 @@ class HomeViewModel(private val getListOfContentUseCase: GetListOfContentUseCase
                 }
                 .onError {
                     callback.onResult(emptyList(), null, null)
-                    networkStateMutable.postValue(PagedResource(PagedState.ON_FAILURE, null, it))
+                    networkStateMutable.postValue(PagedResource(PagedState.ON_FAILURE, it))
                 }
                 .execute(viewModelScope)
         }
@@ -81,7 +81,7 @@ class HomeViewModel(private val getListOfContentUseCase: GetListOfContentUseCase
                 }
                 .onError {
                     callback.onResult(emptyList(), null)
-                    networkStateMutable.postValue(PagedResource(PagedState.ON_FAILURE, null, it))
+                    networkStateMutable.postValue(PagedResource(PagedState.ON_FAILURE, it))
                 }
                 .execute(viewModelScope)
         }

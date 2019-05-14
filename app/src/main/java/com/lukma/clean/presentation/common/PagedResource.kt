@@ -1,9 +1,6 @@
 package com.lukma.clean.presentation.common
 
-import androidx.paging.PagedList
-
-data class PagedResource<Entity>(
+data class PagedResource(
     val state: PagedState,
-    val data: PagedList<Entity>? = null,
     val error: Throwable? = null
 )
