@@ -8,7 +8,7 @@ interface AuthDao {
     fun get(username: String): AuthTable
 
     @Query("SELECT * FROM auths WHERE isActive = 1 LIMIT 1")
-    fun getIsActive(): AuthTable
+    fun getIsActive(): AuthTable?
 
     @Query("SELECT * FROM auths")
     fun gets(): List<AuthTable>
