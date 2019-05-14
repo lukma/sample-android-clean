@@ -15,6 +15,7 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         resourceLayout?.let(this::setContentView)
         onInitViews()
+        onInitObservers()
     }
 
     override fun onSupportNavigateUp() = navController?.navigateUp() ?: super.onSupportNavigateUp()
@@ -22,4 +23,6 @@ abstract class BaseActivity : AppCompatActivity() {
     protected open fun onCreateNavController(): NavHostFragment? = null
 
     protected open fun onInitViews() = Unit
+
+    protected open fun onInitObservers() = Unit
 }

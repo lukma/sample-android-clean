@@ -35,6 +35,7 @@ abstract class BasePagedListAdapter<Entity, ItemHolder : RecyclerView.ViewHolder
     override fun getItemViewType(position: Int) = if (isOnLoad() && position == itemCount - 1)
         TYPE_PROGRESS else TYPE_ITEM
 
+    @Suppress("MemberVisibilityCanBePrivate")
     protected fun onCreateProgressHolder(parent: ViewGroup) = ProgressHolder.newInstance(parent)
 
     abstract fun onCreateItemHolder(parent: ViewGroup, viewType: Int): ItemHolder

@@ -20,5 +20,12 @@ abstract class BaseFragment : Fragment() {
         onInitViews()
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        onInitObservers()
+    }
+
     protected open fun onInitViews() = Unit
+
+    protected open fun onInitObservers() = Unit
 }
