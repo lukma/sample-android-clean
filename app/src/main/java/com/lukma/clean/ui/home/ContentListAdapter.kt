@@ -3,10 +3,10 @@ package com.lukma.clean.ui.home
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.lukma.clean.domain.content.entity.Content
-import com.lukma.clean.ui.common.base.BasePagedAdapter
+import com.lukma.clean.ui.common.base.BasePagedListAdapter
 
-class ContentAdapter(private val onClickItemListener: (Content) -> Unit = {}) :
-    BasePagedAdapter<Content, ContentHolder>(DIFF_CALLBACK) {
+class ContentListAdapter(private val onClickItemListener: (Content) -> Unit = {}) :
+    BasePagedListAdapter<Content, ContentHolder>(DIFF_CALLBACK) {
 
     override fun onCreateItemHolder(parent: ViewGroup, viewType: Int) = ContentHolder
         .newInstance(parent, onClickItemListener)

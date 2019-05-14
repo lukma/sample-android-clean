@@ -25,13 +25,4 @@ abstract class BaseDeferredUseCase<Entity> {
         scope.launch(CoroutineExceptionHandler { _, exception -> onError(exception) }) {
             onSuccess(build(params).await())
         }
-
-    fun execute(
-        scope: CoroutineScope = CoroutineScope(Dispatchers.IO),
-        params: Map<String, Any?> = emptyMap(),
-        onSuccess: (Entity) -> Unit = {},
-        onError: (Throwable) -> Unit = { it.printStackTrace() }
-    ) = scope.launch(CoroutineExceptionHandler { _, exception -> onError(exception) }) {
-        onSuccess(build(params).await())
-    }
 }
