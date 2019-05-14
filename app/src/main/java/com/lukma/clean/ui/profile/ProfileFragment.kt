@@ -17,7 +17,7 @@ class ProfileFragment : BaseFragmentVM<ProfileViewModel>() {
     }
 
     override fun onInitObservers() {
-        viewModel.logoutLiveData.observe(this, Observer {
+        viewModel.logoutAction.observe(this, Observer {
             context?.startActivityClearTask(AuthActivity::class.java)
         })
     }

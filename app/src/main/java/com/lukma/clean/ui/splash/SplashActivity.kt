@@ -10,7 +10,7 @@ class SplashActivity : BaseActivityVM<SplashViewModel>() {
     override val viewModel by viewModel<SplashViewModel>()
 
     override fun onInitObservers() {
-        viewModel.launchToNextScreenLiveData.observe(this, Observer {
+        viewModel.launchToNextScreenAction.observe(this, Observer {
             startActivityClearTask(it)
         })
     }

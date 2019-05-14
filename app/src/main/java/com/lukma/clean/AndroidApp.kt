@@ -22,14 +22,16 @@ class AndroidApp : MultiDexApplication() {
         startKoin {
             androidLogger()
             androidContext(this@AndroidApp)
-            listOf(
-                appModule,
-                roomModule,
-                networkModule,
-                apiModule,
-                dataModule,
-                useCaseModule,
-                viewModelModule
+            modules(
+                listOf(
+                    appModule,
+                    roomModule,
+                    networkModule,
+                    apiModule,
+                    dataModule,
+                    useCaseModule,
+                    viewModelModule
+                )
             )
         }
     }

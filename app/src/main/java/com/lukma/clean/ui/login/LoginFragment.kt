@@ -62,7 +62,7 @@ class LoginFragment : BaseFragmentVM<LoginViewModel>() {
     }
 
     override fun onInitObservers() {
-        viewModel.authorizeByUsernameOrEmailLiveData.observe(this, Observer {
+        viewModel.authorizeAction.observe(this, Observer {
             loginButton.isVisible = it.state != State.ON_REQUEST
             progressBar.isVisible = it.state == State.ON_REQUEST
 
@@ -73,7 +73,7 @@ class LoginFragment : BaseFragmentVM<LoginViewModel>() {
             }
         })
 
-        viewModel.authorizeByThirdPartyLiveData.observe(this, Observer {
+        viewModel.authorizeByThirdPartyAction.observe(this, Observer {
             loginButton.isVisible = it.state != State.ON_REQUEST
             progressBar.isVisible = it.state == State.ON_REQUEST
 

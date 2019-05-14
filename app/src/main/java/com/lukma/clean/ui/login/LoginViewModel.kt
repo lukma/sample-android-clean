@@ -1,35 +1,58 @@
 package com.lukma.clean.ui.login
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.lukma.clean.domain.auth.entity.ThirdParty
 import com.lukma.clean.domain.auth.usecase.AuthorizeByThirdPartyUseCase
 import com.lukma.clean.domain.auth.usecase.AuthorizeByUsernameOrEmailUseCase
 import com.lukma.clean.domain.common.UseCaseConstant
-import com.lukma.clean.ui.common.ResourceLiveData
+import com.lukma.clean.ui.common.Resource
+import com.lukma.clean.ui.common.State
 import com.lukma.clean.ui.common.base.BaseViewModel
 
 class LoginViewModel(
-    authorizeByUsernameOrEmailUseCase: AuthorizeByUsernameOrEmailUseCase,
-    authorizeByThirdPartyUseCase: AuthorizeByThirdPartyUseCase
+    private val authorizeUseCase: AuthorizeByUsernameOrEmailUseCase,
+    private val authorizeByThirdPartyUseCase: AuthorizeByThirdPartyUseCase
 ) : BaseViewModel() {
-    internal val authorizeByUsernameOrEmailLiveData =
-        ResourceLiveData(authorizeByUsernameOrEmailUseCase)
-    internal val authorizeByThirdPartyLiveData = ResourceLiveData(authorizeByThirdPartyUseCase)
+
+    private val authorizeActionMutable = MutableLiveData<Resource<Unit>>()
+    internal val authorizeAction: LiveData<Resource<Unit>>
+        get() = authorizeActionMutable
+
+    private val authorizeByThirdPartyActionMutable = MutableLiveData<Resource<Unit>>()
+    internal val authorizeByThirdPartyAction: LiveData<Resource<Unit>>
+        get() = authorizeByThirdPartyActionMutable
 
     fun authorize(usernameOrEmail: String, password: String) {
-        authorizeByUsernameOrEmailLiveData.execute(
-            mapOf(
-                UseCaseConstant.USERNAME to usernameOrEmail,
-                UseCaseConstant.PASSWORD to password
-            )
-        ).runBySupervisor()
+        authorizeActionMutable.postValue(Resource(State.ON_REQUEST))
+        val params = mapOf(
+            UseCaseConstant.USERNAME to usernameOrEmail,
+            UseCaseConstant.PASSWORD to password
+        )
+        authorizeUseCase.addParams(params)
+            .onSuccess {
+                authorizeActionMutable.postValue(Resource(State.ON_SUCCESS, it))
+            }
+            .onError {
+                authorizeActionMutable.postValue(Resource(State.ON_FAILURE, null, it))
+            }
+            .execute(viewModelScope)
     }
 
     fun authorize(thirdParty: ThirdParty, token: String?) {
-        authorizeByThirdPartyLiveData.execute(
-            mapOf(
-                UseCaseConstant.THIRD_PARTY to thirdParty,
-                UseCaseConstant.TOKEN to token
-            )
-        ).runBySupervisor()
+        authorizeByThirdPartyActionMutable.postValue(Resource(State.ON_REQUEST))
+        val params = mapOf(
+            UseCaseConstant.THIRD_PARTY to thirdParty,
+            UseCaseConstant.TOKEN to token
+        )
+        authorizeByThirdPartyUseCase.addParams(params)
+            .onSuccess {
+                authorizeByThirdPartyActionMutable.postValue(Resource(State.ON_REQUEST))
+            }
+            .onError {
+                authorizeByThirdPartyActionMutable.postValue(Resource(State.ON_FAILURE, null, it))
+            }
+            .execute(viewModelScope)
     }
 }

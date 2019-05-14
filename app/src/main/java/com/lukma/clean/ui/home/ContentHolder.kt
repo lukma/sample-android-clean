@@ -12,6 +12,7 @@ import com.bumptech.glide.request.target.Target
 import com.lukma.clean.R
 import com.lukma.clean.domain.content.entity.Content
 import com.lukma.clean.extensions.inflate
+import com.lukma.clean.ui.common.module.GlideApp
 import kotlinx.android.synthetic.main.item_content.view.*
 
 class ContentHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

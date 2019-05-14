@@ -17,11 +17,10 @@ enum class RetrofitType(val value: String) {
 
 val networkModule = module {
     factory {
-        val logInterceptor = HttpLoggingInterceptor()
-        logInterceptor.level = HttpLoggingInterceptor.Level.BASIC
-
         OkHttpClient.Builder().apply {
             if (BuildConfig.DEBUG) {
+                val logInterceptor = HttpLoggingInterceptor()
+                logInterceptor.level = HttpLoggingInterceptor.Level.BODY
                 addInterceptor(logInterceptor)
             }
         }

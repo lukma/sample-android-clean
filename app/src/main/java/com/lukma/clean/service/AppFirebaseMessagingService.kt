@@ -42,7 +42,7 @@ class AppFirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
     }
 
     override fun onNewToken(token: String?) {
-        saveFcmUseCase.execute(mapOf(UseCaseConstant.TOKEN to token))
+        saveFcmUseCase.addParams(mapOf(UseCaseConstant.TOKEN to token)).execute()
     }
 
     companion object {

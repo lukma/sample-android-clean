@@ -28,7 +28,7 @@ class RegisterFragment : BaseFragmentVM<RegisterViewModel>() {
     }
 
     override fun onInitObservers() {
-        viewModel.registerLiveData.observe(this, Observer {
+        viewModel.registerAction.observe(this, Observer {
             registerButton.isVisible = it.state != State.ON_REQUEST
             progressBar.isVisible = it.state == State.ON_REQUEST
 
