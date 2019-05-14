@@ -44,5 +44,5 @@ jobs:
           command: ./gradlew :app:assembleDebug
 
       - store_artifacts:
-          path: app/build/outputs/apk/devFlavorProdFlavor/debug/
+          path: app/build/outputs/apk/
           destination: apk
