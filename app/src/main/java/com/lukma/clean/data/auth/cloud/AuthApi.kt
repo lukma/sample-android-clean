@@ -22,7 +22,7 @@ interface AuthApi {
         @Field("password") password: String,
         @Field("fullname") fullName: String,
         @Field("email") email: String
-    ): Deferred<RegisterResponse>
+    ): Deferred<Unit>
 
     @FormUrlEncoded
     @POST("account/auth/refreshToken")

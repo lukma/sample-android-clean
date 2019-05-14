@@ -17,11 +17,11 @@ interface AuthDao {
     fun count(): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(data: AuthTable): Long
+    fun insert(data: AuthTable)
 
     @Update
-    fun update(data: AuthTable): Int
+    fun update(data: AuthTable)
 
     @Delete
-    fun delete(data: AuthTable): Int
+    fun delete(data: AuthTable)
 }

@@ -14,7 +14,6 @@ class AuthDataRepository(private val dao: AuthDao, private val api: AuthApi) : A
             ?.let { dao.update(it.copy(isActive = false)) }
             ?: dao.gets().find { it.username == usernameOrEmail }?.let { dao.delete(it) }
         dao.insert(auth.copy(username = usernameOrEmail).let(::transform))
-        Unit
     }
 
     override suspend fun authorize(thirdParty: ThirdParty, token: String) = runAsync {
@@ -23,7 +22,6 @@ class AuthDataRepository(private val dao: AuthDao, private val api: AuthApi) : A
             ?.let { dao.update(it.copy(isActive = false)) }
             ?: dao.gets().find { it.username == token }?.let { dao.delete(it) }
         dao.insert(auth.copy(username = token).let(::transform))
-        Unit
     }
 
     override suspend fun refreshToken() = runAsync {
@@ -40,7 +38,6 @@ class AuthDataRepository(private val dao: AuthDao, private val api: AuthApi) : A
         email: String
     ) = runAsync {
         api.register(username, password, fullName, email).await()
-        Unit
     }
 
     override suspend fun getAuthIsActive() = runAsync {
@@ -52,6 +49,5 @@ class AuthDataRepository(private val dao: AuthDao, private val api: AuthApi) : A
     override suspend fun logout() = runAsync {
         val auth = dao.getIsActive() ?: throw NotFoundException()
         dao.delete(auth)
-        Unit
     }
 }
