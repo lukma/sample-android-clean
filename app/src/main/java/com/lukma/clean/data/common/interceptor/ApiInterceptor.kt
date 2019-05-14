@@ -13,7 +13,7 @@ import org.koin.core.KoinComponent
 import org.koin.core.inject
 import java.io.IOException
 
-class ApiAuthInterceptor(private val type: Type) : Interceptor, KoinComponent {
+class ApiInterceptor(private val type: Type) : Interceptor, KoinComponent {
     private val authRepository by inject<AuthRepository>()
 
     @Throws(IOException::class)

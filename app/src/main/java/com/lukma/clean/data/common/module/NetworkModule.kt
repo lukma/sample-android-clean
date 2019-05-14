@@ -2,7 +2,7 @@ package com.lukma.clean.data.common.module
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.lukma.clean.BuildConfig
-import com.lukma.clean.data.common.interceptor.ApiAuthInterceptor
+import com.lukma.clean.data.common.interceptor.ApiInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.core.qualifier.named
@@ -34,7 +34,7 @@ val networkModule = module {
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .client(
                     get<OkHttpClient.Builder>()
-                        .addInterceptor(ApiAuthInterceptor(ApiAuthInterceptor.Type.BASIC_AUTH))
+                        .addInterceptor(ApiInterceptor(ApiInterceptor.Type.BASIC_AUTH))
                         .build()
                 )
         }
@@ -48,7 +48,7 @@ val networkModule = module {
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .client(
                     get<OkHttpClient.Builder>()
-                        .addInterceptor(ApiAuthInterceptor(ApiAuthInterceptor.Type.BEARER))
+                        .addInterceptor(ApiInterceptor(ApiInterceptor.Type.BEARER))
                         .build()
                 )
         }
