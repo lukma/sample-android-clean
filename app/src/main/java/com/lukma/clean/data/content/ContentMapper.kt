@@ -2,33 +2,39 @@ package com.lukma.clean.data.content
 
 import com.lukma.clean.data.content.cloud.response.GetContentsResponse
 import com.lukma.clean.data.content.local.ContentTable
+import com.lukma.clean.domain.common.utils.DateUtils
 import com.lukma.clean.domain.content.entity.Content
+import org.koin.core.error.MissingPropertyException
 
-object ContentMapper {
-    fun transformToEntity(values: GetContentsResponse) = values.data.map {
-        Content(
-            it.id,
-            it.title,
-            it.thumbnail,
-            it.content
+fun transform(values: GetContentsResponse.DataResponse) = values.let {
+    Content(
+        it.id ?: throw MissingPropertyException("id"),
+        it.title ?: throw MissingPropertyException("title"),
+        it.thumbnail ?: throw MissingPropertyException("thumbnail"),
+        it.content ?: throw MissingPropertyException("content"),
+        DateUtils.toDate(
+            it.createdDate ?: throw MissingPropertyException("createdDate"),
+            DateUtils.TIMESTAMP_FORMAT
         )
-    }
+    )
+}
 
-    fun transformToEntity(values: List<ContentTable>) = values.map {
-        Content(
-            it.id,
-            it.title,
-            it.thumbnail,
-            it.content
-        )
-    }
+fun transform(values: ContentTable) = values.let {
+    Content(
+        it.id,
+        it.title,
+        it.thumbnail,
+        it.content,
+        it.createdDate
+    )
+}
 
-    fun transformToTable(values: List<Content>) = values.map {
-        ContentTable(
-            it.id,
-            it.title,
-            it.thumbnail,
-            it.content
-        )
-    }
+fun transform(values: Content) = values.let {
+    ContentTable(
+        it.id,
+        it.title,
+        it.thumbnail,
+        it.content,
+        it.createdDate
+    )
 }

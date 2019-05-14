@@ -2,12 +2,13 @@ package com.lukma.clean.data.auth
 
 import com.lukma.clean.data.auth.cloud.response.AuthResponse
 import com.lukma.clean.data.auth.local.AuthTable
+import org.koin.core.error.MissingPropertyException
 
-object AuthMapper {
-    fun transform(value: AuthResponse) = AuthTable(
+fun transform(value: AuthResponse) = value.let {
+    AuthTable(
         String(),
-        value.token.accessToken,
-        value.token.refreshToken,
-        value.token.tokenType
+        it.token?.accessToken ?: throw MissingPropertyException("accessToken"),
+        it.token.refreshToken ?: throw MissingPropertyException("refreshToken"),
+        it.token.tokenType ?: throw MissingPropertyException("tokenType")
     )
 }

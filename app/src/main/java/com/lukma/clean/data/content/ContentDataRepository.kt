@@ -4,6 +4,7 @@ import com.lukma.clean.data.content.cloud.ContentApi
 import com.lukma.clean.data.content.local.ContentDao
 import com.lukma.clean.domain.content.ContentRepository
 import com.lukma.clean.extensions.runAsync
+import org.koin.core.error.MissingPropertyException
 import java.io.IOException
 
 class ContentDataRepository(private val dao: ContentDao, private val api: ContentApi) :
@@ -11,11 +12,12 @@ class ContentDataRepository(private val dao: ContentDao, private val api: Conten
 
     override suspend fun gets(limit: Int, offset: Int) = runAsync {
         try {
-            val responseApi = api.gets(limit, offset).await().let(ContentMapper::transformToEntity)
-            dao.insert(responseApi.let(ContentMapper::transformToTable))
-            responseApi
+            val response = api.gets(limit, offset).await().data?.map(::transform)
+                ?: throw MissingPropertyException("data")
+            dao.insert(response.map(::transform))
+            response
         } catch (ex: IOException) {
-            dao.gets(limit, offset).let(ContentMapper::transformToEntity)
+            dao.gets(limit, offset).map(::transform)
         }
     }
 }

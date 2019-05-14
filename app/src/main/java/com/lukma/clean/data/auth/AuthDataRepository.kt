@@ -8,7 +8,7 @@ import com.lukma.clean.extensions.runAsync
 
 class AuthDataRepository(private val dao: AuthDao, private val api: AuthApi) : AuthRepository {
     override suspend fun authorize(usernameOrEmail: String, password: String) = runAsync {
-        val auth = api.authorize(usernameOrEmail, password).await().let(AuthMapper::transform)
+        val auth = api.authorize(usernameOrEmail, password).await().let(::transform)
         dao.gets().map {
             if (it.username == usernameOrEmail) dao.delete(it)
             else dao.update(it.copy(isActive = false))
@@ -18,7 +18,7 @@ class AuthDataRepository(private val dao: AuthDao, private val api: AuthApi) : A
     }
 
     override suspend fun authorize(thirdParty: ThirdParty, token: String) = runAsync {
-        val auth = api.authorize(thirdParty.name, token).await().let(AuthMapper::transform)
+        val auth = api.authorize(thirdParty.name, token).await().let(::transform)
         dao.gets().map {
             if (it.username == token) dao.delete(it)
             else dao.update(it.copy(isActive = false))
@@ -30,7 +30,7 @@ class AuthDataRepository(private val dao: AuthDao, private val api: AuthApi) : A
     override suspend fun refreshToken() = runAsync {
         val auth = dao.getIsActive()
         api.refreshToken(auth.refreshToken).await()
-            .let(AuthMapper::transform)
+            .let(::transform)
             .also { dao.update(it) }
     }
 
