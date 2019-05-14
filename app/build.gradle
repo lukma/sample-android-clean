@@ -36,12 +36,14 @@ android {
         dev {
             dimension "environment"
 //            applicationIdSuffix ".dev"
+            resValue "string", "app_name", "Clean (DEV)"
             buildConfigField 'String', 'BASE_URL', '"http://10.0.2.2:8080/api/"'
             buildConfigField 'String', 'BASIC_AUTH_VALUE', '"Basic bHVrbWE6Z2VsYWRhazc="'
         }
 
         production {
             dimension "environment"
+            resValue "string", "app_name", "Clean"
             buildConfigField 'String', 'BASE_URL', '""'
             buildConfigField 'String', 'BASIC_AUTH_VALUE', '""'
         }
