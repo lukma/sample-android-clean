@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.lukma.clean.ui.login.LoginFragment"
+        android:name="com.lukma.clean.presentation.login.LoginFragment"
         tools:layout="@layout/fragment_login">
 
         <action
@@ -17,6 +17,6 @@
 
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.lukma.clean.ui.register.RegisterFragment"
+        android:name="com.lukma.clean.presentation.register.RegisterFragment"
         tools:layout="@layout/fragment_register" />
 </navigation>
