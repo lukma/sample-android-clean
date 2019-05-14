@@ -34,6 +34,6 @@ class SplashViewModel(private val isAuthenticatedUseCase: IsAuthenticatedUseCase
     }
 
     private fun isAuthenticated() {
-        isAuthenticatedUseCase.onSuccess { isAuthenticated.value = it }.execute(viewModelScope)
+        isAuthenticatedUseCase.onSuccess(isAuthenticated::postValue).execute(viewModelScope)
     }
 }

@@ -31,12 +31,8 @@ class LoginViewModel(
             UseCaseConstant.PASSWORD to password
         )
         authorizeUseCase.addParams(params)
-            .onSuccess {
-                authorizeActionMutable.postValue(Resource(State.ON_SUCCESS, it))
-            }
-            .onError {
-                authorizeActionMutable.postValue(Resource(State.ON_FAILURE, null, it))
-            }
+            .onSuccess { authorizeActionMutable.postValue(Resource(State.ON_SUCCESS, it)) }
+            .onError { authorizeActionMutable.postValue(Resource(State.ON_FAILURE, null, it)) }
             .execute(viewModelScope)
     }
 
@@ -47,12 +43,8 @@ class LoginViewModel(
             UseCaseConstant.TOKEN to token
         )
         authorizeByThirdPartyUseCase.addParams(params)
-            .onSuccess {
-                authorizeByThirdPartyActionMutable.postValue(Resource(State.ON_REQUEST))
-            }
-            .onError {
-                authorizeByThirdPartyActionMutable.postValue(Resource(State.ON_FAILURE, null, it))
-            }
+            .onSuccess { authorizeByThirdPartyActionMutable.postValue(Resource(State.ON_REQUEST)) }
+            .onError { authorizeByThirdPartyActionMutable.postValue(Resource(State.ON_FAILURE, null, it)) }
             .execute(viewModelScope)
     }
 }

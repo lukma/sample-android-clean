@@ -12,6 +12,6 @@ class ProfileViewModel(private val logoutUseCase: LogoutUseCase) : BaseViewModel
         get() = logoutActionMutable
 
     fun logout() {
-        logoutUseCase.onSuccess { logoutActionMutable.postValue(it) }.execute(viewModelScope)
+        logoutUseCase.onSuccess(logoutActionMutable::postValue).execute(viewModelScope)
     }
 }
