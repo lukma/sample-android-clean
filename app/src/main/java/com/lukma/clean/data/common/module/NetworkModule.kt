@@ -2,6 +2,7 @@ package com.lukma.clean.data.common.module
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.lukma.clean.BuildConfig
+import com.lukma.clean.data.common.entity.RetrofitType
 import com.lukma.clean.data.common.interceptor.ApiInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -9,11 +10,6 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
-
-enum class RetrofitType(val value: String) {
-    BASIC_AUTH("RETROFIT_BASIC_AUTH"),
-    BEARER("RETROFIT_BEARER")
-}
 
 val networkModule = module {
     factory {
@@ -27,30 +23,36 @@ val networkModule = module {
     }
 
     single(
-        qualifier = named(RetrofitType.BASIC_AUTH.value),
+        qualifier = named(RetrofitType.DEFAULT.value),
         definition = {
-            Retrofit.Builder()
-                .addConverterFactory(JacksonConverterFactory.create())
-                .addCallAdapterFactory(CoroutineCallAdapterFactory())
-                .client(
-                    get<OkHttpClient.Builder>()
-                        .addInterceptor(ApiInterceptor(ApiInterceptor.Type.BASIC_AUTH))
-                        .build()
-                )
+            Retrofit.Builder().apply {
+                addConverterFactory(JacksonConverterFactory.create())
+                addCallAdapterFactory(CoroutineCallAdapterFactory())
+            }
         }
     )
 
     single(
-        qualifier = named(RetrofitType.BEARER.value),
+        qualifier = named(RetrofitType.BASIC_AUTH.value),
         definition = {
-            Retrofit.Builder()
-                .addConverterFactory(JacksonConverterFactory.create())
-                .addCallAdapterFactory(CoroutineCallAdapterFactory())
-                .client(
-                    get<OkHttpClient.Builder>()
-                        .addInterceptor(ApiInterceptor(ApiInterceptor.Type.BEARER))
-                        .build()
-                )
+            get<Retrofit.Builder>(named(RetrofitType.DEFAULT.value)).apply {
+                val okhttp = get<OkHttpClient.Builder>().apply {
+                    addInterceptor(ApiInterceptor(RetrofitType.BASIC_AUTH))
+                }.build()
+                client(okhttp)
+            }
+        }
+    )
+
+    single(
+        qualifier = named(RetrofitType.TOKEN.value),
+        definition = {
+            get<Retrofit.Builder>(named(RetrofitType.DEFAULT.value)).apply {
+                val okhhtp = get<OkHttpClient.Builder>().apply {
+                    addInterceptor(ApiInterceptor(RetrofitType.TOKEN))
+                }.build()
+                client(okhhtp)
+            }
         }
     )
 }

@@ -1,9 +1,10 @@
 package com.lukma.clean.data.common.interceptor
 
-import com.lukma.clean.BuildConfig
+import com.lukma.clean.data.common.entity.RetrofitType
 import com.lukma.clean.data.common.exception.network.ApiException
 import com.lukma.clean.data.common.exception.network.TokenUnauthorizedException
 import com.lukma.clean.domain.auth.AuthRepository
+import com.lukma.clean.domain.auth.entity.Auth
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -13,48 +14,47 @@ import org.koin.core.KoinComponent
 import org.koin.core.inject
 import java.io.IOException
 
-class ApiInterceptor(private val type: Type) : Interceptor, KoinComponent {
+class ApiInterceptor(private val type: RetrofitType) : Interceptor, KoinComponent {
     private val authRepository by inject<AuthRepository>()
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
-        val authorization = if (type == Type.BASIC_AUTH) BuildConfig.BASIC_AUTH_VALUE
-        else runBlocking {
-            val authIsActive = authRepository.getAuthIsActive().await()
-            "${authIsActive.tokenType} ${authIsActive.accessToken}"
+        val original = chain.request()
+        val response = if (type == RetrofitType.TOKEN) {
+            runBlocking {
+                val session = authRepository.getAuthIsActive().await()
+                requestWithAuthorization(chain, original, session)
+            }
+        } else {
+            chain.proceed(original)
         }
 
-        val original = chain.request()
-        val response = requestApi(chain, original, authorization)
-        if (response.code() == 401 && type == Type.BEARER) {
-            return runBlocking {
-                val newToken = authRepository.refreshToken().await()
-                requestApi(chain, original, newToken.accessToken).also {
-                    if (response.code() == 401) {
-                        throw TokenUnauthorizedException()
+        when {
+            response.code() == 401 && type == RetrofitType.TOKEN -> {
+                return runBlocking {
+                    authRepository.refreshToken().await()
+                    val session = authRepository.getAuthIsActive().await()
+                    requestWithAuthorization(chain, original, session).also {
+                        if (response.code() == 401) throw TokenUnauthorizedException()
                     }
                 }
             }
-        } else if (response.code() == 401 && type == Type.BASIC_AUTH) {
-            throw  TokenUnauthorizedException()
-        } else if (response.code() < 200 || response.code() >= 400) {
-            throw ApiException(JSONObject(response.body()?.string()))
+            response.code() == 401 && type == RetrofitType.BASIC_AUTH ->
+                throw  TokenUnauthorizedException()
+            response.code() < 200 || response.code() >= 400 ->
+                throw ApiException(JSONObject(response.body()?.string()))
         }
 
         return response
     }
 
-    private fun requestApi(
+    private fun requestWithAuthorization(
         chain: Interceptor.Chain,
         original: Request,
-        authorization: String
-    ): Response {
-        val request = original.newBuilder()
-            .header("Authorization", authorization)
-            .method(original.method(), original.body())
-            .build()
-        return chain.proceed(request)
-    }
-
-    enum class Type { BASIC_AUTH, BEARER }
+        session: Auth
+    ) = original.newBuilder()
+        .header("Authorization", "${session.tokenType} ${session.accessToken}")
+        .method(original.method(), original.body())
+        .build()
+        .let(chain::proceed)
 }
