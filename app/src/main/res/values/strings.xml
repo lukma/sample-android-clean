@@ -1,6 +1,6 @@
 <resources>
-    <string name="facebook_app_id">188563598621944</string>
-    <string name="fb_login_protocol_scheme">fb188563598621944</string>
+    <string name="facebook_app_id">276824736502178</string>
+    <string name="fb_login_protocol_scheme">fb276824736502178</string>
 
     <string name="title_home">Home</string>
     <string name="title_notifications">Notifications</string>

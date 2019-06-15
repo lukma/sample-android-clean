@@ -28,7 +28,11 @@ class AuthDataRepository(private val dao: AuthDao, private val api: AuthApi) : A
         val auth = dao.getIsActive() ?: throw NotFoundException()
         api.refreshToken(auth.refreshToken).await()
             .let(::transform)
-            .also { dao.update(it.let(::transform)) }
+            .also {
+                val newAuth =
+                    it.let(::transform).copy(username = auth.username, isActive = auth.isActive)
+                dao.update(newAuth)
+            }
     }
 
     override suspend fun register(

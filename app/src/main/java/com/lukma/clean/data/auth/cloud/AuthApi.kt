@@ -1,7 +1,6 @@
 package com.lukma.clean.data.auth.cloud
 
 import com.lukma.clean.data.auth.cloud.response.AuthResponse
-import com.lukma.clean.data.auth.cloud.response.RegisterResponse
 import kotlinx.coroutines.Deferred
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
