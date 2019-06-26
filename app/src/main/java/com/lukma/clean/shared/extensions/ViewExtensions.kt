@@ -1,4 +1,4 @@
-package com.lukma.clean.extensions
+package com.lukma.clean.shared.extensions
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

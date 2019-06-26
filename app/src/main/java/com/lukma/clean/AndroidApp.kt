@@ -7,7 +7,7 @@ import com.lukma.clean.data.common.module.networkModule
 import com.lukma.clean.data.common.module.repositoryDataModule
 import com.lukma.clean.data.common.module.roomModule
 import com.lukma.clean.domain.common.module.useCaseModule
-import com.lukma.clean.presentation.common.module.presentationModule
+import com.lukma.clean.presentation.common.module.thirdPartyModule
 import com.lukma.clean.presentation.common.module.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -24,7 +24,7 @@ class AndroidApp : MultiDexApplication() {
             androidContext(this@AndroidApp)
             modules(
                 listOf(
-                    presentationModule,
+                    thirdPartyModule,
                     roomModule,
                     networkModule,
                     apiModule,

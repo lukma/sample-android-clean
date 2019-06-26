@@ -3,9 +3,9 @@ package com.lukma.clean.presentation.home
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lukma.clean.R
-import com.lukma.clean.extensions.handleError
 import com.lukma.clean.presentation.common.PagedState
 import com.lukma.clean.presentation.common.base.BaseFragmentVM
+import com.lukma.clean.shared.extensions.handleError
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

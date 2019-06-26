@@ -8,7 +8,6 @@ data class AuthResponse(
     @JsonProperty("token")
     val token: TokenResponse?
 ) {
-
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class TokenResponse(
         @JsonProperty("access_token")

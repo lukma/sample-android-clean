@@ -22,37 +22,28 @@ val networkModule = module {
         }
     }
 
-    single(
-        qualifier = named(RetrofitType.DEFAULT.value),
-        definition = {
-            Retrofit.Builder().apply {
-                addConverterFactory(JacksonConverterFactory.create())
-                addCallAdapterFactory(CoroutineCallAdapterFactory())
-            }
+    single(named(RetrofitType.DEFAULT.value)) {
+        Retrofit.Builder().apply {
+            addConverterFactory(JacksonConverterFactory.create())
+            addCallAdapterFactory(CoroutineCallAdapterFactory())
         }
-    )
+    }
 
-    single(
-        qualifier = named(RetrofitType.BASIC_AUTH.value),
-        definition = {
-            get<Retrofit.Builder>(named(RetrofitType.DEFAULT.value)).apply {
-                val okhttp = get<OkHttpClient.Builder>().apply {
-                    addInterceptor(ApiInterceptor(RetrofitType.BASIC_AUTH))
-                }.build()
-                client(okhttp)
-            }
+    single(named(RetrofitType.BASIC_AUTH.value)) {
+        get<Retrofit.Builder>(named(RetrofitType.DEFAULT.value)).apply {
+            val okhttp = get<OkHttpClient.Builder>().apply {
+                addInterceptor(ApiInterceptor(RetrofitType.BASIC_AUTH))
+            }.build()
+            client(okhttp)
         }
-    )
+    }
 
-    single(
-        qualifier = named(RetrofitType.TOKEN.value),
-        definition = {
-            get<Retrofit.Builder>(named(RetrofitType.DEFAULT.value)).apply {
-                val okhhtp = get<OkHttpClient.Builder>().apply {
-                    addInterceptor(ApiInterceptor(RetrofitType.TOKEN))
-                }.build()
-                client(okhhtp)
-            }
+    single(named(RetrofitType.TOKEN.value)) {
+        get<Retrofit.Builder>(named(RetrofitType.DEFAULT.value)).apply {
+            val okhhtp = get<OkHttpClient.Builder>().apply {
+                addInterceptor(ApiInterceptor(RetrofitType.TOKEN))
+            }.build()
+            client(okhhtp)
         }
-    )
+    }
 }

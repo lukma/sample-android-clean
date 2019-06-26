@@ -3,11 +3,11 @@ package com.lukma.clean.presentation.register
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import com.lukma.clean.R
-import com.lukma.clean.extensions.handleError
-import com.lukma.clean.extensions.hideKeyboard
-import com.lukma.clean.extensions.showSnackBar
 import com.lukma.clean.presentation.common.State
 import com.lukma.clean.presentation.common.base.BaseFragmentVM
+import com.lukma.clean.shared.extensions.handleError
+import com.lukma.clean.shared.extensions.hideKeyboard
+import com.lukma.clean.shared.extensions.showSnackBar
 import kotlinx.android.synthetic.main.fragment_register.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

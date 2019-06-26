@@ -1,4 +1,4 @@
-package com.lukma.clean.domain.common.utils
+package com.lukma.clean.shared.utils
 
 import java.text.SimpleDateFormat
 import java.util.*

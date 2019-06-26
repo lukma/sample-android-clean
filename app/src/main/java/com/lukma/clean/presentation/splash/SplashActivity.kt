@@ -1,8 +1,8 @@
 package com.lukma.clean.presentation.splash
 
 import androidx.lifecycle.Observer
-import com.lukma.clean.extensions.startActivityClearTask
 import com.lukma.clean.presentation.common.base.BaseActivityVM
+import com.lukma.clean.shared.extensions.startActivityClearTask
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SplashActivity : BaseActivityVM<SplashViewModel>() {

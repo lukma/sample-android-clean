@@ -1,11 +1,11 @@
 package com.lukma.clean.data.content
 
-import com.lukma.clean.data.content.cloud.response.GetContentsResponse
+import com.lukma.clean.data.content.cloud.response.ContentResponse
 import com.lukma.clean.data.content.local.ContentTable
-import com.lukma.clean.domain.common.utils.DateUtils
 import com.lukma.clean.domain.content.entity.Content
+import com.lukma.clean.shared.utils.DateUtils
 
-fun transform(values: GetContentsResponse.DataResponse) = values.let {
+fun transform(values: ContentResponse) = values.let {
     Content(
         it.id ?: throw NoSuchElementException("id"),
         it.title ?: throw NoSuchElementException("title"),

@@ -4,11 +4,11 @@ import com.lukma.clean.data.auth.cloud.AuthApi
 import com.lukma.clean.data.auth.local.AuthDao
 import com.lukma.clean.data.common.exception.repo.NotFoundException
 import com.lukma.clean.domain.auth.AuthRepository
+import com.lukma.clean.domain.auth.entity.Auth
 import com.lukma.clean.domain.auth.entity.ThirdParty
-import com.lukma.clean.extensions.runAsync
 
 class AuthDataRepository(private val dao: AuthDao, private val api: AuthApi) : AuthRepository {
-    override suspend fun authorize(usernameOrEmail: String, password: String) = runAsync {
+    override suspend fun authorize(usernameOrEmail: String, password: String) {
         val auth = api.authorize(usernameOrEmail, password).await().let(::transform)
         dao.getIsActive()
             ?.let { dao.update(it.copy(isActive = false)) }
@@ -16,7 +16,7 @@ class AuthDataRepository(private val dao: AuthDao, private val api: AuthApi) : A
         dao.insert(auth.copy(username = usernameOrEmail).let(::transform))
     }
 
-    override suspend fun authorize(thirdParty: ThirdParty, token: String) = runAsync {
+    override suspend fun authorize(thirdParty: ThirdParty, token: String) {
         val auth = api.authorize(thirdParty.name, token).await().let(::transform)
         dao.getIsActive()
             ?.let { dao.update(it.copy(isActive = false)) }
@@ -24,9 +24,9 @@ class AuthDataRepository(private val dao: AuthDao, private val api: AuthApi) : A
         dao.insert(auth.copy(username = token).let(::transform))
     }
 
-    override suspend fun refreshToken() = runAsync {
+    override suspend fun refreshToken(): Auth {
         val auth = dao.getIsActive() ?: throw NotFoundException()
-        api.refreshToken(auth.refreshToken).await()
+        return api.refreshToken(auth.refreshToken).await()
             .let(::transform)
             .also {
                 val newAuth =
@@ -40,17 +40,16 @@ class AuthDataRepository(private val dao: AuthDao, private val api: AuthApi) : A
         password: String,
         fullName: String,
         email: String
-    ) = runAsync {
+    ) {
         api.register(username, password, fullName, email).await()
     }
 
-    override suspend fun getAuthIsActive() = runAsync {
+    override suspend fun getAuthIsActive() =
         dao.getIsActive()?.let(::transform) ?: throw NotFoundException()
-    }
 
-    override suspend fun isAuthenticated() = runAsync { dao.count() > 0 }
+    override suspend fun isAuthenticated() = dao.count() > 0
 
-    override suspend fun logout() = runAsync {
+    override suspend fun logout() {
         val auth = dao.getIsActive() ?: throw NotFoundException()
         dao.delete(auth)
     }

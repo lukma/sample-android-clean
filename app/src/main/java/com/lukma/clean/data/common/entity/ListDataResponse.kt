@@ -1,10 +1,10 @@
-package com.lukma.clean.data.auth.cloud.response
+package com.lukma.clean.data.common.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class RegisterResponse(
+data class ListDataResponse<T>(
     @JsonProperty("data")
-    val id: String
+    val data: List<T>?
 )

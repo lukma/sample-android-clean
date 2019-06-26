@@ -4,7 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.lukma.clean.R
-import com.lukma.clean.extensions.inflate
+import com.lukma.clean.shared.extensions.inflate
 
 class ProgressHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     companion object {

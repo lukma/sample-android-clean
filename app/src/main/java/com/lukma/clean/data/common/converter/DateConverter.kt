@@ -1,7 +1,7 @@
 package com.lukma.clean.data.common.converter
 
 import androidx.room.TypeConverter
-import com.lukma.clean.domain.common.utils.DateUtils
+import com.lukma.clean.shared.utils.DateUtils
 import java.util.*
 
 class DateConverter {

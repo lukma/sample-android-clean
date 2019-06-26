@@ -7,7 +7,7 @@ import com.lukma.clean.R
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
-val presentationModule = module {
+val thirdPartyModule = module {
     single { CallbackManager.Factory.create() }
 
     single { LoginManager.getInstance() }

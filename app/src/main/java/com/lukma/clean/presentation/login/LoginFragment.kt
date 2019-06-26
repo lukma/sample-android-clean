@@ -14,12 +14,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.lukma.clean.R
 import com.lukma.clean.domain.auth.entity.ThirdParty
-import com.lukma.clean.extensions.handleError
-import com.lukma.clean.extensions.hideKeyboard
-import com.lukma.clean.extensions.startActivityClearTask
 import com.lukma.clean.presentation.common.State
 import com.lukma.clean.presentation.common.base.BaseFragmentVM
 import com.lukma.clean.presentation.main.MainActivity
+import com.lukma.clean.shared.extensions.handleError
+import com.lukma.clean.shared.extensions.hideKeyboard
+import com.lukma.clean.shared.extensions.startActivityClearTask
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
