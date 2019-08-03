@@ -12,7 +12,7 @@ class ContentDataRepository(private val dao: ContentDao, private val api: Conten
 
     override suspend fun gets(limit: Int, offset: Int): List<Content> {
         return try {
-            val response = api.gets(limit, offset).await().data?.map(::transform)
+            val response = api.gets(limit, offset).data?.map(::transform)
                 ?: throw NotFoundException()
             dao.insert(response.map(::transform))
             response

@@ -9,7 +9,7 @@ import com.lukma.clean.domain.auth.entity.ThirdParty
 
 class AuthDataRepository(private val dao: AuthDao, private val api: AuthApi) : AuthRepository {
     override suspend fun authorize(usernameOrEmail: String, password: String) {
-        val auth = api.authorize(usernameOrEmail, password).await().let(::transform)
+        val auth = api.authorize(usernameOrEmail, password).let(::transform)
         dao.getIsActive()
             ?.let { dao.update(it.copy(isActive = false)) }
             ?: dao.gets().find { it.username == usernameOrEmail }?.let { dao.delete(it) }
@@ -17,7 +17,7 @@ class AuthDataRepository(private val dao: AuthDao, private val api: AuthApi) : A
     }
 
     override suspend fun authorize(thirdParty: ThirdParty, token: String) {
-        val auth = api.authorize(thirdParty.name, token).await().let(::transform)
+        val auth = api.authorize(thirdParty.name, token).let(::transform)
         dao.getIsActive()
             ?.let { dao.update(it.copy(isActive = false)) }
             ?: dao.gets().find { it.username == token }?.let { dao.delete(it) }
@@ -26,7 +26,7 @@ class AuthDataRepository(private val dao: AuthDao, private val api: AuthApi) : A
 
     override suspend fun refreshToken(): Auth {
         val auth = dao.getIsActive() ?: throw NotFoundException()
-        return api.refreshToken(auth.refreshToken).await()
+        return api.refreshToken(auth.refreshToken)
             .let(::transform)
             .also {
                 val newAuth =
@@ -41,7 +41,7 @@ class AuthDataRepository(private val dao: AuthDao, private val api: AuthApi) : A
         fullName: String,
         email: String
     ) {
-        api.register(username, password, fullName, email).await()
+        api.register(username, password, fullName, email)
     }
 
     override suspend fun getAuthIsActive() =

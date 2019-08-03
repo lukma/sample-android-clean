@@ -22,11 +22,7 @@ class SplashViewModel(private val isAuthenticatedUseCase: IsAuthenticatedUseCase
             if (it) MainActivity::class.java else AuthActivity::class.java
         }
 
-    init {
-        delayToNextScreen()
-    }
-
-    private fun delayToNextScreen() {
+    fun delayToNextScreen() {
         viewModelScope.launch {
             delay(TimeUnit.SECONDS.toSeconds(3))
             isAuthenticated()
@@ -34,6 +30,6 @@ class SplashViewModel(private val isAuthenticatedUseCase: IsAuthenticatedUseCase
     }
 
     private fun isAuthenticated() {
-        isAuthenticatedUseCase.onSuccess(isAuthenticated::postValue).execute(viewModelScope)
+        isAuthenticatedUseCase.onSuccess(isAuthenticated::postValue).execute()
     }
 }

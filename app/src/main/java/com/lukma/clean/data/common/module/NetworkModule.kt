@@ -1,6 +1,5 @@
 package com.lukma.clean.data.common.module
 
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.lukma.clean.BuildConfig
 import com.lukma.clean.data.common.entity.RetrofitType
 import com.lukma.clean.data.common.interceptor.ApiInterceptor
@@ -25,7 +24,6 @@ val networkModule = module {
     single(named(RetrofitType.DEFAULT.value)) {
         Retrofit.Builder().apply {
             addConverterFactory(JacksonConverterFactory.create())
-            addCallAdapterFactory(CoroutineCallAdapterFactory())
         }
     }
 
