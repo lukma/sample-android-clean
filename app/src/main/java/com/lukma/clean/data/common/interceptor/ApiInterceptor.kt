@@ -22,7 +22,7 @@ class ApiInterceptor(private val type: RetrofitType) : Interceptor, KoinComponen
         val original = chain.request()
         val response = if (type == RetrofitType.TOKEN) {
             runBlocking {
-                val session = authRepository.getAuthIsActive().await()
+                val session = authRepository.getAuthIsActive()
                 requestWithAuthorization(chain, original, session)
             }
         } else {
@@ -32,8 +32,8 @@ class ApiInterceptor(private val type: RetrofitType) : Interceptor, KoinComponen
         when {
             response.code() == 401 && type == RetrofitType.TOKEN -> {
                 return runBlocking {
-                    authRepository.refreshToken().await()
-                    val session = authRepository.getAuthIsActive().await()
+                    authRepository.refreshToken()
+                    val session = authRepository.getAuthIsActive()
                     requestWithAuthorization(chain, original, session).also {
                         if (response.code() == 401) throw TokenUnauthorizedException()
                     }
