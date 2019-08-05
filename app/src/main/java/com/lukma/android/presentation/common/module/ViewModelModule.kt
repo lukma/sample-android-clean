@@ -5,17 +5,17 @@ import com.lukma.android.presentation.login.LoginViewModel
 import com.lukma.android.presentation.profile.ProfileViewModel
 import com.lukma.android.presentation.register.RegisterViewModel
 import com.lukma.android.presentation.splash.SplashViewModel
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.experimental.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel { SplashViewModel(get()) }
+    viewModel<SplashViewModel>()
 
-    viewModel { LoginViewModel(get(), get()) }
+    viewModel<LoginViewModel>()
 
-    viewModel { RegisterViewModel(get()) }
+    viewModel<RegisterViewModel>()
 
-    viewModel { HomeViewModel(get()) }
+    viewModel<HomeViewModel>()
 
-    viewModel { ProfileViewModel(get()) }
+    viewModel<ProfileViewModel>()
 }

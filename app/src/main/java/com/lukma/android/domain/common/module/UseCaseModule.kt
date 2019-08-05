@@ -8,19 +8,17 @@ import org.koin.dsl.module
 import org.koin.experimental.builder.factory
 
 val useCaseModule = module {
+    // Preference
     factory<SaveFcmUseCase>()
-
     factory<GetFcmUseCase>()
 
+    // Auth
     factory<AuthorizeByUsernameOrEmailUseCase>()
-
     factory<AuthorizeByThirdPartyUseCase>()
-
     factory<RegisterUseCase>()
-
     factory<IsAuthenticatedUseCase>()
-
     factory<LogoutUseCase>()
 
+    // Content
     factory<GetListOfContentUseCase>()
 }

@@ -10,15 +10,16 @@ import com.lukma.android.domain.content.ContentRepository
 import com.lukma.android.domain.preference.PreferenceRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
+import org.koin.experimental.builder.factoryBy
 
 val repositoryDataModule = module {
     single {
         androidContext().getSharedPreferences(BuildConfig.APPLICATION_ID, Context.MODE_PRIVATE)
     }
 
-    single<PreferenceRepository> { PreferenceDataRepository(get()) }
+    factoryBy<PreferenceRepository, PreferenceDataRepository>()
 
-    single<AuthRepository> { AuthDataRepository(get(), get()) }
+    factoryBy<AuthRepository, AuthDataRepository>()
 
-    single<ContentRepository> { ContentDataRepository(get(), get()) }
+    factoryBy<ContentRepository, ContentDataRepository>()
 }
