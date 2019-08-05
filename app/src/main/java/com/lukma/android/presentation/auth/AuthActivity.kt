@@ -2,11 +2,10 @@ package com.lukma.android.presentation.auth
 
 import androidx.navigation.fragment.NavHostFragment
 import com.lukma.android.R
-import com.lukma.android.presentation.common.base.BaseActivity
+import com.lukma.android.presentation.common.base.BaseActivityNav
 import kotlinx.android.synthetic.main.activity_main.*
 
-class AuthActivity : BaseActivity() {
+class AuthActivity : BaseActivityNav() {
     override val resourceLayout = R.layout.activity_auth
-
-    override fun onCreateNavController() = hostFragment as NavHostFragment
+    override val navHost = hostFragment as NavHostFragment
 }

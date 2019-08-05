@@ -4,16 +4,15 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.lukma.android.R
-import com.lukma.android.presentation.common.base.BaseActivity
+import com.lukma.android.presentation.common.base.BaseActivityNav
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivityNav() {
     override val resourceLayout = R.layout.activity_main
-
-    override fun onCreateNavController() = hostFragment as NavHostFragment
+    override val navHost = hostFragment as NavHostFragment
 
     override fun onInitViews() {
-        navController?.let {
+        navController?.also {
             setupActionBarWithNavController(this, it)
             setupWithNavController(navigation, it)
         }
