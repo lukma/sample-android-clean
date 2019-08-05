@@ -15,8 +15,10 @@ val useCaseModule = module {
     // Auth
     factory<AuthorizeByUsernameOrEmailUseCase>()
     factory<AuthorizeByThirdPartyUseCase>()
+    factory<RefreshTokenUseCase>()
     factory<RegisterUseCase>()
     factory<IsAuthenticatedUseCase>()
+    factory<GetAuthIsActiveUseCase>()
     factory<LogoutUseCase>()
 
     // Content
