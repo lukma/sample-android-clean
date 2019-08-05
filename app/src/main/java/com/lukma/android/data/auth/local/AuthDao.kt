@@ -5,7 +5,7 @@ import androidx.room.*
 @Dao
 interface AuthDao {
     @Query("SELECT * FROM auths WHERE username = :username LIMIT 1")
-    suspend fun get(username: String): AuthTable
+    suspend fun get(username: String): AuthTable?
 
     @Query("SELECT * FROM auths WHERE isActive = 1 LIMIT 1")
     suspend fun getIsActive(): AuthTable?

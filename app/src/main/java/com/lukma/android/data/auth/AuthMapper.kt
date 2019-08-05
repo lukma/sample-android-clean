@@ -4,32 +4,26 @@ import com.lukma.android.data.auth.cloud.response.AuthResponse
 import com.lukma.android.data.auth.local.AuthTable
 import com.lukma.android.domain.auth.entity.Auth
 
-fun transform(value: AuthResponse) = value.let {
-    Auth(
-        String(),
-        it.token?.accessToken ?: throw NoSuchElementException("accessToken"),
-        it.token.refreshToken ?: throw NoSuchElementException("refreshToken"),
-        it.token.tokenType ?: throw NoSuchElementException("tokenType"),
-        false
-    )
-}
+fun transform(value: AuthResponse) = Auth(
+    String(),
+    value.token?.accessToken ?: throw NoSuchElementException("accessToken"),
+    value.token.refreshToken ?: throw NoSuchElementException("refreshToken"),
+    value.token.tokenType ?: throw NoSuchElementException("tokenType"),
+    false
+)
 
-fun transform(value: AuthTable) = value.let {
-    Auth(
-        it.username,
-        it.accessToken,
-        it.refreshToken,
-        it.tokenType,
-        it.isActive
-    )
-}
+fun transform(value: AuthTable) = Auth(
+    value.username,
+    value.accessToken,
+    value.refreshToken,
+    value.tokenType,
+    value.isActive
+)
 
-fun transform(value: Auth) = value.let {
-    AuthTable(
-        it.username,
-        it.accessToken,
-        it.refreshToken,
-        it.tokenType,
-        it.isActive
-    )
-}
+fun transform(value: Auth) = AuthTable(
+    value.username,
+    value.accessToken,
+    value.refreshToken,
+    value.tokenType,
+    value.isActive
+)

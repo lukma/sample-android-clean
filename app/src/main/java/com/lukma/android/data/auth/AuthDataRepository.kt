@@ -9,30 +9,41 @@ import com.lukma.android.domain.auth.entity.ThirdParty
 
 class AuthDataRepository(private val dao: AuthDao, private val api: AuthApi) : AuthRepository {
     override suspend fun authorize(usernameOrEmail: String, password: String) {
-        val auth = api.authorize(usernameOrEmail, password).let(::transform)
-        dao.getIsActive()
-            ?.let { dao.update(it.copy(isActive = false)) }
-            ?: dao.gets().find { it.username == usernameOrEmail }?.let { dao.delete(it) }
-        dao.insert(auth.copy(username = usernameOrEmail).let(::transform))
+        dao.gets().forEach {
+            if (it.username != usernameOrEmail) {
+                dao.update(it.copy(isActive = false))
+            } else {
+                dao.delete(it)
+            }
+        }
+        val auth = api.authorize(usernameOrEmail, password)
+            .let(::transform)
+            .copy(username = usernameOrEmail)
+            .let(::transform)
+        dao.insert(auth)
     }
 
     override suspend fun authorize(thirdParty: ThirdParty, token: String) {
-        val auth = api.authorize(thirdParty.name, token).let(::transform)
-        dao.getIsActive()
-            ?.let { dao.update(it.copy(isActive = false)) }
-            ?: dao.gets().find { it.username == token }?.let { dao.delete(it) }
-        dao.insert(auth.copy(username = token).let(::transform))
+        dao.gets().forEach {
+            if (it.username != token) {
+                dao.update(it.copy(isActive = false))
+            } else {
+                dao.delete(it)
+            }
+        }
+        val auth = api.authorize(thirdParty.name, token)
+            .let(::transform)
+            .copy(username = token)
+            .let(::transform)
+        dao.insert(auth)
     }
 
     override suspend fun refreshToken(): Auth {
         val auth = dao.getIsActive() ?: throw NotFoundException()
-        return api.refreshToken(auth.refreshToken)
-            .let(::transform)
-            .also {
-                val newAuth =
-                    it.let(::transform).copy(username = auth.username, isActive = auth.isActive)
-                dao.update(newAuth)
-            }
+        return api.refreshToken(auth.refreshToken).let(::transform).also {
+            val newAuth = it.copy(username = auth.username).let(::transform)
+            dao.update(newAuth)
+        }
     }
 
     override suspend fun register(
@@ -44,10 +55,11 @@ class AuthDataRepository(private val dao: AuthDao, private val api: AuthApi) : A
         api.register(username, password, fullName, email)
     }
 
-    override suspend fun getAuthIsActive() =
+    override suspend fun getAuthIsActive(): Auth =
         dao.getIsActive()?.let(::transform) ?: throw NotFoundException()
 
-    override suspend fun isAuthenticated() = dao.count() > 0
+    override suspend fun isAuthenticated(): Boolean =
+        dao.getIsActive() != null && dao.count() > 0
 
     override suspend fun logout() {
         val auth = dao.getIsActive() ?: throw NotFoundException()

@@ -5,35 +5,29 @@ import com.lukma.android.data.content.local.ContentTable
 import com.lukma.android.domain.content.entity.Content
 import com.lukma.android.shared.utils.DateUtils
 
-fun transform(values: ContentResponse) = values.let {
-    Content(
-        it.id ?: throw NoSuchElementException("id"),
-        it.title ?: throw NoSuchElementException("title"),
-        it.thumbnail ?: throw NoSuchElementException("thumbnail"),
-        it.content ?: throw NoSuchElementException("content"),
-        DateUtils.toDate(
-            it.createdDate ?: throw NoSuchElementException("createdDate"),
-            DateUtils.TIMESTAMP_FORMAT
-        )
+fun transform(value: ContentResponse) = Content(
+    value.id ?: throw NoSuchElementException("id"),
+    value.title ?: throw NoSuchElementException("title"),
+    value.thumbnail ?: throw NoSuchElementException("thumbnail"),
+    value.content ?: throw NoSuchElementException("content"),
+    DateUtils.toDate(
+        value.createdDate ?: throw NoSuchElementException("createdDate"),
+        DateUtils.TIMESTAMP_FORMAT
     )
-}
+)
 
-fun transform(values: ContentTable) = values.let {
-    Content(
-        it.id,
-        it.title,
-        it.thumbnail,
-        it.content,
-        it.createdDate
-    )
-}
+fun transform(value: ContentTable) = Content(
+    value.id,
+    value.title,
+    value.thumbnail,
+    value.content,
+    value.createdDate
+)
 
-fun transform(values: Content) = values.let {
-    ContentTable(
-        it.id,
-        it.title,
-        it.thumbnail,
-        it.content,
-        it.createdDate
-    )
-}
+fun transform(value: Content) = ContentTable(
+    value.id,
+    value.title,
+    value.thumbnail,
+    value.content,
+    value.createdDate
+)
