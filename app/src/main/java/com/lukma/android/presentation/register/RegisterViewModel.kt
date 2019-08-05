@@ -2,14 +2,14 @@ package com.lukma.android.presentation.register
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lukma.android.domain.auth.usecase.RegisterUseCase
 import com.lukma.android.domain.common.UseCaseConstant
 import com.lukma.android.presentation.common.Resource
 import com.lukma.android.presentation.common.State
-import com.lukma.android.presentation.common.base.BaseViewModel
 
-class RegisterViewModel(private val registerUseCase: RegisterUseCase) : BaseViewModel() {
+class RegisterViewModel(private val registerUseCase: RegisterUseCase) : ViewModel() {
     private val registerActionMutable = MutableLiveData<Resource<Unit>>()
     internal val registerAction: LiveData<Resource<Unit>>
         get() = registerActionMutable

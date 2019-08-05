@@ -15,7 +15,7 @@ import com.google.android.gms.common.api.ApiException
 import com.lukma.android.R
 import com.lukma.android.domain.auth.entity.ThirdParty
 import com.lukma.android.presentation.common.State
-import com.lukma.android.presentation.common.base.BaseFragmentVM
+import com.lukma.android.presentation.common.base.BaseFragment
 import com.lukma.android.presentation.main.MainActivity
 import com.lukma.android.shared.extensions.handleError
 import com.lukma.android.shared.extensions.hideKeyboard
@@ -24,9 +24,9 @@ import kotlinx.android.synthetic.main.fragment_login.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class LoginFragment : BaseFragmentVM<LoginViewModel>() {
+class LoginFragment : BaseFragment() {
     override val resourceLayout = R.layout.fragment_login
-    override val viewModel by viewModel<LoginViewModel>()
+    private val viewModel by viewModel<LoginViewModel>()
 
     private val callbackManager by inject<CallbackManager>()
     private val loginManager by inject<LoginManager>()

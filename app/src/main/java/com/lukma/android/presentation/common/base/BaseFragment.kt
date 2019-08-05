@@ -5,9 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 
 abstract class BaseFragment : Fragment() {
     abstract val resourceLayout: Int
+
+    init {
+        lifecycleScope.launchWhenCreated {
+            onInitViews()
+            onInitObservers()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -15,17 +23,7 @@ abstract class BaseFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View = inflater.inflate(resourceLayout, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        onInitViews()
-    }
+    protected open fun onInitViews() {}
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        onInitObservers()
-    }
-
-    protected open fun onInitViews() = Unit
-
-    protected open fun onInitObservers() = Unit
+    protected open fun onInitObservers() {}
 }

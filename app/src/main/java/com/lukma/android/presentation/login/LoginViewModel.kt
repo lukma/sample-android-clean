@@ -2,6 +2,7 @@ package com.lukma.android.presentation.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lukma.android.domain.auth.entity.ThirdParty
 import com.lukma.android.domain.auth.usecase.AuthorizeByThirdPartyUseCase
@@ -9,12 +10,11 @@ import com.lukma.android.domain.auth.usecase.AuthorizeByUsernameOrEmailUseCase
 import com.lukma.android.domain.common.UseCaseConstant
 import com.lukma.android.presentation.common.Resource
 import com.lukma.android.presentation.common.State
-import com.lukma.android.presentation.common.base.BaseViewModel
 
 class LoginViewModel(
     private val authorizeUseCase: AuthorizeByUsernameOrEmailUseCase,
     private val authorizeByThirdPartyUseCase: AuthorizeByThirdPartyUseCase
-) : BaseViewModel() {
+) : ViewModel() {
 
     private val authorizeActionMutable = MutableLiveData<Resource<Unit>>()
     internal val authorizeAction: LiveData<Resource<Unit>>
@@ -44,7 +44,15 @@ class LoginViewModel(
         )
         authorizeByThirdPartyUseCase.addParams(params)
             .onSuccess { authorizeByThirdPartyActionMutable.postValue(Resource(State.ON_REQUEST)) }
-            .onError { authorizeByThirdPartyActionMutable.postValue(Resource(State.ON_FAILURE, null, it)) }
+            .onError {
+                authorizeByThirdPartyActionMutable.postValue(
+                    Resource(
+                        State.ON_FAILURE,
+                        null,
+                        it
+                    )
+                )
+            }
             .execute(viewModelScope)
     }
 }

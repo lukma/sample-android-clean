@@ -78,8 +78,9 @@ dependencies {
     implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
 
     // Jetpack Architecture
-    implementation "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycle"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle"
     implementation "androidx.room:room-runtime:$versions.room"
     kapt "androidx.room:room-compiler:$versions.room"
     implementation "android.arch.navigation:navigation-ui-ktx:$versions.navigation"
