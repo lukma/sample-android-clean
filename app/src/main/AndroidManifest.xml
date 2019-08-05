@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.lukma.clean">
+    package="com.lukma.android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".AndroidApp"
+        android:name="com.lukma.android.AndroidApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -18,7 +18,7 @@
         tools:ignore="AllowBackup"
         tools:targetApi="n">
         <activity
-            android:name=".presentation.splash.SplashActivity"
+            android:name="com.lukma.android.presentation.splash.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -28,15 +28,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.main.MainActivity"
+            android:name="com.lukma.android.presentation.main.MainActivity"
             android:label="@string/app_name" />
         <activity
-            android:name=".presentation.auth.AuthActivity"
+            android:name="com.lukma.android.presentation.auth.AuthActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service
-            android:name=".service.AppFirebaseMessagingService"
+            android:name="com.lukma.android.service.AppFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
