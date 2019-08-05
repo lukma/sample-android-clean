@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lukma.android.domain.auth.usecase.LogoutUseCase
+import com.lukma.android.shared.extensions.toLiveData
+import kotlinx.coroutines.launch
 
 class ProfileViewModel(private val logoutUseCase: LogoutUseCase) : ViewModel() {
     private val logoutActionMutable = MutableLiveData<Unit>()
@@ -12,6 +14,8 @@ class ProfileViewModel(private val logoutUseCase: LogoutUseCase) : ViewModel() {
         get() = logoutActionMutable
 
     fun logout() {
-        logoutUseCase.onSuccess(logoutActionMutable::postValue).execute(viewModelScope)
+        viewModelScope.launch {
+            logoutUseCase.invoke().toLiveData(logoutActionMutable)
+        }
     }
 }

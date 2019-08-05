@@ -11,6 +11,9 @@ import com.lukma.android.R
 import com.lukma.android.domain.common.UseCaseConstant
 import com.lukma.android.domain.preference.usecase.SaveFcmUseCase
 import com.lukma.android.presentation.main.MainActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.core.KoinComponent
 
@@ -43,9 +46,11 @@ class AppFirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
     }
 
     override fun onNewToken(token: String?) {
-        token?.let {
-            val params = mapOf(UseCaseConstant.TOKEN to it)
-            saveFcmUseCase.addParams(params).execute()
+        token?.also {
+            CoroutineScope(Dispatchers.IO).launch {
+                val params = mapOf(UseCaseConstant.TOKEN to it)
+                saveFcmUseCase.addParams(params).invoke()
+            }
         }
     }
 

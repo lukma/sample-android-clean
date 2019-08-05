@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.lukma.android.domain.auth.usecase.IsAuthenticatedUseCase
 import com.lukma.android.presentation.auth.AuthActivity
 import com.lukma.android.presentation.main.MainActivity
+import com.lukma.android.shared.extensions.toLiveData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
@@ -19,11 +20,7 @@ class SplashViewModel(private val isAuthenticatedUseCase: IsAuthenticatedUseCase
     fun delayToNextScreen() {
         viewModelScope.launch {
             delay(TimeUnit.SECONDS.toSeconds(3))
-            isAuthenticated()
+            isAuthenticatedUseCase.invoke().toLiveData(isAuthenticated)
         }
-    }
-
-    private fun isAuthenticated() {
-        isAuthenticatedUseCase.onSuccess(isAuthenticated::postValue).execute()
     }
 }

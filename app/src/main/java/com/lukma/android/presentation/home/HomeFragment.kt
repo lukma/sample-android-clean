@@ -3,8 +3,8 @@ package com.lukma.android.presentation.home
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lukma.android.R
-import com.lukma.android.presentation.common.PagedState
 import com.lukma.android.presentation.common.base.BaseFragment
+import com.lukma.android.presentation.common.widget.recycler.PagedState
 import com.lukma.android.shared.extensions.handleError
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -13,7 +13,7 @@ class HomeFragment : BaseFragment() {
     override val resourceLayout = R.layout.fragment_home
     private val viewModel by viewModel<HomeViewModel>()
 
-    private val contentListAdapter by lazy { ContentListAdapter() }
+    private val contentListAdapter = ContentListAdapter {}
 
     override fun onInitViews() {
         with(recyclerView) {
@@ -22,20 +22,16 @@ class HomeFragment : BaseFragment() {
             adapter = contentListAdapter
         }
         swipeRefresh.setOnRefreshListener {
-            viewModel.reload()
+            viewModel.contents.value?.dataSource?.invalidate()
         }
     }
 
     override fun onInitObservers() {
         viewModel.networkState.observe(this, Observer {
-            contentListAdapter.currentState = it.state
-            swipeRefresh.isRefreshing = it.state == PagedState.ON_INITIAL_REQUEST
-            when (it.state) {
-                PagedState.ON_INITIAL_REQUEST -> Unit
-                PagedState.ON_FAILURE -> handleError(it.error)
-                else -> swipeRefresh.isRefreshing = false
-            }
+            contentListAdapter.currentState = it
+            swipeRefresh.isRefreshing = it is PagedState.Loading && it.isInitial
+            if (it is PagedState.Failure && it.isInitial) handleError(it.error)
         })
-        viewModel.listOfContent.observe(this, Observer(contentListAdapter::submitList))
+        viewModel.contents.observe(this, Observer(contentListAdapter::submitList))
     }
 }

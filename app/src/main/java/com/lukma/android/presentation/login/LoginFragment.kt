@@ -14,8 +14,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.lukma.android.R
 import com.lukma.android.domain.auth.entity.ThirdParty
-import com.lukma.android.presentation.common.State
 import com.lukma.android.presentation.common.base.BaseFragment
+import com.lukma.android.presentation.common.entity.Resource
 import com.lukma.android.presentation.main.MainActivity
 import com.lukma.android.shared.extensions.handleError
 import com.lukma.android.shared.extensions.hideKeyboard
@@ -62,27 +62,19 @@ class LoginFragment : BaseFragment() {
     }
 
     override fun onInitObservers() {
-        viewModel.authorizeAction.observe(this, Observer {
-            loginButton.isVisible = it.state != State.ON_REQUEST
-            progressBar.isVisible = it.state == State.ON_REQUEST
+        viewModel.authorizeAction.observe(this, Observer(::handleAuthorizeResult))
+        viewModel.authorizeByThirdPartyAction.observe(this, Observer(::handleAuthorizeResult))
+    }
 
-            when (it.state) {
-                State.ON_REQUEST -> Unit
-                State.ON_SUCCESS -> context?.startActivityClearTask(MainActivity::class.java)
-                State.ON_FAILURE -> handleError(it.error)
-            }
-        })
+    private fun handleAuthorizeResult(result: Resource<Unit>) {
+        val isLoading = result == Resource.Loading
+        loginButton.isEnabled = !isLoading
+        progressBar.isVisible = isLoading
 
-        viewModel.authorizeByThirdPartyAction.observe(this, Observer {
-            loginButton.isVisible = it.state != State.ON_REQUEST
-            progressBar.isVisible = it.state == State.ON_REQUEST
-
-            when (it.state) {
-                State.ON_REQUEST -> Unit
-                State.ON_SUCCESS -> context?.startActivityClearTask(MainActivity::class.java)
-                State.ON_FAILURE -> handleError(it.error)
-            }
-        })
+        when (result) {
+            is Resource.Success -> requireContext().startActivityClearTask(MainActivity::class.java)
+            is Resource.Failure -> handleError(result.error)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

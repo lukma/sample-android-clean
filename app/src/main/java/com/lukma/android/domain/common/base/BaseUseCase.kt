@@ -1,31 +1,20 @@
 package com.lukma.android.domain.common.base
 
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
+import com.lukma.android.domain.common.entity.either
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlin.coroutines.CoroutineContext
 
 abstract class BaseUseCase<Entity> {
-    private var params: Map<String, Any?> = emptyMap()
-    private var onSuccess: (Entity) -> Unit = {}
-    private var onError: (Throwable) -> Unit = { it.printStackTrace() }
-
-    abstract suspend fun build(params: Map<String, Any?> = emptyMap()): Entity
+    protected lateinit var params: Map<String, Any?>
 
     fun addParams(params: Map<String, Any?>) = apply {
         this.params = params
     }
 
-    fun onSuccess(onSuccess: (Entity) -> Unit) = apply {
-        this.onSuccess = onSuccess
-    }
+    abstract suspend fun build(): Entity
 
-    fun onError(onError: (Throwable) -> Unit) = apply {
-        this.onError = onError
+    suspend fun invoke(context: CoroutineContext = Dispatchers.IO) = withContext(context) {
+        either(::build)
     }
-
-    fun execute(scope: CoroutineScope = CoroutineScope(Dispatchers.IO)) =
-        scope.launch(CoroutineExceptionHandler { _, exception -> onError(exception) }) {
-            onSuccess(build(params))
-        }
 }

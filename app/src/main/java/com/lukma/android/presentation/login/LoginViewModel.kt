@@ -8,8 +8,9 @@ import com.lukma.android.domain.auth.entity.ThirdParty
 import com.lukma.android.domain.auth.usecase.AuthorizeByThirdPartyUseCase
 import com.lukma.android.domain.auth.usecase.AuthorizeByUsernameOrEmailUseCase
 import com.lukma.android.domain.common.UseCaseConstant
-import com.lukma.android.presentation.common.Resource
-import com.lukma.android.presentation.common.State
+import com.lukma.android.presentation.common.entity.Resource
+import com.lukma.android.shared.extensions.toResourceLiveData
+import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private val authorizeUseCase: AuthorizeByUsernameOrEmailUseCase,
@@ -25,34 +26,25 @@ class LoginViewModel(
         get() = authorizeByThirdPartyActionMutable
 
     fun authorize(usernameOrEmail: String, password: String) {
-        authorizeActionMutable.postValue(Resource(State.ON_REQUEST))
-        val params = mapOf(
-            UseCaseConstant.USERNAME to usernameOrEmail,
-            UseCaseConstant.PASSWORD to password
-        )
-        authorizeUseCase.addParams(params)
-            .onSuccess { authorizeActionMutable.postValue(Resource(State.ON_SUCCESS, it)) }
-            .onError { authorizeActionMutable.postValue(Resource(State.ON_FAILURE, null, it)) }
-            .execute(viewModelScope)
+        viewModelScope.launch {
+            authorizeActionMutable.postValue(Resource.Loading)
+            val params = mapOf(
+                UseCaseConstant.USERNAME to usernameOrEmail,
+                UseCaseConstant.PASSWORD to password
+            )
+            authorizeUseCase.addParams(params).invoke().toResourceLiveData(authorizeActionMutable)
+        }
     }
 
     fun authorize(thirdParty: ThirdParty, token: String?) {
-        authorizeByThirdPartyActionMutable.postValue(Resource(State.ON_REQUEST))
-        val params = mapOf(
-            UseCaseConstant.THIRD_PARTY to thirdParty,
-            UseCaseConstant.TOKEN to token
-        )
-        authorizeByThirdPartyUseCase.addParams(params)
-            .onSuccess { authorizeByThirdPartyActionMutable.postValue(Resource(State.ON_REQUEST)) }
-            .onError {
-                authorizeByThirdPartyActionMutable.postValue(
-                    Resource(
-                        State.ON_FAILURE,
-                        null,
-                        it
-                    )
-                )
-            }
-            .execute(viewModelScope)
+        viewModelScope.launch {
+            authorizeByThirdPartyActionMutable.postValue(Resource.Loading)
+            val params = mapOf(
+                UseCaseConstant.THIRD_PARTY to thirdParty,
+                UseCaseConstant.TOKEN to token
+            )
+            authorizeByThirdPartyUseCase.addParams(params).invoke()
+                .toResourceLiveData(authorizeByThirdPartyActionMutable)
+        }
     }
 }

@@ -7,5 +7,5 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class AuthActivity : BaseActivityNav() {
     override val resourceLayout = R.layout.activity_auth
-    override val navHost = hostFragment as NavHostFragment
+    override val navHost = hostFragment as? NavHostFragment
 }

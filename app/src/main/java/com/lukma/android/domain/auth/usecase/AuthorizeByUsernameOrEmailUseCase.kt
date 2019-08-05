@@ -7,7 +7,7 @@ import com.lukma.android.domain.common.base.BaseUseCase
 class AuthorizeByUsernameOrEmailUseCase(private val repository: AuthRepository) :
     BaseUseCase<Unit>() {
 
-    override suspend fun build(params: Map<String, Any?>) = repository.authorize(
+    override suspend fun build() = repository.authorize(
         params[UseCaseConstant.USERNAME] as String,
         params[UseCaseConstant.PASSWORD] as String
     )

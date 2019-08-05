@@ -6,7 +6,7 @@ import com.lukma.android.domain.common.UseCaseConstant
 import com.lukma.android.domain.common.base.BaseUseCase
 
 class AuthorizeByThirdPartyUseCase(private val repository: AuthRepository) : BaseUseCase<Unit>() {
-    override suspend fun build(params: Map<String, Any?>) = repository.authorize(
+    override suspend fun build() = repository.authorize(
         params[UseCaseConstant.THIRD_PARTY] as ThirdParty,
         params[UseCaseConstant.TOKEN] as String
     )

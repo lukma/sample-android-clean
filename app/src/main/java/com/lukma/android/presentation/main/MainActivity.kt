@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivityNav() {
     override val resourceLayout = R.layout.activity_main
-    override val navHost = hostFragment as NavHostFragment
+    override val navHost = hostFragment as? NavHostFragment
 
     override fun onInitViews() {
         navController?.also {

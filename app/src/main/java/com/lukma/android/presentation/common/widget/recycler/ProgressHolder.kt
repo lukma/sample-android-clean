@@ -1,4 +1,4 @@
-package com.lukma.android.presentation.common
+package com.lukma.android.presentation.common.widget.recycler
 
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +8,7 @@ import com.lukma.android.shared.extensions.inflate
 
 class ProgressHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     companion object {
-        fun newInstance(parent: ViewGroup) = ProgressHolder(parent.inflate(R.layout.item_loading))
+        fun newInstance(parent: ViewGroup) =
+            ProgressHolder(parent.inflate(R.layout.item_loading))
     }
 }

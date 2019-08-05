@@ -3,8 +3,8 @@ package com.lukma.android.presentation.register
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import com.lukma.android.R
-import com.lukma.android.presentation.common.State
 import com.lukma.android.presentation.common.base.BaseFragment
+import com.lukma.android.presentation.common.entity.Resource
 import com.lukma.android.shared.extensions.handleError
 import com.lukma.android.shared.extensions.hideKeyboard
 import com.lukma.android.shared.extensions.showSnackBar
@@ -29,13 +29,13 @@ class RegisterFragment : BaseFragment() {
 
     override fun onInitObservers() {
         viewModel.registerAction.observe(this, Observer {
-            registerButton.isVisible = it.state != State.ON_REQUEST
-            progressBar.isVisible = it.state == State.ON_REQUEST
+            val isLoading = it == Resource.Loading
+            registerButton.isEnabled = !isLoading
+            progressBar.isVisible = isLoading
 
-            when (it.state) {
-                State.ON_REQUEST -> Unit
-                State.ON_SUCCESS -> showSnackBar(R.string.message_register_successfully)
-                State.ON_FAILURE -> handleError(it.error)
+            when (it) {
+                is Resource.Success -> showSnackBar(R.string.message_register_successfully)
+                is Resource.Failure -> handleError(it.error)
             }
         })
     }

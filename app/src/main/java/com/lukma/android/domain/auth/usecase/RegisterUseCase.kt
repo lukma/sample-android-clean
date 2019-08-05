@@ -5,7 +5,7 @@ import com.lukma.android.domain.common.UseCaseConstant
 import com.lukma.android.domain.common.base.BaseUseCase
 
 class RegisterUseCase(private val repository: AuthRepository) : BaseUseCase<Unit>() {
-    override suspend fun build(params: Map<String, Any?>) = repository.register(
+    override suspend fun build() = repository.register(
         params[UseCaseConstant.USERNAME] as String,
         params[UseCaseConstant.PASSWORD] as String,
         params[UseCaseConstant.FULLNAME] as String,
