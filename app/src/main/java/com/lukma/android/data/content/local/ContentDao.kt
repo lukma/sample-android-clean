@@ -8,8 +8,8 @@ import androidx.room.Query
 @Dao
 interface ContentDao {
     @Query("SELECT * FROM contents LIMIT :limit OFFSET :offset")
-    fun gets(limit: Int, offset: Int): List<ContentTable>
+    suspend fun gets(limit: Int, offset: Int): List<ContentTable>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(data: List<ContentTable>): List<Long>
+    suspend fun insert(data: List<ContentTable>): List<Long>
 }
