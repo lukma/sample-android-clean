@@ -2,7 +2,7 @@ package com.lukma.android.data.common.interceptor
 
 import com.lukma.android.data.common.entity.RetrofitType
 import com.lukma.android.data.common.exception.network.ApiException
-import com.lukma.android.data.common.exception.network.TokenUnauthorizedException
+import com.lukma.android.data.common.exception.network.TokenInvalidException
 import com.lukma.android.domain.auth.entity.Auth
 import com.lukma.android.domain.auth.usecase.GetAuthIsActiveUseCase
 import com.lukma.android.domain.auth.usecase.RefreshTokenUseCase
@@ -38,20 +38,20 @@ class ApiInterceptor(private val type: RetrofitType) : Interceptor, KoinComponen
         }
     }
 
-    private fun getNewSession() = runBlocking {
-        when (val result = refreshTokenUseCase.invoke()) {
-            is Either.Value -> result.value
-            is Either.Error -> throw IOException("Unexpected Error")
-        }
+    private fun getNewSession() = when (val result = runBlocking { refreshTokenUseCase.invoke() }) {
+        is Either.Value -> result.value
+        is Either.Error -> throw IOException("Unexpected Error")
     }
 
     private fun requestWithAuthorization(chain: Interceptor.Chain, session: Auth): Response {
         val original = chain.request()
-        val request = original.newBuilder().apply {
-            header("Authorization", "${session.tokenType} ${session.accessToken}")
-            method(original.method(), original.body())
-        }.build()
-        return chain.proceed(request)
+        return original.newBuilder()
+            .apply {
+                header("Authorization", "${session.tokenType} ${session.accessToken}")
+                method(original.method(), original.body())
+            }
+            .build()
+            .let(chain::proceed)
     }
 
     private fun checkIfHasError(
@@ -60,19 +60,22 @@ class ApiInterceptor(private val type: RetrofitType) : Interceptor, KoinComponen
         onExpire: suspend (retryCount: Int) -> Response
     ): Response {
         when {
-            response.code() == 401 && type == RetrofitType.TOKEN -> {
-                if (retryCount < 3) {
-                    return runBlocking { onExpire(retryCount + 1) }
-                } else {
-                    throw IOException("Unexpected Error")
-                }
+            type == RetrofitType.TOKEN && response.code() == 401 -> if (retryCount < MAX_RETRY) {
+                return runBlocking { onExpire(retryCount + 1) }
+            } else {
+                throw IOException("Unexpected Error")
             }
-            response.code() == 401 && type == RetrofitType.BASIC_AUTH ->
-                throw  TokenUnauthorizedException()
-            response.code() < 200 || response.code() >= 400 ->
-                throw ApiException(JSONObject(response.body()?.string()))
+            type == RetrofitType.BASIC_AUTH && response.code() == 401 -> throw  TokenInvalidException()
+            response.code() < 200 || response.code() >= 400 -> {
+                val error = JSONObject(response.body()?.string())
+                throw ApiException(error)
+            }
         }
 
         return response
+    }
+
+    companion object {
+        private const val MAX_RETRY = 3
     }
 }

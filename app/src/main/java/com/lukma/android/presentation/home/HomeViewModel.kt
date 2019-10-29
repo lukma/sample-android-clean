@@ -12,8 +12,7 @@ import com.lukma.android.presentation.common.widget.recycler.PagedFactory
 import com.lukma.android.presentation.common.widget.recycler.PagedState
 
 class HomeViewModel(private val getListOfContentUseCase: GetListOfContentUseCase) : ViewModel() {
-    private val pagedDataFactory =
-        PagedFactory(::getListOfContent)
+    private val pagedDataFactory = PagedFactory(::getListOfContent)
     private val pagedListConfig = PagedList.Config.Builder()
         .setEnablePlaceholders(false)
         .setInitialLoadSizeHint(1)
