@@ -45,12 +45,10 @@ class AppFirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
         }
     }
 
-    override fun onNewToken(token: String?) {
-        token?.also {
-            CoroutineScope(Dispatchers.IO).launch {
-                val params = mapOf(UseCaseConstant.TOKEN to it)
-                saveFcmUseCase.addParams(params).invoke()
-            }
+    override fun onNewToken(token: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val params = mapOf(UseCaseConstant.TOKEN to token)
+            saveFcmUseCase.addParams(params).invoke()
         }
     }
 
