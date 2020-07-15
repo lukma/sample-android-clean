@@ -67,7 +67,7 @@ dependencies {
     implementation(Dependencies.Jetpack.Navigation.uiKtxLib)
 
     // Koin
-    implementation(Dependencies.Koin.androidLib)
+    implementation(Dependencies.Koin.coreLib)
     debugImplementation(Dependencies.Koin.testLib)
 
     // AirBnB

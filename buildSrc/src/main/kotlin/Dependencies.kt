@@ -62,7 +62,7 @@ object Dependencies {
         private const val version = "2.1.6"
 
         const val coreLib = "org.koin:koin-core-ext:$version"
-        const val androidLib = "org.koin:koin-android:$version"
+        const val androidLib = "org.koin:koin-androidx-ext:$version"
         const val testLib = "org.koin:koin-test:$version"
     }
 
@@ -80,7 +80,7 @@ object Dependencies {
     }
 
     object OkHttp {
-        private const val version = "4.8.0"
+        private const val version = "4.7.2"
 
         const val coreLib = "com.squareup.okhttp3:okhttp:$version"
         const val mockLib = "com.squareup.okhttp3:mockwebserver:$version"

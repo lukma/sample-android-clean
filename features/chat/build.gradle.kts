@@ -75,6 +75,6 @@ dependencies {
     // Paging
 
     // Koin
-    implementation(Dependencies.Koin.androidLib)
+    implementation(Dependencies.Koin.coreLib)
     debugImplementation(Dependencies.Koin.testLib)
 }
