@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/chatGraph">
+
+    <action
+        android:id="@+id/action_to_loginFragment"
+        app:destination="@id/authGraph"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
+
+    <!-- Auth Navigation -->
+    <navigation
+        android:id="@+id/authGraph"
+        app:moduleName="auth"
+        app:startDestination="@id/loginFragment">
+
+        <fragment
+            android:id="@+id/loginFragment"
+            android:name="com.lukma.features.auth.login.LoginFragment"
+            tools:layout="@layout/login_fragment">
+
+            <action
+                android:id="@+id/action_to_registerFragment"
+                app:destination="@id/registerFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/registerFragment"
+            android:name="com.lukma.features.auth.register.RegisterFragment"
+            tools:layout="@layout/register_fragment" />
+
+        <action
+            android:id="@+id/action_to_homeFragment"
+            app:destination="@id/chatGraph"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </navigation>
+
+    <!-- Chat Navigation -->
+    <navigation
+        android:id="@+id/chatGraph"
+        app:moduleName="chat"
+        app:startDestination="@id/chatRoomsFragment">
+
+        <fragment
+            android:id="@+id/chatRoomsFragment"
+            android:name="com.lukma.features.chat.rooms.ChatRoomsFragment"
+            tools:layout="@layout/chat_rooms_fragment">
+
+            <action
+                android:id="@+id/action_to_chatMessagesFragment"
+                app:destination="@id/chatMessagesFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/chatMessagesFragment"
+            android:name="com.lukma.features.chat.messages.ChatMessagesFragment"
+            tools:layout="@layout/chat_messages_fragment">
+
+            <argument
+                android:name="roomId"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+            <argument
+                android:name="to"
+                android:defaultValue="@null"
+                app:argType="string"
+                app:nullable="true" />
+        </fragment>
+    </navigation>
+</navigation>

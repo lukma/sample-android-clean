@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="100dp"
+        app:cardUseCompatPadding="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="100dp"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/contentText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut ex lacinia, elementum nibh quis, viverra nisl. Curabitur at magna eget justo dignissim venenatis sed quis ligula. Donec pharetra finibus nibh, scelerisque sollicitudin ligula volutpat non. Vivamus blandit ante at nisi pharetra, sit amet rhoncus nibh rhoncus. Phasellus sodales sollicitudin elit sit amet elementum. Donec auctor, augue sit amet congue consectetur, diam tortor ornare lectus, sit amet gravida justo velit vel leo. Sed elit ligula, pretium a ultricies a, egestas id ligula. Etiam lacinia vehicula sagittis. Nulla facilisi. Duis vitae nunc ac augue ultricies interdum nec ut neque. Etiam tempor ante ac justo volutpat, sed maximus lorem rutrum." />
+
+            <TextView
+                android:id="@+id/createdAtText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/contentText"
+                tools:text="a second ago" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</FrameLayout>

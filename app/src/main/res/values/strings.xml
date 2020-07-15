@@ -1,25 +1,5 @@
 <resources>
-    <string name="facebook_app_id">276824736502178</string>
-    <string name="fb_login_protocol_scheme">fb276824736502178</string>
-
-    <string name="title_home">Home</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="title_profile">Profile</string>
-
-    <string name="hint_username">Username</string>
-    <string name="hint_password">Password</string>
-    <string name="hint_fullname">Fullname</string>
-    <string name="hint_email">Email</string>
-
-    <string name="button_login">Login</string>
-    <string name="button_facebook">Facebook</string>
-    <string name="button_google">Google</string>
-    <string name="button_register">Register</string>
-    <string name="button_logout">Logout</string>
-
-    <string name="text_offer_connect_social_media">Or Connect With</string>
-    <string name="text_offer_sign_up">Doesn\'t have any account?</string>
-
-    <string name="message_register_successfully">Register success</string>
-    <string name="message_register_failure">Register failure</string>
+    <string name="app_name">CleanApp</string>
+    <string name="title_auth">Auth</string>
+    <string name="title_chat">Chat</string>
 </resources>
