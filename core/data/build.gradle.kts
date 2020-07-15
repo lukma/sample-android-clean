@@ -62,7 +62,7 @@ dependencies {
 
     // Koin
     implementation(Dependencies.Koin.coreLib)
-    implementation(Dependencies.Koin.androidCoreLib)
+    implementation(Dependencies.Koin.androidLib)
 
     // Firebase
     implementation(Dependencies.Firebase.analyticsLib)

@@ -81,13 +81,13 @@ dependencies {
     implementation(Dependencies.Jetpack.Lifecycle.liveDataLib)
     implementation(Dependencies.Jetpack.Lifecycle.viewModelLib)
 
-    // Navigation component
+    // Navigation
     implementation(Dependencies.Jetpack.Navigation.fragmentKtxLib)
     implementation(Dependencies.Jetpack.Navigation.uiKtxLib)
     implementation(Dependencies.Jetpack.Navigation.dynamicFeatureLib)
     androidTestImplementation(Dependencies.Jetpack.Navigation.testLib)
 
     // Koin
-    implementation(Dependencies.Koin.androidCoreLib)
+    implementation(Dependencies.Koin.androidLib)
     debugImplementation(Dependencies.Koin.testLib)
 }

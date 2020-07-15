@@ -59,10 +59,10 @@ object Dependencies {
     }
 
     object Koin {
-        private const val version = "2.1.5"
+        private const val version = "2.1.6"
 
         const val coreLib = "org.koin:koin-core-ext:$version"
-        const val androidCoreLib = "org.koin:koin-android:$version"
+        const val androidLib = "org.koin:koin-android:$version"
         const val testLib = "org.koin:koin-test:$version"
     }
 
@@ -74,13 +74,13 @@ object Dependencies {
     }
 
     object Firebase {
-        const val analyticsLib = "com.google.firebase:firebase-analytics-ktx:17.4.3"
-        const val authLib = "com.google.firebase:firebase-auth-ktx:19.3.1"
-        const val firestoreLib = "com.google.firebase:firebase-firestore-ktx:21.4.3"
+        const val analyticsLib = "com.google.firebase:firebase-analytics-ktx:17.4.4"
+        const val authLib = "com.google.firebase:firebase-auth-ktx:19.3.2"
+        const val firestoreLib = "com.google.firebase:firebase-firestore-ktx:21.5.0"
     }
 
     object OkHttp {
-        private const val version = "4.7.2"
+        private const val version = "4.8.0"
 
         const val coreLib = "com.squareup.okhttp3:okhttp:$version"
         const val mockLib = "com.squareup.okhttp3:mockwebserver:$version"
