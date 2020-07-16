@@ -6,6 +6,10 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface UserService {
-    @GET("/api/searchUser")
-    suspend fun searchUsers(@Query("query") query: String): BaseResponse<List<UserResponse>>
+    @GET("v1/searchUser")
+    suspend fun searchUsers(
+        @Query("query") query: String,
+        @Query("page_size") pageSize: Int = 20,
+        @Query("offset") offset: Int = 0
+    ): BaseResponse<List<UserResponse>>
 }

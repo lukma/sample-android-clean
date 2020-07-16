@@ -1,6 +1,7 @@
 package com.lukma.core.domain.user
 
 import com.lukma.core.domain.Either
+import com.lukma.core.domain.ListConfig
 import com.lukma.core.domain.user.usecase.SearchUsersUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -17,19 +18,20 @@ class SearchUsersUseCaseTest {
     fun `given success process when search users then got data`() {
         // given
         val query = "sample"
+        val config = ListConfig()
         val users = listOf(
             User(
                 email = "dummy@mail.com",
                 displayName = "dummy"
             )
         )
-        coEvery { userRepository.searchUsers(any()) } returns users
+        coEvery { userRepository.searchUsers(any(), any()) } returns users
 
         // when
-        val result = runBlocking { useCase.addParams(query).invoke() }
+        val result = runBlocking { useCase.addParams(query, config).invoke() }
 
         // then
-        coVerify { userRepository.searchUsers(query) }
+        coVerify { userRepository.searchUsers(query, config) }
         val expected = Either.Value(users)
         assertEquals(expected, result)
     }
@@ -38,7 +40,7 @@ class SearchUsersUseCaseTest {
     fun `given fail process when search users then got error`() {
         // given
         val error = Exception("failed")
-        coEvery { userRepository.searchUsers(any()) } throws error
+        coEvery { userRepository.searchUsers(any(), any()) } throws error
 
         // when
         val result = runBlocking { useCase.addParams("sample").invoke() }
