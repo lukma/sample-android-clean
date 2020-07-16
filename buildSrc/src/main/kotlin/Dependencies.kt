@@ -80,7 +80,7 @@ object Dependencies {
     }
 
     object OkHttp {
-        private const val version = "4.7.2"
+        private const val version = "4.8.0"
 
         const val coreLib = "com.squareup.okhttp3:okhttp:$version"
         const val mockLib = "com.squareup.okhttp3:mockwebserver:$version"
