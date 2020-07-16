@@ -70,8 +70,7 @@ class ChatRoomsFragmentTest : KoinTest {
         // then
         val direction = slot<NavDirections>()
         verify { mockNavController.navigate(capture(direction)) }
-        assertTrue(direction.captured.actionId == com.lukma.android.R.id.action_to_chatMessagesFragment)
-        assertTrue(direction.captured.arguments["to"] == "gayo@mail.com")
+        assertTrue(direction.captured.actionId == com.lukma.android.R.id.action_to_contactsFragment)
     }
 
     @Test
@@ -81,7 +80,6 @@ class ChatRoomsFragmentTest : KoinTest {
 
         // when
         launchScreen()
-        onView(withId(R.id.composeButton)).perform(click())
         onView(RecyclerViewMatcher.withId(R.id.roomRecyclerView).atPosition(0)).perform(click())
 
         // then

@@ -7,6 +7,8 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.lukma.core.domain.Either
+import com.lukma.core.domain.account.Profile
+import com.lukma.core.domain.account.usecase.GetProfileUseCase
 import com.lukma.core.domain.chat.ChatMessage
 import com.lukma.core.domain.chat.usecase.GetChatMessagesUseCase
 import com.lukma.core.domain.chat.usecase.GetChatRoomByMembersUseCase
@@ -26,6 +28,7 @@ import org.koin.test.KoinTest
 import java.util.*
 
 class ChatMessagesFragmentTest : KoinTest {
+    private val getProfileUseCase: GetProfileUseCase = mockk()
     private val getChatRoomByMembersUseCase: GetChatRoomByMembersUseCase = mockk()
     private val getChatMessagesUseCase: GetChatMessagesUseCase = mockk()
     private val sendChatMessageUseCase: SendChatMessageUseCase = mockk()
@@ -35,11 +38,16 @@ class ChatMessagesFragmentTest : KoinTest {
         stopKoin()
         startKoin {
             modules(module {
+                single { getProfileUseCase }
                 single { getChatRoomByMembersUseCase }
                 single { getChatMessagesUseCase }
                 single { sendChatMessageUseCase }
             })
         }
+
+        coEvery {
+            getProfileUseCase.invoke()
+        } returns Either.Value(Profile(email = "dummy@mail.com", displayName = "dummy"))
     }
 
     @Test

@@ -33,6 +33,13 @@ object Dependencies {
                 "androidx.navigation:navigation-dynamic-features-fragment:$version"
             const val testLib = "androidx.navigation:navigation-testing:$version"
         }
+
+        object Paging {
+            private const val version = "3.0.0-alpha02"
+
+            const val runtimeLib = "androidx.paging:paging-runtime:$version"
+            const val commonLib = "androidx.paging:paging-common:$version"
+        }
     }
 
     object JUnit {

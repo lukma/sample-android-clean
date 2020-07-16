@@ -25,7 +25,7 @@ class ChatRoomsFragment : Fragment(R.layout.chat_rooms_fragment) {
         super.onViewCreated(view, savedInstanceState)
         roomRecyclerView.adapter = listAdapter
         composeButton.setOnClickListener {
-            val direction = ChatRoomsFragmentDirections.actionToChatMessagesFragment(to = "gayo@mail.com")
+            val direction = ChatRoomsFragmentDirections.actionToContactsFragment()
             findNavController().navigate(direction)
         }
     }

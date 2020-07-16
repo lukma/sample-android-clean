@@ -72,7 +72,9 @@ dependencies {
     implementation(Dependencies.Jetpack.Navigation.fragmentKtxLib)
     implementation(Dependencies.Jetpack.Navigation.uiKtxLib)
 
-    // Paging
+    // Paging 3
+    implementation(Dependencies.Jetpack.Paging.runtimeLib)
+    testImplementation(Dependencies.Jetpack.Paging.commonLib)
 
     // Koin
     implementation(Dependencies.Koin.coreLib)

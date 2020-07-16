@@ -55,6 +55,20 @@
             <action
                 android:id="@+id/action_to_chatMessagesFragment"
                 app:destination="@id/chatMessagesFragment" />
+
+            <action
+                android:id="@+id/action_to_contactsFragment"
+                app:destination="@id/contactsFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/contactsFragment"
+            android:name="com.lukma.features.chat.contacts.ContactsFragment"
+            tools:layout="@layout/contacts_fragment">
+
+            <action
+                android:id="@+id/action_to_chatMessagesFragment"
+                app:destination="@id/chatMessagesFragment" />
         </fragment>
 
         <fragment

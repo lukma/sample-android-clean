@@ -33,4 +33,5 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation(Dependencies.Jetpack.coreKtxLib)
     implementation(Dependencies.Google.materialLib)
+    implementation(Dependencies.Jetpack.Paging.runtimeLib)
 }
