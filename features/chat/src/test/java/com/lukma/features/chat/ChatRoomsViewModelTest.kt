@@ -6,12 +6,18 @@ import com.lukma.core.domain.chat.ChatMessage
 import com.lukma.core.domain.chat.ChatRoom
 import com.lukma.core.domain.chat.usecase.GetChatRoomsUseCase
 import com.lukma.core.domain.user.User
+import com.lukma.core.test.TaskExecutorExtension
 import com.lukma.features.chat.rooms.ChatRoomsViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -23,13 +29,17 @@ import org.koin.dsl.module
 import org.koin.test.KoinTest
 import java.util.*
 
+@ExperimentalCoroutinesApi
 @ExtendWith(TaskExecutorExtension::class)
 class ChatRoomsViewModelTest : KoinTest {
+    private val testDispatcher = TestCoroutineDispatcher()
+
     private val getChatRoomsUseCase: GetChatRoomsUseCase = mockk()
     private lateinit var viewModel: ChatRoomsViewModel
 
     @BeforeEach
     fun setup() {
+        Dispatchers.setMain(testDispatcher)
         stopKoin()
         startKoin {
             modules(module {
@@ -37,6 +47,12 @@ class ChatRoomsViewModelTest : KoinTest {
             })
         }
         viewModel = ChatRoomsViewModel()
+    }
+
+    @AfterEach
+    fun tearDown() {
+        Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
     }
 
     @Nested

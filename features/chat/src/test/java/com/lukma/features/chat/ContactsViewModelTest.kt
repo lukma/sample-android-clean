@@ -6,12 +6,19 @@ import androidx.paging.PagingConfig
 import com.lukma.core.domain.Either
 import com.lukma.core.domain.user.User
 import com.lukma.core.domain.user.usecase.SearchUsersUseCase
+import com.lukma.core.test.TaskExecutorExtension
 import com.lukma.core.uikit.paging.AppPagingSource
 import com.lukma.features.chat.contacts.ContactsViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -22,13 +29,17 @@ import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 
+@ExperimentalCoroutinesApi
 @ExtendWith(TaskExecutorExtension::class)
 class ContactsViewModelTest : KoinTest {
+    private val testDispatcher = TestCoroutineDispatcher()
+
     private val searchUsersUseCase: SearchUsersUseCase = mockk()
     private lateinit var viewModel: ContactsViewModel
 
     @BeforeEach
     fun setup() {
+        Dispatchers.setMain(testDispatcher)
         stopKoin()
         startKoin {
             modules(module {
@@ -36,6 +47,12 @@ class ContactsViewModelTest : KoinTest {
             })
         }
         viewModel = ContactsViewModel()
+    }
+
+    @AfterEach
+    fun tearDown() {
+        Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
     }
 
     @Nested

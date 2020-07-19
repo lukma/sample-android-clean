@@ -2,6 +2,7 @@ include(
     ":core:domain",
     ":core:data",
     ":core:uikit",
+    ":core:test",
     ":core:androidTest",
     ":app",
     ":features:auth",

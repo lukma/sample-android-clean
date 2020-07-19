@@ -6,10 +6,16 @@ import com.lukma.core.domain.Either
 import com.lukma.core.domain.account.Profile
 import com.lukma.core.domain.account.usecase.GetProfileUseCase
 import com.lukma.core.domain.auth.usecase.IsLoggedInUseCase
+import com.lukma.core.test.TaskExecutorExtension
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.verify
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -20,8 +26,11 @@ import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.AutoCloseKoinTest
 
+@ExperimentalCoroutinesApi
 @ExtendWith(TaskExecutorExtension::class)
 class MainViewModelTest : AutoCloseKoinTest() {
+    private val testDispatcher = TestCoroutineDispatcher()
+
     private val isLoggedInUseCase: IsLoggedInUseCase = mockk()
     private val getProfileUseCase: GetProfileUseCase = mockk()
 
@@ -29,6 +38,7 @@ class MainViewModelTest : AutoCloseKoinTest() {
 
     @BeforeEach
     fun setup() {
+        Dispatchers.setMain(testDispatcher)
         stopKoin()
         startKoin {
             modules(module {
@@ -37,6 +47,12 @@ class MainViewModelTest : AutoCloseKoinTest() {
             })
         }
         viewModel = MainViewModel()
+    }
+
+    @AfterEach
+    fun tearDown() {
+        Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
     }
 
     @Nested

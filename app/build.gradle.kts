@@ -2,7 +2,6 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("android.extensions")
-    kotlin("kapt")
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.gms.google-services")
 }
@@ -59,6 +58,7 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:data"))
     implementation(project(":core:uikit"))
+    testImplementation(project(":core:test"))
 
     // Common
     implementation(Dependencies.Jetpack.coreKtxLib)

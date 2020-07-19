@@ -5,11 +5,17 @@ import com.lukma.core.domain.Either
 import com.lukma.core.domain.EventState
 import com.lukma.core.domain.auth.usecase.SignInWithEmailUseCase
 import com.lukma.core.domain.auth.usecase.SignUpWithEmailUseCase
+import com.lukma.core.test.TaskExecutorExtension
 import com.lukma.features.auth.register.RegisterViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.verifySequence
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -20,14 +26,18 @@ import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 
+@ExperimentalCoroutinesApi
 @ExtendWith(TaskExecutorExtension::class)
 class RegisterViewModelTest : KoinTest {
+    private val testDispatcher = TestCoroutineDispatcher()
+
     private val signUpWithEmailUseCase: SignUpWithEmailUseCase = mockk()
     private val signInWithEmailUseCase: SignInWithEmailUseCase = mockk()
     private lateinit var viewModel: RegisterViewModel
 
     @BeforeEach
     fun setup() {
+        Dispatchers.setMain(testDispatcher)
         stopKoin()
         startKoin {
             modules(module {
@@ -36,6 +46,12 @@ class RegisterViewModelTest : KoinTest {
             })
         }
         viewModel = RegisterViewModel()
+    }
+
+    @AfterEach
+    fun tearDown() {
+        Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
     }
 
     @Nested

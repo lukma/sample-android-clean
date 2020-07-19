@@ -20,6 +20,7 @@ object Dependencies {
             const val extensionsLib = "androidx.lifecycle:lifecycle-extensions:$version"
             const val liveDataLib = "androidx.lifecycle:lifecycle-livedata-ktx:$version"
             const val viewModelLib = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
+            const val testLib = "androidx.arch.core:core-testing:2.1.0"
         }
 
         object Navigation {

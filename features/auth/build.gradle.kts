@@ -40,6 +40,7 @@ dependencies {
     implementation(project(":app"))
     implementation(project(":core:domain"))
     implementation(project(":core:uikit"))
+    testImplementation(project(":core:test"))
 
     // Common
     implementation(Dependencies.Jetpack.coreKtxLib)

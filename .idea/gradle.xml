@@ -17,6 +17,7 @@
             <option value="$PROJECT_DIR$/core/androidTest" />
             <option value="$PROJECT_DIR$/core/data" />
             <option value="$PROJECT_DIR$/core/domain" />
+            <option value="$PROJECT_DIR$/core/test" />
             <option value="$PROJECT_DIR$/core/uikit" />
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/auth" />

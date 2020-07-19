@@ -1,18 +1,14 @@
-package com.lukma.features.auth
+package com.lukma.core.test
 
+import android.annotation.SuppressLint
 import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.arch.core.executor.TaskExecutor
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
 import org.junit.jupiter.api.extension.AfterEachCallback
 import org.junit.jupiter.api.extension.BeforeEachCallback
 import org.junit.jupiter.api.extension.ExtensionContext
 
-@Suppress("EXPERIMENTAL_API_USAGE")
+@SuppressLint("RestrictedApi")
 class TaskExecutorExtension : BeforeEachCallback, AfterEachCallback {
-    private val testDispatcher = TestCoroutineDispatcher()
 
     override fun beforeEach(context: ExtensionContext?) {
         ArchTaskExecutor.getInstance()
@@ -23,12 +19,9 @@ class TaskExecutorExtension : BeforeEachCallback, AfterEachCallback {
 
                 override fun postToMainThread(runnable: Runnable) = runnable.run()
             })
-        Dispatchers.setMain(testDispatcher)
     }
 
     override fun afterEach(context: ExtensionContext?) {
         ArchTaskExecutor.getInstance().setDelegate(null)
-        Dispatchers.resetMain()
-        testDispatcher.cleanupTestCoroutines()
     }
 }

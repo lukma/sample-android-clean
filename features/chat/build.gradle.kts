@@ -45,6 +45,7 @@ dependencies {
     implementation(project(":app"))
     implementation(project(":core:domain"))
     implementation(project(":core:uikit"))
+    testImplementation(project(":core:test"))
     androidTestImplementation(project(":core:androidTest"))
 
     // Common
