@@ -47,7 +47,13 @@ class ChatMessagesFragmentTest : KoinTest {
 
         coEvery {
             getProfileUseCase.invoke()
-        } returns Either.Value(Profile(email = "dummy@mail.com", displayName = "dummy"))
+        } returns Either.Value(
+            Profile(
+                email = "dummy@mail.com",
+                displayName = "dummy",
+                photoUrl = "https://someurl"
+            )
+        )
     }
 
     @Test
@@ -58,7 +64,8 @@ class ChatMessagesFragmentTest : KoinTest {
                 content = "lorem ipsum",
                 createdBy = User(
                     email = "dummy@mail.com",
-                    displayName = "dummy"
+                    displayName = "dummy",
+                    photoUrl = "https://someurl"
                 ),
                 createdAt = Date()
             )

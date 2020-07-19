@@ -15,14 +15,16 @@ data class ChatMessageData(
 
     data class CreatedBBy(
         val email: String? = null,
-        val displayName: String? = null
+        val displayName: String? = null,
+        val photoUrl: String? = null
     )
 
     fun toEntity() = ChatMessage(
         content = content ?: throw NoSuchElementException(),
         createdBy = User(
             email = createdBy?.email ?: throw NoSuchElementException(),
-            displayName = createdBy?.displayName ?: throw NoSuchElementException()
+            displayName = createdBy?.displayName ?: throw NoSuchElementException(),
+            photoUrl = createdBy?.photoUrl ?: throw NoSuchElementException()
         ),
         createdAt = createdAt?.toDate() ?: throw NoSuchElementException()
     )

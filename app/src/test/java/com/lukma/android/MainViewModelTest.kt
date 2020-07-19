@@ -114,7 +114,8 @@ class MainViewModelTest : AutoCloseKoinTest() {
             // given
             val profile = Profile(
                 email = "dummy@mail.com",
-                displayName = "dummy"
+                displayName = "dummy",
+                photoUrl = "https://someurl"
             )
             coEvery { getProfileUseCase.invoke() } returns Either.Value(profile)
 

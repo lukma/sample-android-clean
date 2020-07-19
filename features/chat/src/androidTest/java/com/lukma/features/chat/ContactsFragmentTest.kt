@@ -93,7 +93,8 @@ class ContactsFragmentTest : KoinTest {
         private val usersData = listOf(
             User(
                 email = "dummy@mail.com",
-                displayName = "dummy"
+                displayName = "dummy",
+                photoUrl = "https://someurl"
             )
         )
     }

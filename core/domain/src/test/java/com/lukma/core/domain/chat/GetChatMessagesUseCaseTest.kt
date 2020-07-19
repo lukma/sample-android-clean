@@ -26,7 +26,8 @@ class GetChatMessagesUseCaseTest {
                     content = "lorem ipsum",
                     createdBy = User(
                         email = "dummy@mail.com",
-                        displayName = "dummy"
+                        displayName = "dummy",
+                        photoUrl = "https://someurl"
                     ),
                     createdAt = Date()
                 )

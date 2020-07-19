@@ -33,7 +33,8 @@ class UserServiceTest {
                     "data": [
                         {
                             "email": "dummy@mail.com",
-                            "displayName": "dummy"
+                            "displayName": "dummy",
+                            "photoUrl": "https://someurl"
                         }
                     ]
                 }
@@ -48,7 +49,8 @@ class UserServiceTest {
                 data = listOf(
                     UserResponse(
                         email = "dummy@mail.com",
-                        displayName = "dummy"
+                        displayName = "dummy",
+                        photoUrl = "https://someurl"
                     )
                 )
             )

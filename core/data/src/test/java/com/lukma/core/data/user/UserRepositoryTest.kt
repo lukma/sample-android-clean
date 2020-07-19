@@ -30,14 +30,16 @@ class UserRepositoryTest {
                 listOf(
                     UserResponse(
                         email = "dummy@mail.com",
-                        displayName = "dummy"
+                        displayName = "dummy",
+                        photoUrl = "https://someurl"
                     )
                 )
             )
             val userTables = listOf(
                 UserTable(
                     email = "dummy@mail.com",
-                    displayName = "dummy"
+                    displayName = "dummy",
+                    photoUrl = "https://someurl"
                 )
             )
             coEvery { userService.searchUsers(any(), any(), any()) } returns usersResponse

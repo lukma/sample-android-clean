@@ -9,6 +9,7 @@ class AccountRepositoryData(private val firebaseAuth: FirebaseAuth) : AccountRep
     override suspend fun getProfile(): Profile {
         val email = firebaseAuth.currentUser?.email ?: throw NotLoggedInException()
         val displayName = firebaseAuth.currentUser?.displayName ?: ""
-        return Profile(email, displayName)
+        val photoUrl = firebaseAuth.currentUser?.photoUrl?.path ?: ""
+        return Profile(email, displayName, photoUrl)
     }
 }

@@ -17,7 +17,8 @@ class GetProfileUseCaseTest {
         // given
         val profile = Profile(
             email = "dummy@mail.com",
-            displayName = "dummy"
+            displayName = "dummy",
+            photoUrl = "https://someurl"
         )
         coEvery { accountRepository.getProfile() } returns profile
 

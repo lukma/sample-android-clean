@@ -64,7 +64,8 @@ class ContactsViewModelTest : KoinTest {
             val users = listOf(
                 User(
                     email = "dummy@mail.com",
-                    displayName = "dummy"
+                    displayName = "dummy",
+                    photoUrl = "https://someurl"
                 )
             )
             coEvery { searchUsersUseCase.addParams(any()).invoke() } returns Either.Value(users)

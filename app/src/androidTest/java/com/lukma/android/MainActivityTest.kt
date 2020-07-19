@@ -41,7 +41,8 @@ class MainActivityTest : KoinTest {
         val isLoggedIn = true
         val profile = Profile(
             email = "dummy@mail.com",
-            displayName = "dummy"
+            displayName = "dummy",
+            photoUrl = "https://someurl"
         )
 
         // when

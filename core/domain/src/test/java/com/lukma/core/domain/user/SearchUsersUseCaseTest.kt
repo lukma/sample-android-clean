@@ -22,7 +22,8 @@ class SearchUsersUseCaseTest {
         val users = listOf(
             User(
                 email = "dummy@mail.com",
-                displayName = "dummy"
+                displayName = "dummy",
+                photoUrl = "https://someurl"
             )
         )
         coEvery { userRepository.searchUsers(any(), any()) } returns users
