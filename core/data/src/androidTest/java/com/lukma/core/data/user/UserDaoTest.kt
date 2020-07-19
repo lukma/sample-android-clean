@@ -9,6 +9,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
 class UserDaoTest {
@@ -31,8 +32,9 @@ class UserDaoTest {
         testDatabase.close()
     }
 
+    @DisplayName("given exist users when search users then got data")
     @Test
-    fun givenExistUsersWhenSearchUsersThenGotData() {
+    fun testFinds() {
         // given
         val users = listOf(
             UserTable(
@@ -47,35 +49,35 @@ class UserDaoTest {
             val result = userDao.finds("dummy", 10, 0)
 
             // then
-            val expected = listOf(
-                UserTable(
-                    email = "dummy@mail.com",
-                    displayName = "dummy"
-                )
-            )
-            assertEquals(expected, result)
+            assertEquals(users, result)
         }
     }
 
+    @DisplayName("given exist users when replace all and search users then new data")
     @Test
-    fun givenExistUsersWhenDeleteAllAndSearchUsersThenGotEmpty() {
+    fun testReplaceAll() {
         // given
-        val users = listOf(
+        val oldUsers = listOf(
             UserTable(
                 email = "dummy@mail.com",
-                displayName = "dummy"
+                displayName = "dummy1"
+            )
+        )
+        val newUsers = listOf(
+            UserTable(
+                email = "dummy@mail.com",
+                displayName = "dummy2"
             )
         )
         runBlocking {
-            userDao.insert(users)
+            userDao.insert(oldUsers)
 
             // when
-            userDao.deleteAll()
+            userDao.replaceAll(newUsers)
             val result = userDao.finds("dummy", 10, 0)
 
             // then
-            val expected = emptyList<UserTable>()
-            assertEquals(expected, result)
+            assertEquals(newUsers, result)
         }
     }
 }
