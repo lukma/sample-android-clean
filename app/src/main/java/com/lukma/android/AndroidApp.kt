@@ -1,6 +1,7 @@
 package com.lukma.android
 
 import com.google.android.play.core.splitcompat.SplitCompatApplication
+import com.lukma.core.data.databaseModule
 import com.lukma.core.data.networkModule
 import com.lukma.core.data.repositoryModule
 import com.lukma.core.domain.useCaseModule
@@ -18,6 +19,7 @@ class AndroidApp : SplitCompatApplication() {
             androidContext(this@AndroidApp)
             modules(
                 listOf(
+                    databaseModule,
                     networkModule,
                     repositoryModule,
                     useCaseModule

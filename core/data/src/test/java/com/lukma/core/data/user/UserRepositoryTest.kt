@@ -3,6 +3,8 @@ package com.lukma.core.data.user
 import com.lukma.core.data.common.BaseResponse
 import com.lukma.core.data.user.cloud.UserService
 import com.lukma.core.data.user.cloud.response.UserResponse
+import com.lukma.core.data.user.local.UserDao
+import com.lukma.core.data.user.local.UserTable
 import com.lukma.core.domain.ListConfig
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -12,8 +14,9 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class UserRepositoryTest {
+    private val userDao: UserDao = mockk()
     private val userService: UserService = mockk()
-    private val repository = UserRepositoryData(userService)
+    private val repository = UserRepositoryData(userDao, userService)
 
     @Nested
     inner class SearchUsers {
@@ -23,20 +26,29 @@ class UserRepositoryTest {
             // given
             val query = "sample"
             val config = ListConfig()
-            val users = listOf(
-                UserResponse(
+            val usersResponse = BaseResponse(
+                listOf(
+                    UserResponse(
+                        email = "dummy@mail.com",
+                        displayName = "dummy"
+                    )
+                )
+            )
+            val userTables = listOf(
+                UserTable(
                     email = "dummy@mail.com",
                     displayName = "dummy"
                 )
             )
-            coEvery { userService.searchUsers(any(), any(), any()) } returns BaseResponse(users)
+            coEvery { userService.searchUsers(any(), any(), any()) } returns usersResponse
+            coEvery { userDao.finds(any(), any(), any()) } returns userTables
 
             // when
             val result = runBlocking { repository.searchUsers(query, config) }
 
             // then
             coEvery { userService.searchUsers(query, config.pageSize, config.offset) }
-            val expected = users.map(::transform)
+            val expected = userTables.map(::transform)
             assertEquals(expected, result)
         }
 
@@ -45,6 +57,7 @@ class UserRepositoryTest {
             // given
             val error = Exception("failed")
             coEvery { userService.searchUsers(any(), any(), any()) } throws error
+            coEvery { userDao.finds(any(), any(), any()) } returns listOf()
 
             // when
             val result = runCatching {

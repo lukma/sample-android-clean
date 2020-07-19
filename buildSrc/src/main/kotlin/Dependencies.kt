@@ -13,6 +13,7 @@ object Dependencies {
         const val constraintLayoutLib = "androidx.constraintlayout:constraintlayout:1.1.3"
         const val legacySupportV4Lib = "androidx.legacy:legacy-support-v4:1.0.0"
         const val fragmentTestLib = "androidx.fragment:fragment-testing:1.2.5"
+        const val testRunnerLib = "androidx.test:runner:1.1.0"
 
         object Lifecycle {
             private const val version = "2.2.0"
@@ -40,6 +41,15 @@ object Dependencies {
 
             const val runtimeLib = "androidx.paging:paging-runtime:$version"
             const val commonLib = "androidx.paging:paging-common:$version"
+        }
+
+        object Room {
+            private const val version = "2.2.5"
+
+            const val runtimeLib = "androidx.room:room-runtime:$version"
+            const val compilerLib = "androidx.room:room-compiler:$version"
+            const val ktxLib = "androidx.room:room-ktx:$version"
+            const val testLib = "androidx.room:room-testing:$version"
         }
     }
 
