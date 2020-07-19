@@ -53,7 +53,8 @@ class ChatRepositoryData(
         val currentUser = firebaseAuth.currentUser
         val createdBy = ChatMessageData.CreatedBBy(
             email = currentUser?.email ?: throw NotLoggedInException(),
-            displayName = currentUser.displayName ?: throw NotLoggedInException()
+            displayName = currentUser.displayName ?: throw NotLoggedInException(),
+            photoUrl = currentUser.photoUrl?.path ?: ""
         )
 
         val roomId = when (action) {
