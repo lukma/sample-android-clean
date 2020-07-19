@@ -19,6 +19,7 @@ import io.mockk.slot
 import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
@@ -52,6 +53,7 @@ class RegisterFragmentTest : KoinTest {
         }
     }
 
+    @DisplayName("given register screen when sign up success then goto home screen")
     @Test
     fun testRegisterSuccessfully() {
         // given
@@ -79,6 +81,7 @@ class RegisterFragmentTest : KoinTest {
         assertTrue(direction.captured.actionId == com.lukma.android.R.id.action_to_homeFragment)
     }
 
+    @DisplayName("given login screen when sign up failed then show error message")
     @Test
     fun testRegisterFailed() {
         // given

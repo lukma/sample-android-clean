@@ -20,6 +20,7 @@ import io.mockk.slot
 import io.mockk.verify
 import org.junit.Assert.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
@@ -40,6 +41,7 @@ class ContactsFragmentTest : KoinTest {
         }
     }
 
+    @DisplayName("given contacts screen when load data success then show list of data")
     @Test
     fun testLoadUsersSuccessfully() {
         // given
@@ -58,6 +60,7 @@ class ContactsFragmentTest : KoinTest {
         }
     }
 
+    @DisplayName("given contacts screen when tap item list then goto messages screen")
     @Test
     fun testOpenExistingMessages() {
         // given

@@ -22,6 +22,7 @@ import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Assert.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
@@ -43,6 +44,7 @@ class ChatRoomsFragmentTest : KoinTest {
         }
     }
 
+    @DisplayName("given rooms screen when load data success then show list of data")
     @Test
     fun testLoadRoomsSuccessfully() {
         // given
@@ -58,6 +60,7 @@ class ChatRoomsFragmentTest : KoinTest {
         }
     }
 
+    @DisplayName("given rooms screen when tap compose then goto contacts screen")
     @Test
     fun testOpenNewMessages() {
         // given
@@ -73,6 +76,7 @@ class ChatRoomsFragmentTest : KoinTest {
         assertTrue(direction.captured.actionId == com.lukma.android.R.id.action_to_contactsFragment)
     }
 
+    @DisplayName("given rooms screen when item list then goto messages screen")
     @Test
     fun testOpenExistingMessages() {
         // given

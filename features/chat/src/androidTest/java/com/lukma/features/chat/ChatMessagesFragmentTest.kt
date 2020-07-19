@@ -20,6 +20,7 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
@@ -56,6 +57,7 @@ class ChatMessagesFragmentTest : KoinTest {
         )
     }
 
+    @DisplayName("given messages screen when load data success then show list of data")
     @Test
     fun testLoadMessagesSuccessfully() {
         // given

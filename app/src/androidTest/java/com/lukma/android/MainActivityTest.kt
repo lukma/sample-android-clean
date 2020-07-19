@@ -11,6 +11,7 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
@@ -35,8 +36,9 @@ class MainActivityTest : KoinTest {
         ActivityScenarioExtension.launch<MainActivity>()
     }
 
+    @DisplayName("given launched when is logged in then don't navigate to somewhere")
     @Test
-    fun givenLaunchedWhenIsLoggedInThenShowHome() {
+    fun testIsLogged() {
         // given
         val isLoggedIn = true
         val profile = Profile(
@@ -51,11 +53,13 @@ class MainActivityTest : KoinTest {
         coEvery { getChatRoomsUseCase.invoke() } returns Either.Value(flowOf(listOf()))
 
         // then
-//        verify(exactly = 0) { mockNavController.navigate(any<NavDirections>()) }
+        // Todo - Handle how to get mock nav
+        // verify(exactly = 0) { mockNavController.navigate(any<NavDirections>()) }
     }
 
+    @DisplayName("given launched when is not logged in then goto login screen")
     @Test
-    fun givenLaunchedWhenIsNotLoggedInThenGoToLogin() {
+    fun testIsNotLogged() {
         // given
         val isLoggedIn = false
 
@@ -63,8 +67,9 @@ class MainActivityTest : KoinTest {
         coEvery { isLoggedInUseCase.invoke() } returns Either.Value(isLoggedIn)
 
         // then
-//        val direction = slot<NavDirections>()
-//        verify { mockNavController.navigate(capture(direction)) }
-//        assertTrue(direction.captured.actionId == R.id.action_to_loginFragment)
+        // Todo - Handle how to get mock nav
+        // val direction = slot<NavDirections>()
+        // verify { mockNavController.navigate(capture(direction)) }
+        // assertTrue(direction.captured.actionId == R.id.action_to_loginFragment)
     }
 }
