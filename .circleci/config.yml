@@ -22,7 +22,7 @@ jobs:
 
       - run:
           name: Store Google Services Acccount
-          command: echo $GOOGLE_SERVICES_ACCOUNT | base64 -d > credentials/google-services-acccount.json
+          command: echo $GOOGLE_SERVICES_ACCOUNT | base64 -d > google-services-acccount.json
 
       - restore_cache:
           key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}

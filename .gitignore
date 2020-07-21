@@ -14,4 +14,4 @@
 .externalNativeBuild
 .cxx
 /app/google-services.json
-/credentials/google-services-account.json
+/google-services-account.json
