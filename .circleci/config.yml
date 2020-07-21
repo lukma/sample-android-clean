@@ -20,6 +20,10 @@ jobs:
           name: Store Google Services Key
           command: echo $GOOGLE_SERVICES_KEY | base64 -d > app/google-services.json
 
+      - run:
+          name: Store Google Services Acccount
+          command: echo $GOOGLE_SERVICES_ACCOUNT | base64 -d > credentials/google-services-acccount.json
+
       - restore_cache:
           key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}
 
@@ -50,3 +54,7 @@ jobs:
       - store_artifacts:
           path: app/build/outputs/apk/
           destination: apk
+
+      - run:
+          name: Publish APK to Firebase Distribution
+          command: ./gradlew assembleDebug appDistributionUploadDebug
