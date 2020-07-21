@@ -21,7 +21,7 @@ jobs:
           command: echo $GOOGLE_SERVICES_KEY | base64 -d > app/google-services.json
 
       - run:
-          name: Store Google Services Acccount
+          name: Store Google Services Account
           command: echo $GOOGLE_SERVICES_ACCOUNT | base64 -d > google-services-account.json
 
       - restore_cache:
