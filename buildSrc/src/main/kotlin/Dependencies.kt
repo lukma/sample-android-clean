@@ -93,6 +93,7 @@ object Dependencies {
 
     object Firebase {
         const val analyticsLib = "com.google.firebase:firebase-analytics-ktx:17.4.4"
+        const val distributionLib = "com.google.firebase:firebase-appdistribution-gradle:2.0.0"
         const val authLib = "com.google.firebase:firebase-auth-ktx:19.3.2"
         const val firestoreLib = "com.google.firebase:firebase-firestore-ktx:21.5.0"
     }

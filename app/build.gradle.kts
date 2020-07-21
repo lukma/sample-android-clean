@@ -2,8 +2,9 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("android.extensions")
-    id("androidx.navigation.safeargs.kotlin")
+    id("com.google.firebase.appdistribution")
     id("com.google.gms.google-services")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -29,6 +30,12 @@ android {
     }
 
     buildTypes {
+        getByName("debug") {
+            firebaseAppDistribution {
+                serviceCredentialsFile="./credentials/google-services-account.json"
+                groups="internal-tester"
+            }
+        }
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(
