@@ -32,7 +32,8 @@ android {
     buildTypes {
         getByName("debug") {
             firebaseAppDistribution {
-                serviceCredentialsFile="./credentials/google-services-account.json"
+                serviceCredentialsFile="./google-services-account.json"
+                releaseNotes="First publish"
                 groups="internal-tester"
             }
         }
