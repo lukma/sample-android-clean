@@ -18,7 +18,7 @@ jobs:
 
       - run:
           name: Generate google-services.json
-          command: echo $GOOGLE_SERVICES_KEY | base64 -di > app/google-services.json
+          command: echo $GOOGLE_SERVICES_KEY | base64 -d > app/google-services.json
 
       - restore_cache:
           key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}
