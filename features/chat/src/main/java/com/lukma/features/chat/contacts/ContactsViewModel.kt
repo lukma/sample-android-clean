@@ -19,7 +19,7 @@ class ContactsViewModel : ViewModel(), KoinComponent {
     private var query = ""
     private val userSource = AppPagingSource {
         val config = ListConfig(
-            pageSize = it.loadSize,
+            limit = it.loadSize,
             offset = it.key ?: 0
         )
         searchUsersUseCase

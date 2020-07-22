@@ -49,7 +49,7 @@ class UserRepositoryTest {
             val result = runBlocking { repository.searchUsers(query, config) }
 
             // then
-            coEvery { userService.searchUsers(query, config.pageSize, config.offset) }
+            coEvery { userService.searchUsers(query, config.limit, config.offset) }
             val expected = userTables.map(::transform)
             assertEquals(expected, result)
         }
