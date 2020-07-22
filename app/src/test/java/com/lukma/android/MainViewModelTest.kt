@@ -24,11 +24,11 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
-import org.koin.test.AutoCloseKoinTest
+import org.koin.test.KoinTest
 
 @ExperimentalCoroutinesApi
 @ExtendWith(TaskExecutorExtension::class)
-class MainViewModelTest : AutoCloseKoinTest() {
+class MainViewModelTest : KoinTest {
     private val testDispatcher = TestCoroutineDispatcher()
 
     private val isLoggedInUseCase: IsLoggedInUseCase = mockk()
